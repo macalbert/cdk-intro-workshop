@@ -16,16 +16,11 @@ using Serilog;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
 using System.Net.Mime;
-using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
 internal static class Startup
 {
-    private const int _retryCount = 3;
-    private static readonly TimeSpan _timeOut = TimeSpan.FromSeconds(13);
-    private static readonly TimeSpan _medianFirstRetryDelay = TimeSpan.FromSeconds(5);
-
     public static WebApplication CreateConfigHostBuilder(string[]? args = null)
     {
         var builder = WebApplication.CreateBuilder(args!);
@@ -37,8 +32,6 @@ internal static class Startup
         builder.Services.ConfigureCognitoAuthentication(config);
 
         builder.Services.ConfigureServices(config);
-
-        builder.Services.AddHttpContextAccessor();
 
         builder.Host.UseSerilog((context, services, configuration) =>
         {
@@ -53,13 +46,9 @@ internal static class Startup
 
         var app = builder.Build();
 
-        //app.ConfigureForwardHeaders();
-
         app.UseResponseCompression();
 
         app.UseCors();
-
-        app.CreateApiVersionSet();
 
         app.UseSwagger();
         app.UseSwaggerUI(x =>
@@ -104,7 +93,6 @@ internal static class Startup
             },
         });
 
-        // Conditionally use HTTPS redirection
         if (!string.Equals(Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER"), "true", StringComparison.OrdinalIgnoreCase))
         {
             app.UseHttpsRedirection();
@@ -112,9 +100,6 @@ internal static class Startup
 
         app.UseAuthentication();
         app.UseAuthorization();
-
-        // TODO: Add cache
-        //app.UseOutputCache();
 
         app.MapApiEndpoints();
 
@@ -128,13 +113,6 @@ internal static class Startup
 
     internal static void ConfigureServices(this IServiceCollection services, IConfiguration configuration)
     {
-        var assemblies = new[]
-        {
-            Assembly.GetAssembly(typeof(IMinimalApiMarker)),
-        };
-
-        // Add AWS Lambda support. When application is run in Lambda Kestrel is swapped out as the web server with Amazon.Lambda.AspNetCoreServer. This
-        // package will act as the webserver translating request and responses between the Lambda event source and ASP.NET workshop.
         services.AddAWSLambdaHosting(LambdaEventSource.RestApi);
 
         services.ConfigureApiVersion();
