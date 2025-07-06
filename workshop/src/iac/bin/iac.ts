@@ -12,12 +12,12 @@ const envFromCli: Environment = {
 };
 
 const gitHubRepo = "workshop";
-const vpcId = "vpc-xxx";
+const vpcId = 'vpc-ee04cd97';
 const rootPath = path.join(process.cwd(), "../../../");
 
 const dockerfileApi = path.join(
     rootPath,
-    "workshop/src/apps/backend/Dockerfile",
+    "workshop/src/apps/Minimal.Api/Dockerfile",
 );
 
 const modulesPath: ModulesPathProps = {
@@ -48,11 +48,14 @@ try {
         const cdkConfig = JSON.parse(
             fs.readFileSync(path.resolve(__dirname, "../cdk.json")),
         );
-        const profile = cdkConfig.profile || process.env.CDK_DEFAULT_PROFILE;
-        execSync(
-            `aws ecr get-login-password --region ${envFromCli.region} --profile ${profile} | docker login --username AWS --password-stdin ${envFromCli.account}.dkr.ecr.${envFromCli.region}.amazonaws.com`,
-            { stdio: "inherit" },
-        );
+        const profile = cdkConfig.profile;
+
+        if (profile) {
+            execSync(
+                `aws ecr get-login-password --region ${envFromCli.region} --profile ${profile} | docker login --username AWS --password-stdin ${envFromCli.account}.dkr.ecr.${envFromCli.region}.amazonaws.com`,
+                { stdio: "inherit" },
+            );
+        }
     }
     const app = new App();
 

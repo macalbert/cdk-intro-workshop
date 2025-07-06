@@ -63,7 +63,8 @@ describe("PipelineStack", () => {
 		return {
 			name: "FrontendPipelineStack",
 			branch: "main",
-			githubRepo: "m47",
+			githubOwner: "owner",
+			githubRepo: "test",
 			envName: AppEnvironment.Test,
 			secretTokenArn: `arn:aws:secretsmanager:${env.region}:${env.account}:secret:github-token`,
 			deployBuildSpec: [`path/build-pipeline.yml`],

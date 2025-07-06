@@ -49,6 +49,7 @@ import { formatRepoNameForCloudFormation } from "../../../utils/cloudFormationUt
 export interface PipelineStackProps extends M47StackProps {
     branch: string;
     githubRepo: string;
+    githubOwner: string;
     envName: AppEnvironment;
     domain: string;
     secretTokenArn: string;
@@ -90,7 +91,6 @@ export interface PipelineStackProps extends M47StackProps {
  * });
  */
 export class PipelineStack extends M47Stack {
-    readonly githubOwner: string = "workshop";
 
     /**
      * Constructs a new instance of PipelineStack.
@@ -122,7 +122,7 @@ export class PipelineStack extends M47Stack {
         const sourceAction = new GitHubSourceAction({
             actionName:
                 `checkout-${props.envName}-${props.githubRepo}`.toLowerCase(),
-            owner: this.githubOwner,
+            owner: props.githubOwner,
             repo: props.githubRepo,
             branch: props.branch,
             output: sourceOutput,

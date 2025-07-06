@@ -29,7 +29,7 @@ export class IacStack extends StackBuilder {
         console.log("   ---------------");
         console.log(`  - sourceCodePath: ${modulesPath.sourceCodePath}`);
         console.log(`  - dockerfileApiName: ${modulesPath.dockerfileApi}`);
-        console.log(`  - userShopDistPath: ${modulesPath.frontendDistPath}\n`);
+        console.log(`  - frontendDistPath: ${modulesPath.frontendDistPath}\n`);
 
         const stackParts: StackBuildPart[] = [
             new ProductionBackend({
@@ -41,7 +41,7 @@ export class IacStack extends StackBuilder {
                 vpc: this.vpc,
                 subdomain: `${formatRepoNameForCloudFormation(githubRepo)}-api`,
                 clusterName: formatRepoNameForCloudFormation(githubRepo),
-                exposedPort: 8000,
+                exposedPort: 80,
                 sourceCodePath: modulesPath.sourceCodePath,
                 dockerfileApi: modulesPath.dockerfileApi,
             } as ProductionBackendProps),

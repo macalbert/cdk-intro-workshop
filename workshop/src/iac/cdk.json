@@ -1,5 +1,4 @@
 {
-	"profile": "workshop",
 	"app": "npx ts-node --prefer-ts-exts bin/iac.ts",
 	"watch": {
 		"include": [

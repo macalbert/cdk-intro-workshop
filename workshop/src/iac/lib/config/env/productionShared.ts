@@ -38,6 +38,7 @@ export class ProductionShared extends StackBuildPart {
         const pipeline: PipelineStackProps = {
             name: "Pipeline",
             branch: this.props.branch,
+            githubOwner: "macalbert",
             githubRepo: this.props.githubRepo,
             envName: AppEnvironment.Production,
             secretTokenArn: `arn:aws:secretsmanager:${this.props.env.region}:${this.props.env.account}:secret:github-access-token-secret-dth2kY`,

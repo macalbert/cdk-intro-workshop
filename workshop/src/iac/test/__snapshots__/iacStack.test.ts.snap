@@ -1274,7 +1274,7 @@ exports[`Test Stack Should_CreateCoreSharedStack_When_BuildIsCalled: shared_gith
                 "Configuration": {
                   "Branch": "branch",
                   "OAuthToken": "{{resolve:secretsmanager:arn:aws:secretsmanager:eu-west-1:account-id:secret:github-access-token-secret-dth2kY:SecretString:::}}",
-                  "Owner": "workshop",
+                  "Owner": "macalbert",
                   "PollForSourceChanges": false,
                   "Repo": "githubRepo",
                 },

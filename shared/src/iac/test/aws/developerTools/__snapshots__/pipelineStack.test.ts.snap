@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`PipelineStack Should_CreatePipelineStack_When_StackIsCalled: pipelineStackTest 1`] = `
 {
@@ -20,7 +20,7 @@ exports[`PipelineStack Should_CreatePipelineStack_When_StackIsCalled: pipelineSt
           "Location": "workshop-codepipeline-artifact",
           "Type": "S3",
         },
-        "Name": "m47-test",
+        "Name": "test-test",
         "PipelineType": "V2",
         "RoleArn": {
           "Fn::GetAtt": [
@@ -41,14 +41,14 @@ exports[`PipelineStack Should_CreatePipelineStack_When_StackIsCalled: pipelineSt
                 "Configuration": {
                   "Branch": "main",
                   "OAuthToken": "{{resolve:secretsmanager:arn:aws:secretsmanager:eu-west-1:account:secret:github-token:SecretString:::}}",
-                  "Owner": "workshop",
+                  "Owner": "owner",
                   "PollForSourceChanges": false,
-                  "Repo": "m47",
+                  "Repo": "test",
                 },
-                "Name": "checkout-test-m47",
+                "Name": "checkout-test-test",
                 "OutputArtifacts": [
                   {
-                    "Name": "Artifact_Source_checkout-test-m47",
+                    "Name": "Artifact_Source_checkout-test-test",
                   },
                 ],
                 "RunOrder": 1,
@@ -72,10 +72,10 @@ exports[`PipelineStack Should_CreatePipelineStack_When_StackIsCalled: pipelineSt
                 },
                 "InputArtifacts": [
                   {
-                    "Name": "Artifact_Source_checkout-test-m47",
+                    "Name": "Artifact_Source_checkout-test-test",
                   },
                 ],
-                "Name": "test-pipeline-test-m47",
+                "Name": "test-pipeline-test-test",
                 "RoleArn": {
                   "Fn::GetAtt": [
                     "Roletest8FE49675",
@@ -103,10 +103,10 @@ exports[`PipelineStack Should_CreatePipelineStack_When_StackIsCalled: pipelineSt
                 },
                 "InputArtifacts": [
                   {
-                    "Name": "Artifact_Source_checkout-test-m47",
+                    "Name": "Artifact_Source_checkout-test-test",
                   },
                 ],
-                "Name": "build-pipeline-deploy-m47",
+                "Name": "build-pipeline-deploy-test",
                 "RoleArn": {
                   "Fn::GetAtt": [
                     "Roledeploy92E6FB77",
@@ -122,7 +122,7 @@ exports[`PipelineStack Should_CreatePipelineStack_When_StackIsCalled: pipelineSt
       },
       "Type": "AWS::CodePipeline::Pipeline",
     },
-    "PipelineSourcecheckouttestm47WebhookResourceDAC6591C": {
+    "PipelineSourcecheckouttesttestWebhookResource61F746B8": {
       "Properties": {
         "Authentication": "GITHUB_HMAC",
         "AuthenticationConfiguration": {
@@ -135,7 +135,7 @@ exports[`PipelineStack Should_CreatePipelineStack_When_StackIsCalled: pipelineSt
           },
         ],
         "RegisterWithThirdParty": true,
-        "TargetAction": "checkout-test-m47",
+        "TargetAction": "checkout-test-test",
         "TargetPipeline": {
           "Ref": "PipelineC660917D",
         },
@@ -180,7 +180,7 @@ exports[`PipelineStack Should_CreatePipelineStack_When_StackIsCalled: pipelineSt
           ],
           "Version": "2012-10-17",
         },
-        "Description": "Role for CD pipeline in repo m47 (Test)",
+        "Description": "Role for CD pipeline in repo test (Test)",
         "Policies": [
           {
             "PolicyDocument": {
@@ -425,7 +425,7 @@ exports[`PipelineStack Should_CreatePipelineStack_When_StackIsCalled: pipelineSt
           ],
           "Version": "2012-10-17",
         },
-        "Description": "Role for CD pipeline in repo m47 (Test)",
+        "Description": "Role for CD pipeline in repo test (Test)",
         "Policies": [
           {
             "PolicyDocument": {
@@ -628,7 +628,7 @@ exports[`PipelineStack Should_CreatePipelineStack_When_StackIsCalled: pipelineSt
           ],
           "Version": "2012-10-17",
         },
-        "Description": "Role for CD pipeline in repo m47 (Test)",
+        "Description": "Role for CD pipeline in repo test (Test)",
         "Policies": [
           {
             "PolicyDocument": {
@@ -967,7 +967,7 @@ exports[`PipelineStack Should_CreatePipelineStack_When_StackIsCalled: pipelineSt
           "PrivilegedMode": true,
           "Type": "LINUX_CONTAINER",
         },
-        "Name": "test-pipeline-test-m47",
+        "Name": "test-pipeline-test-test",
         "ServiceRole": {
           "Fn::GetAtt": [
             "Roletest8FE49675",
@@ -1037,7 +1037,7 @@ exports[`PipelineStack Should_CreatePipelineStack_When_StackIsCalled: pipelineSt
     },
     "TesttestpipelineSecurityGroup0D35C015": {
       "Properties": {
-        "GroupDescription": "Automatic generated security group for CodeBuild pipelineStackTestm47m47frontendpipelinestackteststackTesttestpipeline73ADF735",
+        "GroupDescription": "Automatic generated security group for CodeBuild pipelineStackTestm47testfrontendpipelinestackteststackTesttestpipelineC3196847",
         "SecurityGroupEgress": [
           {
             "CidrIp": "0.0.0.0/0",
@@ -1079,7 +1079,7 @@ exports[`PipelineStack Should_CreatePipelineStack_When_StackIsCalled: pipelineSt
           "PrivilegedMode": true,
           "Type": "LINUX_CONTAINER",
         },
-        "Name": "build-pipeline-deploy-m47",
+        "Name": "build-pipeline-deploy-test",
         "ServiceRole": {
           "Fn::GetAtt": [
             "Roledeploy92E6FB77",
@@ -1145,7 +1145,7 @@ exports[`PipelineStack Should_CreatePipelineWithFilteredPathsStack_When_StackIsC
           "Location": "workshop-codepipeline-artifact",
           "Type": "S3",
         },
-        "Name": "m47-production",
+        "Name": "test-production",
         "PipelineType": "V2",
         "RoleArn": {
           "Fn::GetAtt": [
@@ -1166,14 +1166,14 @@ exports[`PipelineStack Should_CreatePipelineWithFilteredPathsStack_When_StackIsC
                 "Configuration": {
                   "Branch": "main",
                   "OAuthToken": "{{resolve:secretsmanager:arn:aws:secretsmanager:eu-west-1:account:secret:github-token:SecretString:::}}",
-                  "Owner": "workshop",
+                  "Owner": "owner",
                   "PollForSourceChanges": false,
-                  "Repo": "m47",
+                  "Repo": "test",
                 },
-                "Name": "checkout-production-m47",
+                "Name": "checkout-production-test",
                 "OutputArtifacts": [
                   {
-                    "Name": "Artifact_Source_checkout-production-m47",
+                    "Name": "Artifact_Source_checkout-production-test",
                   },
                 ],
                 "RunOrder": 1,
@@ -1197,10 +1197,10 @@ exports[`PipelineStack Should_CreatePipelineWithFilteredPathsStack_When_StackIsC
                 },
                 "InputArtifacts": [
                   {
-                    "Name": "Artifact_Source_checkout-production-m47",
+                    "Name": "Artifact_Source_checkout-production-test",
                   },
                 ],
-                "Name": "test-pipeline-test-m47",
+                "Name": "test-pipeline-test-test",
                 "RoleArn": {
                   "Fn::GetAtt": [
                     "Roletest8FE49675",
@@ -1228,10 +1228,10 @@ exports[`PipelineStack Should_CreatePipelineWithFilteredPathsStack_When_StackIsC
                 },
                 "InputArtifacts": [
                   {
-                    "Name": "Artifact_Source_checkout-production-m47",
+                    "Name": "Artifact_Source_checkout-production-test",
                   },
                 ],
-                "Name": "build-pipeline-deploy-m47",
+                "Name": "build-pipeline-deploy-test",
                 "RoleArn": {
                   "Fn::GetAtt": [
                     "Roledeploy92E6FB77",
@@ -1247,7 +1247,7 @@ exports[`PipelineStack Should_CreatePipelineWithFilteredPathsStack_When_StackIsC
       },
       "Type": "AWS::CodePipeline::Pipeline",
     },
-    "PipelineSourcecheckoutproductionm47WebhookResource6662730C": {
+    "PipelineSourcecheckoutproductiontestWebhookResourceAEE96A72": {
       "Properties": {
         "Authentication": "GITHUB_HMAC",
         "AuthenticationConfiguration": {
@@ -1260,7 +1260,7 @@ exports[`PipelineStack Should_CreatePipelineWithFilteredPathsStack_When_StackIsC
           },
         ],
         "RegisterWithThirdParty": true,
-        "TargetAction": "checkout-production-m47",
+        "TargetAction": "checkout-production-test",
         "TargetPipeline": {
           "Ref": "PipelineC660917D",
         },
@@ -1305,7 +1305,7 @@ exports[`PipelineStack Should_CreatePipelineWithFilteredPathsStack_When_StackIsC
           ],
           "Version": "2012-10-17",
         },
-        "Description": "Role for CD pipeline in repo m47 (Production)",
+        "Description": "Role for CD pipeline in repo test (Production)",
         "Policies": [
           {
             "PolicyDocument": {
@@ -1550,7 +1550,7 @@ exports[`PipelineStack Should_CreatePipelineWithFilteredPathsStack_When_StackIsC
           ],
           "Version": "2012-10-17",
         },
-        "Description": "Role for CD pipeline in repo m47 (Production)",
+        "Description": "Role for CD pipeline in repo test (Production)",
         "Policies": [
           {
             "PolicyDocument": {
@@ -1753,7 +1753,7 @@ exports[`PipelineStack Should_CreatePipelineWithFilteredPathsStack_When_StackIsC
           ],
           "Version": "2012-10-17",
         },
-        "Description": "Role for CD pipeline in repo m47 (Production)",
+        "Description": "Role for CD pipeline in repo test (Production)",
         "Policies": [
           {
             "PolicyDocument": {
@@ -2092,7 +2092,7 @@ exports[`PipelineStack Should_CreatePipelineWithFilteredPathsStack_When_StackIsC
           "PrivilegedMode": true,
           "Type": "LINUX_CONTAINER",
         },
-        "Name": "test-pipeline-test-m47",
+        "Name": "test-pipeline-test-test",
         "ServiceRole": {
           "Fn::GetAtt": [
             "Roletest8FE49675",
@@ -2162,7 +2162,7 @@ exports[`PipelineStack Should_CreatePipelineWithFilteredPathsStack_When_StackIsC
     },
     "TesttestpipelineSecurityGroup0D35C015": {
       "Properties": {
-        "GroupDescription": "Automatic generated security group for CodeBuild pipelineWithFilterStackTestm47m47frontendpipelinestackproductionstackTesttestpipelineA9E6B3DF",
+        "GroupDescription": "Automatic generated security group for CodeBuild pipelineWithFilterStackTestm47testfrontendpipelinestackproductionstackTesttestpipeline093E9F93",
         "SecurityGroupEgress": [
           {
             "CidrIp": "0.0.0.0/0",
@@ -2204,7 +2204,7 @@ exports[`PipelineStack Should_CreatePipelineWithFilteredPathsStack_When_StackIsC
           "PrivilegedMode": true,
           "Type": "LINUX_CONTAINER",
         },
-        "Name": "build-pipeline-deploy-m47",
+        "Name": "build-pipeline-deploy-test",
         "ServiceRole": {
           "Fn::GetAtt": [
             "Roledeploy92E6FB77",
@@ -2270,7 +2270,7 @@ exports[`PipelineStack Should_CreatePipelineWithManualApproval_When_StackIsCalle
           "Location": "workshop-codepipeline-artifact",
           "Type": "S3",
         },
-        "Name": "m47-test",
+        "Name": "test-test",
         "PipelineType": "V2",
         "RoleArn": {
           "Fn::GetAtt": [
@@ -2291,14 +2291,14 @@ exports[`PipelineStack Should_CreatePipelineWithManualApproval_When_StackIsCalle
                 "Configuration": {
                   "Branch": "main",
                   "OAuthToken": "{{resolve:secretsmanager:arn:aws:secretsmanager:eu-west-1:account:secret:github-token:SecretString:::}}",
-                  "Owner": "workshop",
+                  "Owner": "owner",
                   "PollForSourceChanges": false,
-                  "Repo": "m47",
+                  "Repo": "test",
                 },
-                "Name": "checkout-test-m47",
+                "Name": "checkout-test-test",
                 "OutputArtifacts": [
                   {
-                    "Name": "Artifact_Source_checkout-test-m47",
+                    "Name": "Artifact_Source_checkout-test-test",
                   },
                 ],
                 "RunOrder": 1,
@@ -2315,7 +2315,7 @@ exports[`PipelineStack Should_CreatePipelineWithManualApproval_When_StackIsCalle
                   "Provider": "Manual",
                   "Version": "1",
                 },
-                "Name": "m47-manualapproval-test",
+                "Name": "test-manualapproval-test",
                 "RoleArn": {
                   "Fn::GetAtt": [
                     "Rolepipeline86313131",
@@ -2325,7 +2325,7 @@ exports[`PipelineStack Should_CreatePipelineWithManualApproval_When_StackIsCalle
                 "RunOrder": 1,
               },
             ],
-            "Name": "m47-manualapproval-test",
+            "Name": "test-manualapproval-test",
           },
           {
             "Actions": [
@@ -2343,10 +2343,10 @@ exports[`PipelineStack Should_CreatePipelineWithManualApproval_When_StackIsCalle
                 },
                 "InputArtifacts": [
                   {
-                    "Name": "Artifact_Source_checkout-test-m47",
+                    "Name": "Artifact_Source_checkout-test-test",
                   },
                 ],
-                "Name": "test-pipeline-test-m47",
+                "Name": "test-pipeline-test-test",
                 "RoleArn": {
                   "Fn::GetAtt": [
                     "Roletest8FE49675",
@@ -2374,10 +2374,10 @@ exports[`PipelineStack Should_CreatePipelineWithManualApproval_When_StackIsCalle
                 },
                 "InputArtifacts": [
                   {
-                    "Name": "Artifact_Source_checkout-test-m47",
+                    "Name": "Artifact_Source_checkout-test-test",
                   },
                 ],
-                "Name": "build-pipeline-deploy-m47",
+                "Name": "build-pipeline-deploy-test",
                 "RoleArn": {
                   "Fn::GetAtt": [
                     "Roledeploy92E6FB77",
@@ -2393,7 +2393,7 @@ exports[`PipelineStack Should_CreatePipelineWithManualApproval_When_StackIsCalle
       },
       "Type": "AWS::CodePipeline::Pipeline",
     },
-    "PipelineSourcecheckouttestm47WebhookResourceDAC6591C": {
+    "PipelineSourcecheckouttesttestWebhookResource61F746B8": {
       "Properties": {
         "Authentication": "GITHUB_HMAC",
         "AuthenticationConfiguration": {
@@ -2406,7 +2406,7 @@ exports[`PipelineStack Should_CreatePipelineWithManualApproval_When_StackIsCalle
           },
         ],
         "RegisterWithThirdParty": true,
-        "TargetAction": "checkout-test-m47",
+        "TargetAction": "checkout-test-test",
         "TargetPipeline": {
           "Ref": "PipelineC660917D",
         },
@@ -2451,7 +2451,7 @@ exports[`PipelineStack Should_CreatePipelineWithManualApproval_When_StackIsCalle
           ],
           "Version": "2012-10-17",
         },
-        "Description": "Role for CD pipeline in repo m47 (Test)",
+        "Description": "Role for CD pipeline in repo test (Test)",
         "Policies": [
           {
             "PolicyDocument": {
@@ -2696,7 +2696,7 @@ exports[`PipelineStack Should_CreatePipelineWithManualApproval_When_StackIsCalle
           ],
           "Version": "2012-10-17",
         },
-        "Description": "Role for CD pipeline in repo m47 (Test)",
+        "Description": "Role for CD pipeline in repo test (Test)",
         "Policies": [
           {
             "PolicyDocument": {
@@ -2909,7 +2909,7 @@ exports[`PipelineStack Should_CreatePipelineWithManualApproval_When_StackIsCalle
           ],
           "Version": "2012-10-17",
         },
-        "Description": "Role for CD pipeline in repo m47 (Test)",
+        "Description": "Role for CD pipeline in repo test (Test)",
         "Policies": [
           {
             "PolicyDocument": {
@@ -3248,7 +3248,7 @@ exports[`PipelineStack Should_CreatePipelineWithManualApproval_When_StackIsCalle
           "PrivilegedMode": true,
           "Type": "LINUX_CONTAINER",
         },
-        "Name": "test-pipeline-test-m47",
+        "Name": "test-pipeline-test-test",
         "ServiceRole": {
           "Fn::GetAtt": [
             "Roletest8FE49675",
@@ -3318,7 +3318,7 @@ exports[`PipelineStack Should_CreatePipelineWithManualApproval_When_StackIsCalle
     },
     "TesttestpipelineSecurityGroup0D35C015": {
       "Properties": {
-        "GroupDescription": "Automatic generated security group for CodeBuild pipelineWithFilterStackTestm47m47frontendpipelinestackteststackTesttestpipeline930DDFCA",
+        "GroupDescription": "Automatic generated security group for CodeBuild pipelineWithFilterStackTestm47testfrontendpipelinestackteststackTesttestpipelineD815D9EE",
         "SecurityGroupEgress": [
           {
             "CidrIp": "0.0.0.0/0",
@@ -3360,7 +3360,7 @@ exports[`PipelineStack Should_CreatePipelineWithManualApproval_When_StackIsCalle
           "PrivilegedMode": true,
           "Type": "LINUX_CONTAINER",
         },
-        "Name": "build-pipeline-deploy-m47",
+        "Name": "build-pipeline-deploy-test",
         "ServiceRole": {
           "Fn::GetAtt": [
             "Roledeploy92E6FB77",
