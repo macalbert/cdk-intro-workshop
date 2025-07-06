@@ -1,0 +1,33 @@
+{
+	"name": "@workshop/iac",
+	"version": "0.1.0",
+	"license": "UNLICENSED",
+	"bin": {
+		"iac": "bin/iac.js"
+	},
+	"scripts": {
+		"build": "tsc --build",
+		"watch": "tsc -w",
+		"test": "jest --colors --seed=1",
+		"test:update": "jest --colors --seed=1 --updateSnapshot --verbose",
+		"test:ci": "jest --colors --seed=1 --ci --verbose",
+		"test:ci:update": "jest --colors --seed=1 --ci --updateSnapshot --verbose",
+		"cdk": "cdk",
+		"lint": "pnpx biome lint",
+		"lint:fix": "pnpx biome lint --fix",
+		"format": "pnpx biome format",
+		"format:write": "pnpx biome format --write"
+	},
+	"devDependencies": {
+		"@types/jest": "^30.0.0",
+		"@types/node": "^24.0.8",
+		"@types/source-map-support": "^0.5.6",
+		"jest": "^30.0.3",
+		"ts-jest": "^29.4.0",
+		"ts-node": "^10.9.1",
+		"typescript": "^5.6.2"
+	},
+	"dependencies": {
+		"@m47/shared-iac": "workspace:*"
+	}
+}

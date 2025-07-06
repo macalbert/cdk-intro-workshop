@@ -1,0 +1,129 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NetworkLoadBalancerStack Should_CreateNewNetworkLoadBalancer_When_StackIsCalled: networkLoadBalancerStackTest 1`] = `
+{
+  "Parameters": {
+    "BootstrapVersion": {
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+  },
+  "Resources": {
+    "ARecordtestapigatewayD480FC99": {
+      "Properties": {
+        "AliasTarget": {
+          "DNSName": {
+            "Fn::Join": [
+              "",
+              [
+                "dualstack.",
+                {
+                  "Fn::GetAtt": [
+                    "NetworkLoadBalancertestapigateway5C7F45B6",
+                    "DNSName",
+                  ],
+                },
+              ],
+            ],
+          },
+          "HostedZoneId": {
+            "Fn::GetAtt": [
+              "NetworkLoadBalancertestapigateway5C7F45B6",
+              "CanonicalHostedZoneID",
+            ],
+          },
+        },
+        "HostedZoneId": "DUMMY",
+        "Name": "api.domain.test.",
+        "Type": "A",
+      },
+      "Type": "AWS::Route53::RecordSet",
+    },
+    "NLBSecurityGrouptestapigatewayFA86DD86": {
+      "Properties": {
+        "GroupDescription": "Security group for NLB to allow traffic on port 80",
+        "GroupName": "nlb-sg-test-apigateway",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1",
+          },
+        ],
+        "SecurityGroupIngress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all traffic from anywhere",
+            "IpProtocol": "-1",
+          },
+        ],
+        "VpcId": {
+          "Fn::ImportValue": "networkLoadBalancerStackTest:ExportsOutputRefvpcA2121C384D1B3CDE",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "NetworkLoadBalancertestapigateway5C7F45B6": {
+      "Properties": {
+        "LoadBalancerAttributes": [
+          {
+            "Key": "deletion_protection.enabled",
+            "Value": "false",
+          },
+        ],
+        "Name": "api-nlb",
+        "Scheme": "internet-facing",
+        "SecurityGroups": [
+          {
+            "Fn::GetAtt": [
+              "NLBSecurityGrouptestapigatewayFA86DD86",
+              "GroupId",
+            ],
+          },
+        ],
+        "Subnets": [
+          {
+            "Fn::ImportValue": "networkLoadBalancerStackTest:ExportsOutputRefvpcPublicSubnet1Subnet2E65531ECCB85041",
+          },
+          {
+            "Fn::ImportValue": "networkLoadBalancerStackTest:ExportsOutputRefvpcPublicSubnet2Subnet009B674FB900C242",
+          },
+          {
+            "Fn::ImportValue": "networkLoadBalancerStackTest:ExportsOutputRefvpcPublicSubnet3Subnet11B92D7C8409C46F",
+          },
+        ],
+        "Type": "network",
+      },
+      "Type": "AWS::ElasticLoadBalancingV2::LoadBalancer",
+    },
+  },
+  "Rules": {
+    "CheckBootstrapVersion": {
+      "Assertions": [
+        {
+          "Assert": {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  {
+                    "Ref": "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
+    },
+  },
+}
+`;

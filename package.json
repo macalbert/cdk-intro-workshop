@@ -1,0 +1,22 @@
+{
+	"name": "workshop",
+	"version": "1.0.0",
+	"private": true,
+	"workspaces": [
+		"shared/src/iac",
+		"worksshop/src/iac"
+	],
+	"scripts": {
+		"clean:jest": "pnpx jest --clearCache && jest --showConfig",
+		"clean": "pnpm store prune && pnpm dlx jest --clearCache && pnpm dlx rimraf node_modules && pnpm -r exec -- pnpm dlx rimraf node_modules && pnpm dlx rimraf obj && pnpm -r exec -- pnpm dlx rimraf obj && pnpm -r exec -- pnpm dlx rimraf cdk.out && pnpm -r exec -- pnpm dlx rimraf cdk.context.json"
+	},
+	"devDependencies": {
+		"@types/jest": "^30.0.0",
+		"@types/node": "^24.0.8",
+		"ts-jest": "^29.4.0"
+	},
+	"dependencies": {
+		"aws-cdk-lib": "2.202.0",
+		"constructs": "^10.3.0"
+	}
+}

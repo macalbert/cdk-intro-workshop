@@ -1,0 +1,414 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RdsStackTest Should_createRdsStack_When_ParamsAreValids: RdsStackTest 1`] = `
+{
+  "Outputs": {
+    "SecretARN": {
+      "Value": {
+        "Ref": "postgresqlCredentials71085D2E",
+      },
+    },
+    "SecretFullARN": {
+      "Value": {
+        "Ref": "postgresqlCredentials71085D2E",
+      },
+    },
+    "SecretName": {
+      "Value": {
+        "Fn::Select": [
+          0,
+          {
+            "Fn::Split": [
+              "-",
+              {
+                "Fn::Select": [
+                  6,
+                  {
+                    "Fn::Split": [
+                      ":",
+                      {
+                        "Ref": "postgresqlCredentials71085D2E",
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    },
+    "TestRDSProductionPostgresDbName": {
+      "Export": {
+        "Name": "test-repo-Production-PostgresDbName",
+      },
+      "Value": "testdb",
+    },
+    "TestRDSProductionPostgresEndpoint": {
+      "Export": {
+        "Name": "test-repo-Production-PostgresEndPoint",
+      },
+      "Value": {
+        "Fn::GetAtt": [
+          "PostgresDatabase0A8A7373",
+          "Endpoint.Address",
+        ],
+      },
+    },
+    "TestRDSProductionPostgresUserName": {
+      "Export": {
+        "Name": "test-repo-Production-PostgresUserName",
+      },
+      "Value": "testuser",
+    },
+    "apiParameterPostgresConnectionParameterNameOutput": {
+      "Description": "The name of the SSM parameter",
+      "Export": {
+        "Name": "apiParameterPostgresConnectionParameterName",
+      },
+      "Value": {
+        "Ref": "apiParameterPostgresConnection9FF9728D",
+      },
+    },
+    "workerParameterPostgresConnectionParameterNameOutput": {
+      "Description": "The name of the SSM parameter",
+      "Export": {
+        "Name": "workerParameterPostgresConnectionParameterName",
+      },
+      "Value": {
+        "Ref": "workerParameterPostgresConnection552F442F",
+      },
+    },
+  },
+  "Parameters": {
+    "BootstrapVersion": {
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+  },
+  "Resources": {
+    "DatabaseSubnetGroup": {
+      "Properties": {
+        "DBSubnetGroupDescription": "test-rds-stacksubnet group",
+        "DBSubnetGroupName": "test-rds-stacksubnet group",
+        "SubnetIds": [
+          {
+            "Fn::ImportValue": "TestStack:ExportsOutputRefMockVpcPrivateSubnet1Subnet671F0665FE0D694A",
+          },
+          {
+            "Fn::ImportValue": "TestStack:ExportsOutputRefMockVpcPrivateSubnet2Subnet9DD10F8AB112975D",
+          },
+        ],
+      },
+      "Type": "AWS::RDS::DBSubnetGroup",
+    },
+    "ParameterGroup5E32DECB": {
+      "Properties": {
+        "Description": "Parameter group for postgres15",
+        "Family": "postgres15",
+        "Parameters": {},
+      },
+      "Type": "AWS::RDS::DBParameterGroup",
+    },
+    "PostgresDatabase0A8A7373": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "AllocatedStorage": "20",
+        "AllowMajorVersionUpgrade": false,
+        "AutoMinorVersionUpgrade": true,
+        "BackupRetentionPeriod": 7,
+        "CopyTagsToSnapshot": true,
+        "DBInstanceClass": "db.t3.micro",
+        "DBInstanceIdentifier": "testdb",
+        "DBName": "testdb",
+        "DBParameterGroupName": {
+          "Ref": "ParameterGroup5E32DECB",
+        },
+        "DBSubnetGroupName": {
+          "Ref": "DatabaseSubnetGroup",
+        },
+        "DeletionProtection": true,
+        "Engine": "postgres",
+        "EngineVersion": "15",
+        "MasterUserPassword": {
+          "Fn::Join": [
+            "",
+            [
+              "{{resolve:secretsmanager:",
+              {
+                "Ref": "postgresqlCredentials71085D2E",
+              },
+              ":SecretString:password::}}",
+            ],
+          ],
+        },
+        "MasterUsername": "testuser",
+        "MaxAllocatedStorage": 22,
+        "MonitoringInterval": 60,
+        "MonitoringRoleArn": {
+          "Fn::GetAtt": [
+            "PostgresDatabaseMonitoringRole8AB0DCC9",
+            "Arn",
+          ],
+        },
+        "PreferredMaintenanceWindow": "Sun:03:00-Sun:04:00",
+        "PubliclyAccessible": false,
+        "StorageEncrypted": true,
+        "StorageType": "gp2",
+        "Tags": [
+          {
+            "Key": "Environment",
+            "Value": "Production",
+          },
+          {
+            "Key": "Project",
+            "Value": "test-repo",
+          },
+          {
+            "Key": "StackId",
+            "Value": "m47-test-repo-testrds-production-stack",
+          },
+        ],
+        "VPCSecurityGroups": [
+          {
+            "Fn::GetAtt": [
+              "databaseSecurityGroupC7B2A60C",
+              "GroupId",
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::RDS::DBInstance",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "PostgresDatabaseMonitoringRole8AB0DCC9": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "monitoring.rds.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AmazonRDSEnhancedMonitoringRole",
+              ],
+            ],
+          },
+        ],
+        "Tags": [
+          {
+            "Key": "Environment",
+            "Value": "Production",
+          },
+          {
+            "Key": "Project",
+            "Value": "test-repo",
+          },
+          {
+            "Key": "StackId",
+            "Value": "m47-test-repo-testrds-production-stack",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "apiParameterPostgresConnection9FF9728D": {
+      "Properties": {
+        "AllowedPattern": ".*",
+        "Description": "PostgreSQL string connection TestRepo DB Production",
+        "Name": "/M47.TestRepo.Apps.Minimal.Api/Production/Database/ConnectionStrings/TestdbPostgres",
+        "Tier": "Standard",
+        "Type": "String",
+        "Value": {
+          "Fn::Join": [
+            "",
+            [
+              "host=",
+              {
+                "Fn::GetAtt": [
+                  "PostgresDatabase0A8A7373",
+                  "Endpoint.Address",
+                ],
+              },
+              ";user=testuser;dbname=testdb;port=",
+              {
+                "Fn::GetAtt": [
+                  "PostgresDatabase0A8A7373",
+                  "Endpoint.Port",
+                ],
+              },
+              ";password={{resolve:secretsmanager:",
+              {
+                "Ref": "postgresqlCredentials71085D2E",
+              },
+              ":SecretString:password::}};sslmode=require;",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::SSM::Parameter",
+    },
+    "databaseSecurityGroupC7B2A60C": {
+      "Properties": {
+        "GroupDescription": "test-repoDatabase",
+        "GroupName": "test-repoDatabase",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1",
+          },
+        ],
+        "SecurityGroupIngress": [
+          {
+            "CidrIp": {
+              "Fn::ImportValue": "TestStack:ExportsOutputFnGetAttMockVpc92466B7FCidrBlock38F9A6B9",
+            },
+            "Description": "Allow PostgreSQL inbound from VPC",
+            "FromPort": 5432,
+            "IpProtocol": "tcp",
+            "ToPort": 5432,
+          },
+          {
+            "CidrIp": "10.0.0.0/16",
+            "Description": "Allow PostgreSQL inbound from legacy VPC",
+            "FromPort": 5432,
+            "IpProtocol": "tcp",
+            "ToPort": 5432,
+          },
+        ],
+        "VpcId": {
+          "Fn::ImportValue": "TestStack:ExportsOutputRefMockVpc92466B7FEBC0349C",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "databaseSecurityGroupfromTestStackm47testrepotestrdsproductionstackdatabaseSecurityGroup2B25C36E54325432C08C8853": {
+      "Properties": {
+        "Description": "tcp5432 PostgreSQL",
+        "FromPort": 5432,
+        "GroupId": {
+          "Fn::GetAtt": [
+            "databaseSecurityGroupC7B2A60C",
+            "GroupId",
+          ],
+        },
+        "IpProtocol": "tcp",
+        "SourceSecurityGroupId": {
+          "Fn::GetAtt": [
+            "databaseSecurityGroupC7B2A60C",
+            "GroupId",
+          ],
+        },
+        "ToPort": 5432,
+      },
+      "Type": "AWS::EC2::SecurityGroupIngress",
+    },
+    "postgresqlCredentials71085D2E": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "Description": "testdbPostgreSQL Database Credentials",
+        "GenerateSecretString": {
+          "ExcludeCharacters": ""@/\\ ';:,=*!()$",
+          "GenerateStringKey": "password",
+          "PasswordLength": 30,
+          "SecretStringTemplate": "{"username":"testuser"}",
+        },
+        "Name": "testdbPostgresqlCredentialsProduction",
+      },
+      "Type": "AWS::SecretsManager::Secret",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "postgresqlCredentialsAttachment0038AC2B": {
+      "Properties": {
+        "SecretId": {
+          "Ref": "postgresqlCredentials71085D2E",
+        },
+        "TargetId": {
+          "Ref": "PostgresDatabase0A8A7373",
+        },
+        "TargetType": "AWS::RDS::DBInstance",
+      },
+      "Type": "AWS::SecretsManager::SecretTargetAttachment",
+    },
+    "workerParameterPostgresConnection552F442F": {
+      "Properties": {
+        "AllowedPattern": ".*",
+        "Description": "PostgreSQL string connection TestRepo DB Production",
+        "Name": "/M47.TestRepo.Apps.WorkerService/Production/Database/ConnectionStrings/TestdbPostgres",
+        "Tier": "Standard",
+        "Type": "String",
+        "Value": {
+          "Fn::Join": [
+            "",
+            [
+              "host=",
+              {
+                "Fn::GetAtt": [
+                  "PostgresDatabase0A8A7373",
+                  "Endpoint.Address",
+                ],
+              },
+              ";user=testuser;dbname=testdb;port=",
+              {
+                "Fn::GetAtt": [
+                  "PostgresDatabase0A8A7373",
+                  "Endpoint.Port",
+                ],
+              },
+              ";password={{resolve:secretsmanager:",
+              {
+                "Ref": "postgresqlCredentials71085D2E",
+              },
+              ":SecretString:password::}};sslmode=require;",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::SSM::Parameter",
+    },
+  },
+  "Rules": {
+    "CheckBootstrapVersion": {
+      "Assertions": [
+        {
+          "Assert": {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  {
+                    "Ref": "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
+    },
+  },
+}
+`;

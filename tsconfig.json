@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@m47/shared-iac": [
+        "shared/src/iac"
+      ],
+      "@workshop/iac": [
+        "workshop/src/iac"
+      ],
+    },
+    "types": [
+      "@types/node"
+    ]
+  },
+  "jest": {
+    "verbose": true
+  }
+}

@@ -1,0 +1,89 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33530.505
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "shared", "shared", "{C7D54733-2829-48A9-8E01-CBD4B1F63DF6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{203F17F4-50C8-43FB-840E-B5C754276571}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{F58D2A25-E9E8-4AD4-B787-3E567B4669AA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workshop", "workshop", "{80A0DD8C-B789-43E9-9F60-88AD19845522}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{11F775B8-BB69-43EB-9FA9-D3EC1406D79F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "apps", "apps", "{EA623B3D-7A72-4F28-ADCD-B93E3950DCB7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared", "shared\src\Backend\Shared.csproj", "{4890FAD7-4A46-4679-BE25-5722070A0800}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared.Tests", "shared\test\Backend\Shared.Tests.csproj", "{1D5D8F6D-6F4B-44F1-BBEF-E604224C2AC7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{B1C720B4-2B87-4F62-8582-6514481CAA30}"
+	ProjectSection(SolutionItems) = preProject
+		scripts\install_docker.sh = scripts\install_docker.sh
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "development", "development", "{5FDB73C8-C20B-4E12-B269-C84B70A47347}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "localstack", "localstack", "{B893A90A-A443-440A-8BBD-34E7FC90CFBC}"
+	ProjectSection(SolutionItems) = preProject
+		scripts\development\localstack\init.sh = scripts\development\localstack\init.sh
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "kafka", "kafka", "{5DFFF440-F61D-41FF-8DCA-9E5C134A20F0}"
+	ProjectSection(SolutionItems) = preProject
+		scripts\development\kafka\create_topic.sh = scripts\development\kafka\create_topic.sh
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ollama", "ollama", "{2AFCAB8E-99AF-4175-BCF3-41464C89ADC8}"
+	ProjectSection(SolutionItems) = preProject
+		scripts\ollama\entrypoint.sh = scripts\ollama\entrypoint.sh
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{05E95DF0-DA2D-4A42-B36A-31C68F41D592}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		Directory.Packages.props = Directory.Packages.props
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Minimal.Api", "workshop\src\apps\Minimal.Api\Minimal.Api.csproj", "{C908175E-0110-5347-A4D6-E7C96F397FE8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4890FAD7-4A46-4679-BE25-5722070A0800}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4890FAD7-4A46-4679-BE25-5722070A0800}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4890FAD7-4A46-4679-BE25-5722070A0800}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4890FAD7-4A46-4679-BE25-5722070A0800}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D5D8F6D-6F4B-44F1-BBEF-E604224C2AC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D5D8F6D-6F4B-44F1-BBEF-E604224C2AC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D5D8F6D-6F4B-44F1-BBEF-E604224C2AC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D5D8F6D-6F4B-44F1-BBEF-E604224C2AC7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C908175E-0110-5347-A4D6-E7C96F397FE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C908175E-0110-5347-A4D6-E7C96F397FE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C908175E-0110-5347-A4D6-E7C96F397FE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C908175E-0110-5347-A4D6-E7C96F397FE8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{203F17F4-50C8-43FB-840E-B5C754276571} = {C7D54733-2829-48A9-8E01-CBD4B1F63DF6}
+		{F58D2A25-E9E8-4AD4-B787-3E567B4669AA} = {C7D54733-2829-48A9-8E01-CBD4B1F63DF6}
+		{11F775B8-BB69-43EB-9FA9-D3EC1406D79F} = {80A0DD8C-B789-43E9-9F60-88AD19845522}
+		{EA623B3D-7A72-4F28-ADCD-B93E3950DCB7} = {11F775B8-BB69-43EB-9FA9-D3EC1406D79F}
+		{4890FAD7-4A46-4679-BE25-5722070A0800} = {203F17F4-50C8-43FB-840E-B5C754276571}
+		{1D5D8F6D-6F4B-44F1-BBEF-E604224C2AC7} = {F58D2A25-E9E8-4AD4-B787-3E567B4669AA}
+		{5FDB73C8-C20B-4E12-B269-C84B70A47347} = {B1C720B4-2B87-4F62-8582-6514481CAA30}
+		{B893A90A-A443-440A-8BBD-34E7FC90CFBC} = {5FDB73C8-C20B-4E12-B269-C84B70A47347}
+		{5DFFF440-F61D-41FF-8DCA-9E5C134A20F0} = {5FDB73C8-C20B-4E12-B269-C84B70A47347}
+		{2AFCAB8E-99AF-4175-BCF3-41464C89ADC8} = {5FDB73C8-C20B-4E12-B269-C84B70A47347}
+		{C908175E-0110-5347-A4D6-E7C96F397FE8} = {EA623B3D-7A72-4F28-ADCD-B93E3950DCB7}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DD538A03-92F5-4332-884C-97538A2508CF}
+	EndGlobalSection
+EndGlobal

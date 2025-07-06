@@ -1,0 +1,132 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`VpcPeeringStack Should_CreateVpcPeeringConnection_When_StackIsCalled: VpcPeeringStackTest 1`] = `
+{
+  "Parameters": {
+    "BootstrapVersion": {
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+  },
+  "Resources": {
+    "DestinationToSourceRoutePrivate0": {
+      "Properties": {
+        "DestinationCidrBlock": "172.31.0.0/16",
+        "RouteTableId": "rtb-private-1",
+        "VpcPeeringConnectionId": {
+          "Ref": "VpcPeering",
+        },
+      },
+      "Type": "AWS::EC2::Route",
+    },
+    "DestinationToSourceRoutePrivate1": {
+      "Properties": {
+        "DestinationCidrBlock": "172.31.0.0/16",
+        "RouteTableId": "rtb-private-2",
+        "VpcPeeringConnectionId": {
+          "Ref": "VpcPeering",
+        },
+      },
+      "Type": "AWS::EC2::Route",
+    },
+    "DestinationToSourceRoutePublic0": {
+      "Properties": {
+        "DestinationCidrBlock": "172.31.0.0/16",
+        "RouteTableId": "rtb-public-1",
+        "VpcPeeringConnectionId": {
+          "Ref": "VpcPeering",
+        },
+      },
+      "Type": "AWS::EC2::Route",
+    },
+    "DestinationToSourceRoutePublic1": {
+      "Properties": {
+        "DestinationCidrBlock": "172.31.0.0/16",
+        "RouteTableId": "rtb-public-2",
+        "VpcPeeringConnectionId": {
+          "Ref": "VpcPeering",
+        },
+      },
+      "Type": "AWS::EC2::Route",
+    },
+    "SourceToDestinationRoutePrivate0": {
+      "Properties": {
+        "DestinationCidrBlock": "10.0.0.0/16",
+        "RouteTableId": "rtb-private-1",
+        "VpcPeeringConnectionId": {
+          "Ref": "VpcPeering",
+        },
+      },
+      "Type": "AWS::EC2::Route",
+    },
+    "SourceToDestinationRoutePrivate1": {
+      "Properties": {
+        "DestinationCidrBlock": "10.0.0.0/16",
+        "RouteTableId": "rtb-private-2",
+        "VpcPeeringConnectionId": {
+          "Ref": "VpcPeering",
+        },
+      },
+      "Type": "AWS::EC2::Route",
+    },
+    "SourceToDestinationRoutePublic0": {
+      "Properties": {
+        "DestinationCidrBlock": "10.0.0.0/16",
+        "RouteTableId": "rtb-public-1",
+        "VpcPeeringConnectionId": {
+          "Ref": "VpcPeering",
+        },
+      },
+      "Type": "AWS::EC2::Route",
+    },
+    "SourceToDestinationRoutePublic1": {
+      "Properties": {
+        "DestinationCidrBlock": "10.0.0.0/16",
+        "RouteTableId": "rtb-public-2",
+        "VpcPeeringConnectionId": {
+          "Ref": "VpcPeering",
+        },
+      },
+      "Type": "AWS::EC2::Route",
+    },
+    "VpcPeering": {
+      "Properties": {
+        "PeerRegion": {
+          "Ref": "AWS::Region",
+        },
+        "PeerVpcId": "vpc-0993f29cd9a32fcbb",
+        "VpcId": "vpc-0dddac3bbc04c06f9",
+      },
+      "Type": "AWS::EC2::VPCPeeringConnection",
+    },
+  },
+  "Rules": {
+    "CheckBootstrapVersion": {
+      "Assertions": [
+        {
+          "Assert": {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  {
+                    "Ref": "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
+    },
+  },
+}
+`;

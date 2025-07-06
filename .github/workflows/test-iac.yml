@@ -1,0 +1,110 @@
+name: 🏗️ Test IaC (aws-cdk)
+
+on:
+  workflow_dispatch: {}
+
+  pull_request:
+    branches:
+      - "*"
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - ready_for_review
+    paths:
+      - ".github/workflows/test-iac.yml"
+      - "shared/src/iac/**"
+      - "workshop/src/iac/**"
+      - "pnpm-lock.yaml"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.sha }}
+  cancel-in-progress: true
+
+jobs:
+  test-iac:
+    runs-on: ubuntu-latest
+    if: ${{ !github.event.pull_request.draft }}
+    timeout-minutes: 30
+
+    steps:
+      - name: 🚀 ♂️ Checkout
+        uses: actions/checkout@v4
+
+      - name: 🔧 Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+          run_install: false
+
+      - name: 🌱 Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22.x"
+          cache: "pnpm"
+          cache-dependency-path: "pnpm-lock.yaml"
+
+      - name: 📦 Install packages
+        run: pnpm install --frozen-lockfile
+
+      - name: 🔍 Run code quality checker
+        run: pnpm --filter @workshop/iac lint
+
+      - name: 🏎️ Run tests
+        run: pnpm --filter @workshop/iac test:ci
+
+  validate-deployment:
+    needs: test-iac
+    runs-on: ubuntu-latest
+    if: ${{ !github.event.pull_request.draft }}
+    timeout-minutes: 30
+
+    strategy:
+      matrix:
+        stack:
+          - m47-workshop-2-0-net-apigateway-production-stack
+
+    steps:
+      - name: 🚀 ♂️ Checkout
+        uses: actions/checkout@v4
+          
+      - name: 🔧 Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: latest
+          run_install: false
+
+      - name: 🌱 Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22.x"
+          cache: "pnpm"
+          cache-dependency-path: "pnpm-lock.yaml"
+
+      - name: 📦 Install packages
+        run: |
+          pnpm add -g aws-cdk
+          pnpm install --frozen-lockfile
+
+      - name: 💉 Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: "eu-west-1"
+
+      - name: 🔧 Prepare CDK environment
+        run: |
+          # Run the script to remove profile from cdk.json for CI/CD environment
+          bash ./scripts/remove_cdk_profile.sh
+
+      - name: 📁 Create frontend 'dist' directory
+        run: |
+          mkdir -p workshop/src/apps/tipster-shop/dist
+          mkdir -p workshop/src/apps/user-shop/dist
+          
+      - name: ✅ Validate Deployment - ${{ matrix.stack }}
+        working-directory: workshop/src/iac
+        run: |
+          cdk deploy ${{ matrix.stack }} --no-execute --require-approval never
+

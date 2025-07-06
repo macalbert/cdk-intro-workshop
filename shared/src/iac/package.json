@@ -1,0 +1,36 @@
+{
+  "name": "@m47/shared-iac",
+  "version": "0.1.0",
+  "license": "UNLICENSED",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "clean:jest": "pnpx jest --clearCache && jest --showConfig",
+    "test": "jest --env=node --colors --seed=1 --bail=1 --coverage=true",
+    "test:update": "jest --no-cache --env=node --colors --seed=1 --coverage=true --updateSnapshot",
+    "test:ci": "jest --no-cache  --colors --seed=1 --coverage=true --ci",
+    "test:ci:update": "jest --no-cache --colors --seed=1 --coverage=true --ci --updateSnapshot",
+    "cdk": "cdk",
+    "lint": "pnpx biome lint ./src",
+    "lint:fix": "pnpx biome lint ./src --fix",
+    "format": "pnpx biome format ./src",
+    "format:write": "pnpx biome format --write ./src"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.0.6",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^24.0.8",
+    "@types/source-map-support": "^0.5.6",
+    "aws-cdk": "2.1019.2",
+    "jest": "^30.0.3",
+    "ts-jest": "^29.4.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.6.2"
+  },
+  "dependencies": {
+    "@aws-cdk/aws-lambda-python-alpha": "2.202.0-alpha.0",
+    "aws-cdk-lib": "2.202.0",
+    "constructs": "^10.3.0",
+    "source-map-support": "^0.5.21"
+  }
+}

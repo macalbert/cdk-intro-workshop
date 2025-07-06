@@ -1,0 +1,25 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - curl -sSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --channel 9.0
+      #- bash ./scripts/install_libgdiplus.sh
+      - bash ./scripts/install_docker.sh
+      - chmod +x scripts/development/localstack/init.sh
+      - test -x scripts/development/localstack/init.sh && echo "init.sh Is Executable" || echo "init.sh  is NOT executable"
+
+  pre_build:
+    commands:
+      - echo Build started on `date`
+      - dotnet restore workshop.sln -v q --nologo
+      - dotnet build workshop.sln --no-restore --configuration Release -v q --nologo
+
+  build:
+    commands:
+      - echo Test started on `date`
+      - dotnet test workshop.sln --no-build --verbosity minimal --configuration Release --logger:"console;verbosity=detailed"
+
+  post_build:
+    commands:
+      - echo Test completed on `date`

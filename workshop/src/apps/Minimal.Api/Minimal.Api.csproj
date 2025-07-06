@@ -1,0 +1,92 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
+		<RuntimeIdentifiers>linux-x64;win-x64;linux-arm64;linux-arm</RuntimeIdentifiers>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+		<EnableNETAnalyzers>true</EnableNETAnalyzers>
+		<GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
+		<AWSProjectType>Lambda</AWSProjectType>
+		<!-- This property makes the build directory similar to a publish directory and helps the AWS .NET Lambda Mock Test Tool find project dependencies. -->
+		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+		<!-- Generate ready to run images during publishing to improvement cold starts. -->
+		<PublishReadyToRun>true</PublishReadyToRun>
+		<AssemblyName>M47.Workshop.Apps.Minimal.Api</AssemblyName>
+		<RootNamespace>M47.Workshop.Apps.Minimal.Api</RootNamespace>
+		<LangVersion>latest</LangVersion>
+		<PlatformTarget>AnyCPU</PlatformTarget>
+		<SelfContained>false</SelfContained>
+		<ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
+
+		<!-- Enable NuGet package auditing -->
+		<NuGetAudit>true</NuGetAudit>
+
+		<!-- Audit direct and transitive packages -->
+		<NuGetAuditMode>direct</NuGetAuditMode>
+
+		<!-- Report low, moderate, high and critical advisories -->
+		<NuGetAuditLevel>low</NuGetAuditLevel>
+
+		<WarningsAsErrors Condition="$(ContinuousIntegrationBuild) == 'true' OR '$(Configuration)' == 'Release'">
+			(WarningsAsErrors);NU1900;NU1901;NU1902;NU1903;NU1904
+		</WarningsAsErrors>
+	</PropertyGroup>
+	
+	<PropertyGroup Condition=" '$(RunConfiguration)' == 'Minimal.Api' " />
+	<PropertyGroup Condition=" '$(RunConfiguration)' == 'Minimal.Api (PRODUCTION)' " />
+
+	<ItemGroup>
+		<PackageReference Include="Amazon.AspNetCore.Identity.Cognito" />
+		<PackageReference Include="Amazon.Extensions.CognitoAuthentication" />
+		<PackageReference Include="AWS.Logger.AspNetCore" />
+		<PackageReference Include="AWSSDK.CognitoIdentityProvider" />
+		<PackageReference Include="Amazon.Lambda.AspNetCoreServer.Hosting" />
+		<PackageReference Include="Asp.Versioning.Http" />
+		<PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" />
+		<PackageReference Include="Humanizer" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
+		<PackageReference Include="Microsoft.AspNetCore.OpenApi" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design">
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.Extensions.Logging" />
+		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" />
+		<PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Swashbuckle.AspNetCore" />
+		<PackageReference Include="Serilog.AspNetCore" />
+		<PackageReference Include="Serilog.Sinks.Loggly" NoWarn="NU1903" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Content Update="appsettings.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Update="appsettings.LocalDevelopment.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+			<DependentUpon>appsettings.json</DependentUpon>
+		</Content>
+		<Content Update="appsettings.Development.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+			<DependentUpon>appsettings.json</DependentUpon>
+		</Content>
+		<Content Update="appsettings.Production.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+			<DependentUpon>appsettings.json</DependentUpon>
+		</Content>
+	</ItemGroup>
+
+	<PropertyGroup>
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
+		<UserSecretsId>16e8825f-9054-4bd5-98d0-894cc8f2e71a</UserSecretsId>
+		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+		<DockerfileContext>..\..\..\..</DockerfileContext>
+		<DockerComposeProjectPath>..\..\..\..\docker compose.dcproj</DockerComposeProjectPath>
+	</PropertyGroup>
+
+</Project>

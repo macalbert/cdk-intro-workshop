@@ -1,0 +1,122 @@
+import {
+    ApiGatewayStack,
+    type ApiGatewayStackProps,
+    AppEnvironment,
+    ApiLambdaStack,
+    type ApiLambdaStackProps,
+    S3Stack,
+    type S3StackProps,
+    StackBuildPart,
+    type StackBuildProps,
+} from "@m47/shared-iac";
+import { type Stack } from "aws-cdk-lib";
+import { SubnetType } from "aws-cdk-lib/aws-ec2";
+import type { IFunction } from "aws-cdk-lib/aws-lambda";
+
+export interface ProductionBackendProps extends StackBuildProps {
+    clusterName: string;
+    serviceName: string;
+    exposedPort: number;
+    sourceCodePath: string;
+    dockerfileApi: string;
+}
+
+export class ProductionBackend extends StackBuildPart {
+    props: ProductionBackendProps;
+
+    environment = AppEnvironment.Production;
+
+    constructor(buildProps: ProductionBackendProps) {
+        super(buildProps);
+
+        this.props = buildProps;
+        this.props.githubRepo = this.formatRepoNameForCloudFormation();
+    }
+
+    build(): Stack[] {
+        
+        const apiLambdaStack = this.createApiLambdaStack(
+            "ApiLambda",
+            this.props.dockerfileApi,
+            "api",
+        );
+
+        const apiGatewayStack = this.createApiGateway(
+            apiLambdaStack.lambdaFunction,
+            "ApiGateway",
+            "api-v2",
+        );
+
+        const s3Bucket = this.createS3Stack(
+            "S3BucketDatasets",
+            `${this.props.githubRepo}-datasets`.toLowerCase(),
+        );
+
+
+        return [
+            s3Bucket,
+            apiLambdaStack,
+            apiGatewayStack,
+        ];
+    }
+
+    private createApiLambdaStack(
+        name: string,
+        dockerfile: string,
+        subdomain: string,
+    ): ApiLambdaStack {
+        const lambdaExportProps: ApiLambdaStackProps = {
+            name: name,
+            githubRepo: this.props.githubRepo,
+            pathDockerFile: this.props.sourceCodePath,
+            env: this.props.env,
+            vpc: this.props.vpc,
+            envName: AppEnvironment.Production,
+            timeoutSeconds: 29,
+            memorySizeMbs: 1024,
+            vpcSubnets: {
+                subnetType: SubnetType.PRIVATE_WITH_EGRESS,
+            },
+            stackName: `${this.props.githubRepo}-${name}`,
+            functionName: `${this.props.githubRepo}-${subdomain}`.toLowerCase(),
+            dockerFile: dockerfile,
+        };
+
+        const stack = new ApiLambdaStack(this.props.scope, lambdaExportProps);
+
+        return stack;
+    }
+
+    private createApiGateway(
+        lambdaFunction: IFunction,
+        name: string,
+        subdomain: string,
+    ): ApiGatewayStack {
+        const apiProps: ApiGatewayStackProps = {
+            env: this.props.env,
+            name: name,
+            envName: AppEnvironment.Production,
+            lambdaFunction: lambdaFunction,
+            stackName: `${this.props.githubRepo}-${name}`,
+            subdomain: subdomain,
+            githubRepo: this.props.githubRepo,
+            certificateArn: `arn:aws:acm:us-east-1:${this.props.env.account}:certificate/ccf470a3-5470-4e2b-8880-19be90782a08`,
+            domain: "workshop.com",
+        };
+
+        return new ApiGatewayStack(this.props.scope, apiProps);
+    }
+
+    private createS3Stack(name: string, bucketName: string): S3Stack {
+        const s3Props: S3StackProps = {
+            name: name,
+            bucketName: bucketName,
+            githubRepo: this.props.githubRepo,
+            env: this.props.env,
+            envName: AppEnvironment.Production,
+            stackName: `${this.props.githubRepo}-${name}`,
+        };
+
+        return new S3Stack(this.props.scope, s3Props);
+    }
+}

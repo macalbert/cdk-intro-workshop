@@ -1,0 +1,9 @@
+packages:
+  - shared/src/iac
+  - workshop/src/iac
+
+onlyBuiltDependencies:
+  - '@biomejs/biome'
+
+ignoredBuiltDependencies:
+  - unrs-resolver

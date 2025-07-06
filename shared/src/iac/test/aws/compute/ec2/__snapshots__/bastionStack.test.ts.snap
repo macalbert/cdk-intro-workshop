@@ -1,0 +1,184 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`WindowsBastionStack Should_MatchSnapshot_When_WindowsBastionStackIsCreated: WindowsBastionStackTest 1`] = `
+{
+  "Parameters": {
+    "BootstrapVersion": {
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+    "SsmParameterValueawsserviceamiwindowslatestWindowsServer2022EnglishFullBaseC96584B6F00A464EAD1953AFF4B05118Parameter": {
+      "Default": "/aws/service/ami-windows-latest/Windows_Server-2022-English-Full-Base",
+      "Type": "AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>",
+    },
+  },
+  "Resources": {
+    "Bastion2B4CEC30": {
+      "DependsOn": [
+        "ec2Role38AB65C0",
+      ],
+      "Properties": {
+        "AvailabilityZone": {
+          "Fn::Select": [
+            0,
+            {
+              "Fn::GetAZs": "",
+            },
+          ],
+        },
+        "IamInstanceProfile": {
+          "Ref": "BastionInstanceProfile95B62D1E",
+        },
+        "ImageId": {
+          "Ref": "SsmParameterValueawsserviceamiwindowslatestWindowsServer2022EnglishFullBaseC96584B6F00A464EAD1953AFF4B05118Parameter",
+        },
+        "InstanceType": "t3.micro",
+        "KeyName": {
+          "Ref": "KeyPair1622897B",
+        },
+        "LaunchTemplate": {
+          "LaunchTemplateName": "BastionLaunchTemplate",
+          "Version": {
+            "Fn::GetAtt": [
+              "BastionLaunchTemplate47A71220",
+              "LatestVersionNumber",
+            ],
+          },
+        },
+        "SecurityGroupIds": [
+          {
+            "Fn::GetAtt": [
+              "SecurityGroupEc2BastionC8045F3F",
+              "GroupId",
+            ],
+          },
+        ],
+        "SubnetId": {
+          "Fn::ImportValue": "WindowsBastionStackTest:ExportsOutputRefvpcPublicSubnet1Subnet2E65531ECCB85041",
+        },
+        "Tags": [
+          {
+            "Key": "Environment",
+            "Value": "Test",
+          },
+          {
+            "Key": "Name",
+            "Value": "shared-test-Test",
+          },
+          {
+            "Key": "Project",
+            "Value": "shared-test",
+          },
+          {
+            "Key": "StackId",
+            "Value": "m47-shared-test-windowsbastionstack-test-stack",
+          },
+        ],
+        "UserData": {
+          "Fn::Base64": "<powershell></powershell>",
+        },
+      },
+      "Type": "AWS::EC2::Instance",
+    },
+    "BastionInstanceProfile95B62D1E": {
+      "Properties": {
+        "Roles": [
+          {
+            "Ref": "ec2Role38AB65C0",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::InstanceProfile",
+    },
+    "BastionLaunchTemplate47A71220": {
+      "Properties": {
+        "LaunchTemplateData": {
+          "MetadataOptions": {
+            "HttpTokens": "required",
+          },
+        },
+        "LaunchTemplateName": "BastionLaunchTemplate",
+      },
+      "Type": "AWS::EC2::LaunchTemplate",
+    },
+    "KeyPair1622897B": {
+      "Properties": {
+        "KeyFormat": "pem",
+        "KeyName": "keyname-shared-test-test",
+        "KeyType": "rsa",
+      },
+      "Type": "AWS::EC2::KeyPair",
+    },
+    "SecurityGroupEc2BastionC8045F3F": {
+      "Properties": {
+        "GroupDescription": "Allow RDP",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1",
+          },
+        ],
+        "SecurityGroupIngress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "open RDP port",
+            "FromPort": 3389,
+            "IpProtocol": "tcp",
+            "ToPort": 3389,
+          },
+        ],
+        "VpcId": {
+          "Fn::ImportValue": "WindowsBastionStackTest:ExportsOutputRefvpcA2121C384D1B3CDE",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "ec2Role38AB65C0": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ec2.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::Role",
+    },
+  },
+  "Rules": {
+    "CheckBootstrapVersion": {
+      "Assertions": [
+        {
+          "Assert": {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  {
+                    "Ref": "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
+    },
+  },
+}
+`;

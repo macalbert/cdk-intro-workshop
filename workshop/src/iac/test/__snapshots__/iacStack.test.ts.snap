@@ -1,0 +1,2951 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`Test Stack Should_CreateCoreBackendStack_When_BuildIsCalled: backend_githubrepo-ApiGateway 1`] = `
+{
+  "Outputs": {
+    "LambdaRestApigithubrepoApiGatewayEndpoint3C0F2A50": {
+      "Value": {
+        "Fn::Join": [
+          "",
+          [
+            "https://",
+            {
+              "Ref": "LambdaRestApigithubrepoApiGatewayD89FA79D",
+            },
+            ".execute-api.eu-west-1.",
+            {
+              "Ref": "AWS::URLSuffix",
+            },
+            "/",
+            {
+              "Ref": "LambdaRestApigithubrepoApiGatewayDeploymentStageprodD02D8C0D",
+            },
+            "/",
+          ],
+        ],
+      },
+    },
+    "apiUrl": {
+      "Value": {
+        "Fn::Join": [
+          "",
+          [
+            "https://",
+            {
+              "Ref": "LambdaRestApigithubrepoApiGatewayD89FA79D",
+            },
+            ".execute-api.eu-west-1.",
+            {
+              "Ref": "AWS::URLSuffix",
+            },
+            "/",
+            {
+              "Ref": "LambdaRestApigithubrepoApiGatewayDeploymentStageprodD02D8C0D",
+            },
+            "/",
+          ],
+        ],
+      },
+    },
+    "recordUrl": {
+      "Value": "https://api-v2.workshop.com",
+    },
+  },
+  "Parameters": {
+    "BootstrapVersion": {
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+  },
+  "Resources": {
+    "ARecordgithubrepoApiGateway3338BBFA": {
+      "Properties": {
+        "AliasTarget": {
+          "DNSName": {
+            "Fn::GetAtt": [
+              "LambdaRestApigithubrepoApiGatewayCustomDomain01659FF5",
+              "DistributionDomainName",
+            ],
+          },
+          "HostedZoneId": {
+            "Fn::GetAtt": [
+              "LambdaRestApigithubrepoApiGatewayCustomDomain01659FF5",
+              "DistributionHostedZoneId",
+            ],
+          },
+        },
+        "HostedZoneId": "DUMMY",
+        "Name": "api-v2.workshop.com.",
+        "Type": "A",
+      },
+      "Type": "AWS::Route53::RecordSet",
+    },
+    "ApiGatewayAccessLogsFB871B4C": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "RetentionInDays": 365,
+      },
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "ApiGatewayErrorAlarmgithubrepoApiGateway1C20A84E": {
+      "Properties": {
+        "ActionsEnabled": true,
+        "AlarmActions": [
+          {
+            "Ref": "ApiGatewayErrorTopicE8B30FAC",
+          },
+        ],
+        "AlarmDescription": "API Gateway Error Alarm",
+        "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+        "Dimensions": [
+          {
+            "Name": "ApiName",
+            "Value": "LambdaRestApi-githubrepo-ApiGateway",
+          },
+          {
+            "Name": "Stage",
+            "Value": {
+              "Ref": "LambdaRestApigithubrepoApiGatewayDeploymentStageprodD02D8C0D",
+            },
+          },
+        ],
+        "EvaluationPeriods": 1,
+        "MetricName": "5XXError",
+        "Namespace": "AWS/ApiGateway",
+        "Period": 300,
+        "Statistic": "Sum",
+        "Threshold": 1,
+      },
+      "Type": "AWS::CloudWatch::Alarm",
+    },
+    "ApiGatewayErrorTopicE8B30FAC": {
+      "Properties": {
+        "DisplayName": "API Gateway Error Topic",
+      },
+      "Type": "AWS::SNS::Topic",
+    },
+    "LambdaFunctionErrorAlarmgithubrepoApiGatewayFF35C18A": {
+      "Properties": {
+        "ActionsEnabled": true,
+        "AlarmActions": [
+          {
+            "Ref": "ApiGatewayErrorTopicE8B30FAC",
+          },
+        ],
+        "AlarmDescription": "Lambda Function Error Alarm",
+        "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+        "Dimensions": [
+          {
+            "Name": "FunctionName",
+            "Value": {
+              "Fn::ImportValue": "githubrepo-ApiLambda:ExportsOutputRefDockerImageFunctionm47githubrepoapilambdaproductionstack4C53797CA42F3C38",
+            },
+          },
+        ],
+        "EvaluationPeriods": 1,
+        "MetricName": "Errors",
+        "Namespace": "AWS/Lambda",
+        "Period": 300,
+        "Statistic": "Sum",
+        "Threshold": 1,
+      },
+      "Type": "AWS::CloudWatch::Alarm",
+    },
+    "LambdaRestApigithubrepoApiGatewayANY7326072A": {
+      "Properties": {
+        "AuthorizationType": "NONE",
+        "HttpMethod": "ANY",
+        "Integration": {
+          "IntegrationHttpMethod": "POST",
+          "Type": "AWS_PROXY",
+          "Uri": {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":apigateway:eu-west-1:lambda:path/2015-03-31/functions/",
+                {
+                  "Fn::ImportValue": "githubrepo-ApiLambda:ExportsOutputFnGetAttDockerImageFunctionm47githubrepoapilambdaproductionstack4C53797CArn4B7B91D4",
+                },
+                "/invocations",
+              ],
+            ],
+          },
+        },
+        "ResourceId": {
+          "Fn::GetAtt": [
+            "LambdaRestApigithubrepoApiGatewayD89FA79D",
+            "RootResourceId",
+          ],
+        },
+        "RestApiId": {
+          "Ref": "LambdaRestApigithubrepoApiGatewayD89FA79D",
+        },
+      },
+      "Type": "AWS::ApiGateway::Method",
+    },
+    "LambdaRestApigithubrepoApiGatewayANYApiPermissionTestbackendm47githubrepoapigatewayproductionstackLambdaRestApigithubrepoApiGateway184D4E3BANYDC111A5C": {
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::ImportValue": "githubrepo-ApiLambda:ExportsOutputFnGetAttDockerImageFunctionm47githubrepoapilambdaproductionstack4C53797CArn4B7B91D4",
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:eu-west-1:account-id:",
+              {
+                "Ref": "LambdaRestApigithubrepoApiGatewayD89FA79D",
+              },
+              "/test-invoke-stage/*/",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "LambdaRestApigithubrepoApiGatewayANYApiPermissionbackendm47githubrepoapigatewayproductionstackLambdaRestApigithubrepoApiGateway184D4E3BANY34C1DD0C": {
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::ImportValue": "githubrepo-ApiLambda:ExportsOutputFnGetAttDockerImageFunctionm47githubrepoapilambdaproductionstack4C53797CArn4B7B91D4",
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:eu-west-1:account-id:",
+              {
+                "Ref": "LambdaRestApigithubrepoApiGatewayD89FA79D",
+              },
+              "/",
+              {
+                "Ref": "LambdaRestApigithubrepoApiGatewayDeploymentStageprodD02D8C0D",
+              },
+              "/*/",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "LambdaRestApigithubrepoApiGatewayAccount56B9EAFF": {
+      "DeletionPolicy": "Retain",
+      "DependsOn": [
+        "LambdaRestApigithubrepoApiGatewayD89FA79D",
+      ],
+      "Properties": {
+        "CloudWatchRoleArn": {
+          "Fn::GetAtt": [
+            "LambdaRestApigithubrepoApiGatewayCloudWatchRole590F30F9",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::ApiGateway::Account",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "LambdaRestApigithubrepoApiGatewayCloudWatchRole590F30F9": {
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "apigateway.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs",
+              ],
+            ],
+          },
+        ],
+        "Tags": [
+          {
+            "Key": "Environment",
+            "Value": "Production",
+          },
+          {
+            "Key": "Project",
+            "Value": "githubrepo",
+          },
+          {
+            "Key": "StackId",
+            "Value": "m47-githubrepo-apigateway-production-stack",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "LambdaRestApigithubrepoApiGatewayCustomDomain01659FF5": {
+      "Properties": {
+        "CertificateArn": "arn:aws:acm:us-east-1:account-id:certificate/ccf470a3-5470-4e2b-8880-19be90782a08",
+        "DomainName": "api-v2.workshop.com",
+        "EndpointConfiguration": {
+          "Types": [
+            "EDGE",
+          ],
+        },
+        "Tags": [
+          {
+            "Key": "Environment",
+            "Value": "Production",
+          },
+          {
+            "Key": "Project",
+            "Value": "githubrepo",
+          },
+          {
+            "Key": "StackId",
+            "Value": "m47-githubrepo-apigateway-production-stack",
+          },
+        ],
+      },
+      "Type": "AWS::ApiGateway::DomainName",
+    },
+    "LambdaRestApigithubrepoApiGatewayCustomDomainMapbackendm47githubrepoapigatewayproductionstackLambdaRestApigithubrepoApiGateway184D4E3BC5BDE59E": {
+      "Properties": {
+        "DomainName": {
+          "Ref": "LambdaRestApigithubrepoApiGatewayCustomDomain01659FF5",
+        },
+        "RestApiId": {
+          "Ref": "LambdaRestApigithubrepoApiGatewayD89FA79D",
+        },
+        "Stage": {
+          "Ref": "LambdaRestApigithubrepoApiGatewayDeploymentStageprodD02D8C0D",
+        },
+      },
+      "Type": "AWS::ApiGateway::BasePathMapping",
+    },
+    "LambdaRestApigithubrepoApiGatewayD89FA79D": {
+      "Properties": {
+        "BinaryMediaTypes": [
+          "multipart/form-data",
+        ],
+        "Name": "LambdaRestApi-githubrepo-ApiGateway",
+        "Tags": [
+          {
+            "Key": "Environment",
+            "Value": "Production",
+          },
+          {
+            "Key": "Project",
+            "Value": "githubrepo",
+          },
+          {
+            "Key": "StackId",
+            "Value": "m47-githubrepo-apigateway-production-stack",
+          },
+        ],
+      },
+      "Type": "AWS::ApiGateway::RestApi",
+    },
+    "LambdaRestApigithubrepoApiGatewayDeployment03585E72ac041712996d6c7225b4d0761f363c06": {
+      "DependsOn": [
+        "LambdaRestApigithubrepoApiGatewayproxyANY83399373",
+        "LambdaRestApigithubrepoApiGatewayproxyOPTIONS911D8093",
+        "LambdaRestApigithubrepoApiGatewayproxy16F6DC02",
+        "LambdaRestApigithubrepoApiGatewayANY7326072A",
+        "LambdaRestApigithubrepoApiGatewayOPTIONSDAD8DE58",
+      ],
+      "Metadata": {
+        "aws:cdk:do-not-refactor": true,
+      },
+      "Properties": {
+        "Description": "Automatically created by the RestApi construct",
+        "RestApiId": {
+          "Ref": "LambdaRestApigithubrepoApiGatewayD89FA79D",
+        },
+      },
+      "Type": "AWS::ApiGateway::Deployment",
+    },
+    "LambdaRestApigithubrepoApiGatewayDeploymentStageprodD02D8C0D": {
+      "DependsOn": [
+        "LambdaRestApigithubrepoApiGatewayAccount56B9EAFF",
+      ],
+      "Properties": {
+        "AccessLogSetting": {
+          "DestinationArn": {
+            "Fn::GetAtt": [
+              "ApiGatewayAccessLogsFB871B4C",
+              "Arn",
+            ],
+          },
+          "Format": "$context.identity.sourceIp $context.identity.caller $context.identity.user [$context.requestTime] "$context.httpMethod $context.resourcePath $context.protocol" $context.status $context.responseLength $context.requestId",
+        },
+        "DeploymentId": {
+          "Ref": undefined,
+        },
+        "RestApiId": {
+          "Ref": "LambdaRestApigithubrepoApiGatewayD89FA79D",
+        },
+        "StageName": "prod",
+        "Tags": [
+          {
+            "Key": "Environment",
+            "Value": "Production",
+          },
+          {
+            "Key": "Project",
+            "Value": "githubrepo",
+          },
+          {
+            "Key": "StackId",
+            "Value": "m47-githubrepo-apigateway-production-stack",
+          },
+        ],
+      },
+      "Type": "AWS::ApiGateway::Stage",
+    },
+    "LambdaRestApigithubrepoApiGatewayOPTIONSDAD8DE58": {
+      "Properties": {
+        "ApiKeyRequired": false,
+        "AuthorizationType": "NONE",
+        "HttpMethod": "OPTIONS",
+        "Integration": {
+          "IntegrationResponses": [
+            {
+              "ResponseParameters": {
+                "method.response.header.Access-Control-Allow-Credentials": "'true'",
+                "method.response.header.Access-Control-Allow-Headers": "'Cache-Control,Content-Language,Content-Type,Expires,Last-Modified,Pragma,Acceptencoding,Authorization,X-Amz-Date,X-Api-Key,X-Forwarded-For'",
+                "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'",
+                "method.response.header.Access-Control-Allow-Origin": "'*'",
+              },
+              "StatusCode": "204",
+            },
+          ],
+          "RequestTemplates": {
+            "application/json": "{ statusCode: 200 }",
+          },
+          "Type": "MOCK",
+        },
+        "MethodResponses": [
+          {
+            "ResponseParameters": {
+              "method.response.header.Access-Control-Allow-Credentials": true,
+              "method.response.header.Access-Control-Allow-Headers": true,
+              "method.response.header.Access-Control-Allow-Methods": true,
+              "method.response.header.Access-Control-Allow-Origin": true,
+            },
+            "StatusCode": "204",
+          },
+        ],
+        "ResourceId": {
+          "Fn::GetAtt": [
+            "LambdaRestApigithubrepoApiGatewayD89FA79D",
+            "RootResourceId",
+          ],
+        },
+        "RestApiId": {
+          "Ref": "LambdaRestApigithubrepoApiGatewayD89FA79D",
+        },
+      },
+      "Type": "AWS::ApiGateway::Method",
+    },
+    "LambdaRestApigithubrepoApiGatewayproxy16F6DC02": {
+      "Properties": {
+        "ParentId": {
+          "Fn::GetAtt": [
+            "LambdaRestApigithubrepoApiGatewayD89FA79D",
+            "RootResourceId",
+          ],
+        },
+        "PathPart": "{proxy+}",
+        "RestApiId": {
+          "Ref": "LambdaRestApigithubrepoApiGatewayD89FA79D",
+        },
+      },
+      "Type": "AWS::ApiGateway::Resource",
+    },
+    "LambdaRestApigithubrepoApiGatewayproxyANY83399373": {
+      "Properties": {
+        "AuthorizationType": "NONE",
+        "HttpMethod": "ANY",
+        "Integration": {
+          "IntegrationHttpMethod": "POST",
+          "Type": "AWS_PROXY",
+          "Uri": {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":apigateway:eu-west-1:lambda:path/2015-03-31/functions/",
+                {
+                  "Fn::ImportValue": "githubrepo-ApiLambda:ExportsOutputFnGetAttDockerImageFunctionm47githubrepoapilambdaproductionstack4C53797CArn4B7B91D4",
+                },
+                "/invocations",
+              ],
+            ],
+          },
+        },
+        "ResourceId": {
+          "Ref": "LambdaRestApigithubrepoApiGatewayproxy16F6DC02",
+        },
+        "RestApiId": {
+          "Ref": "LambdaRestApigithubrepoApiGatewayD89FA79D",
+        },
+      },
+      "Type": "AWS::ApiGateway::Method",
+    },
+    "LambdaRestApigithubrepoApiGatewayproxyANYApiPermissionTestbackendm47githubrepoapigatewayproductionstackLambdaRestApigithubrepoApiGateway184D4E3BANYproxy3D2593D4": {
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::ImportValue": "githubrepo-ApiLambda:ExportsOutputFnGetAttDockerImageFunctionm47githubrepoapilambdaproductionstack4C53797CArn4B7B91D4",
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:eu-west-1:account-id:",
+              {
+                "Ref": "LambdaRestApigithubrepoApiGatewayD89FA79D",
+              },
+              "/test-invoke-stage/*/*",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "LambdaRestApigithubrepoApiGatewayproxyANYApiPermissionbackendm47githubrepoapigatewayproductionstackLambdaRestApigithubrepoApiGateway184D4E3BANYproxy33D1990D": {
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::ImportValue": "githubrepo-ApiLambda:ExportsOutputFnGetAttDockerImageFunctionm47githubrepoapilambdaproductionstack4C53797CArn4B7B91D4",
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:eu-west-1:account-id:",
+              {
+                "Ref": "LambdaRestApigithubrepoApiGatewayD89FA79D",
+              },
+              "/",
+              {
+                "Ref": "LambdaRestApigithubrepoApiGatewayDeploymentStageprodD02D8C0D",
+              },
+              "/*/*",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "LambdaRestApigithubrepoApiGatewayproxyOPTIONS911D8093": {
+      "Properties": {
+        "ApiKeyRequired": false,
+        "AuthorizationType": "NONE",
+        "HttpMethod": "OPTIONS",
+        "Integration": {
+          "IntegrationResponses": [
+            {
+              "ResponseParameters": {
+                "method.response.header.Access-Control-Allow-Credentials": "'true'",
+                "method.response.header.Access-Control-Allow-Headers": "'Cache-Control,Content-Language,Content-Type,Expires,Last-Modified,Pragma,Acceptencoding,Authorization,X-Amz-Date,X-Api-Key,X-Forwarded-For'",
+                "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'",
+                "method.response.header.Access-Control-Allow-Origin": "'*'",
+              },
+              "StatusCode": "204",
+            },
+          ],
+          "RequestTemplates": {
+            "application/json": "{ statusCode: 200 }",
+          },
+          "Type": "MOCK",
+        },
+        "MethodResponses": [
+          {
+            "ResponseParameters": {
+              "method.response.header.Access-Control-Allow-Credentials": true,
+              "method.response.header.Access-Control-Allow-Headers": true,
+              "method.response.header.Access-Control-Allow-Methods": true,
+              "method.response.header.Access-Control-Allow-Origin": true,
+            },
+            "StatusCode": "204",
+          },
+        ],
+        "ResourceId": {
+          "Ref": "LambdaRestApigithubrepoApiGatewayproxy16F6DC02",
+        },
+        "RestApiId": {
+          "Ref": "LambdaRestApigithubrepoApiGatewayD89FA79D",
+        },
+      },
+      "Type": "AWS::ApiGateway::Method",
+    },
+  },
+  "Rules": {
+    "CheckBootstrapVersion": {
+      "Assertions": [
+        {
+          "Assert": {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  {
+                    "Ref": "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
+    },
+  },
+}
+`;
+
+exports[`Test Stack Should_CreateCoreBackendStack_When_BuildIsCalled: backend_githubrepo-ApiLambda 1`] = `
+{
+  "Outputs": {
+    "ExportsOutputFnGetAttDockerImageFunctionm47githubrepoapilambdaproductionstack4C53797CArn4B7B91D4": {
+      "Export": {
+        "Name": "githubrepo-ApiLambda:ExportsOutputFnGetAttDockerImageFunctionm47githubrepoapilambdaproductionstack4C53797CArn4B7B91D4",
+      },
+      "Value": {
+        "Fn::GetAtt": [
+          "DockerImageFunctionm47githubrepoapilambdaproductionstack4C53797C",
+          "Arn",
+        ],
+      },
+    },
+    "ExportsOutputRefDockerImageFunctionm47githubrepoapilambdaproductionstack4C53797CA42F3C38": {
+      "Export": {
+        "Name": "githubrepo-ApiLambda:ExportsOutputRefDockerImageFunctionm47githubrepoapilambdaproductionstack4C53797CA42F3C38",
+      },
+      "Value": {
+        "Ref": "DockerImageFunctionm47githubrepoapilambdaproductionstack4C53797C",
+      },
+    },
+  },
+  "Parameters": {
+    "BootstrapVersion": {
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+  },
+  "Resources": {
+    "DockerImageFunctionm47githubrepoapilambdaproductionstack4C53797C": {
+      "DependsOn": [
+        "LambdaRoleDefaultPolicy75625A82",
+        "LambdaRole3A44B857",
+      ],
+      "Properties": {
+        "Code": {
+          "ImageUri": undefined,
+        },
+        "Environment": {
+          "Variables": {
+            "ASPNETCORE_ENVIRONMENT": "Production",
+          },
+        },
+        "FunctionName": "githubrepo-api-production",
+        "MemorySize": 1024,
+        "PackageType": "Image",
+        "Role": {
+          "Fn::GetAtt": [
+            "LambdaRole3A44B857",
+            "Arn",
+          ],
+        },
+        "Tags": [
+          {
+            "Key": "Environment",
+            "Value": "Production",
+          },
+          {
+            "Key": "Project",
+            "Value": "githubrepo",
+          },
+          {
+            "Key": "StackId",
+            "Value": "m47-githubrepo-apilambda-production-stack",
+          },
+        ],
+        "Timeout": 29,
+        "VpcConfig": {
+          "SecurityGroupIds": [
+            {
+              "Fn::GetAtt": [
+                "SecurityGroupm47githubrepoapilambdaproductionstack6DE56BDA",
+                "GroupId",
+              ],
+            },
+          ],
+          "SubnetIds": [
+            {
+              "Fn::ImportValue": "backend:ExportsOutputRefvpcPrivateSubnet1Subnet934893E8236E2271",
+            },
+            {
+              "Fn::ImportValue": "backend:ExportsOutputRefvpcPrivateSubnet2Subnet7031C2BA60DCB1EE",
+            },
+            {
+              "Fn::ImportValue": "backend:ExportsOutputRefvpcPrivateSubnet3Subnet985AC459F9514491",
+            },
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "LambdaRole3A44B857": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "RoleName": "Rolegithubrepo-apiProduction",
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "LambdaRoleDefaultPolicy75625A82": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "dynamodb:PutItem",
+                "dynamodb:UpdateItem",
+                "dynamodb:DeleteItem",
+                "dynamodb:GetItem",
+                "dynamodb:BatchGetItem",
+                "dynamodb:BatchWriteItem",
+                "dynamodb:Query",
+                "dynamodb:Scan",
+                "lambda:InvokeFunction",
+                "lambda:InvokeAsync",
+                "rds-data:*",
+                "ec2:CreateNetworkInterface",
+                "ec2:DescribeNetworkInterfaces",
+                "ec2:DeleteNetworkInterface",
+                "logs:CreateLogGroup",
+                "logs:DescribeLogGroups",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents",
+                "ds:CreateComputer",
+                "ds:DescribeDirectories",
+                "ssm:GetParameter",
+                "ssm:GetParameters",
+                "ssm:GetParameterHistory",
+                "ssm:GetParametersByPath",
+                "sqs:ReceiveMessage",
+                "sqs:DeleteMessage",
+                "sqs:SendMessage",
+                "sqs:GetQueueAttributes",
+                "sqs:GetQueueUrl",
+                "sqs:ListQueues",
+                "sns:Publish",
+                "cloudformation:DescribeStacks",
+                "cloudformation:ListStackResources",
+                "cloudwatch:ListMetrics",
+                "cloudwatch:GetMetricData",
+                "ec2:DescribeSecurityGroups",
+                "ec2:DescribeSubnets",
+                "ec2:DescribeVpcs",
+                "kms:ListAliases",
+                "iam:GetPolicy",
+                "iam:GetPolicyVersion",
+                "iam:GetRole",
+                "iam:GetRolePolicy",
+                "iam:ListAttachedRolePolicies",
+                "iam:ListRolePolicies",
+                "iam:ListRoles",
+                "lambda:*",
+                "states:DescribeStateMachine",
+                "states:ListStateMachines",
+                "tag:GetResources",
+                "xray:GetTraceSummaries",
+                "xray:BatchGetTraces",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": "iam:PassRole",
+              "Condition": {
+                "StringEquals": {
+                  "iam:PassedToService": "lambda.amazonaws.com",
+                },
+              },
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": [
+                "logs:DescribeLogStreams",
+                "logs:GetLogEvents",
+                "logs:FilterLogEvents",
+              ],
+              "Effect": "Allow",
+              "Resource": "arn:aws:logs:*:*:log-group:/aws/lambda/*",
+            },
+            {
+              "Action": [
+                "secretsmanager:GetSecretValue",
+                "secretsmanager:DescribeSecret",
+                "secretsmanager:TagResource",
+              ],
+              "Effect": "Allow",
+              "Resource": "arn:aws:secretsmanager:*:*:secret:rds-db-credentials/*",
+            },
+            {
+              "Action": [
+                "s3:*",
+                "s3-object-lambda:*",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "LambdaRoleDefaultPolicy75625A82",
+        "Roles": [
+          {
+            "Ref": "LambdaRole3A44B857",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "SecurityGroupm47githubrepoapilambdaproductionstack6DE56BDA": {
+      "Properties": {
+        "GroupDescription": "m47-githubrepo-apilambda-production-stack-SecurityGroup2",
+        "GroupName": "m47-githubrepo-apilambda-production-stack-SecurityGroup2",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow HTTPS outbound",
+            "FromPort": 443,
+            "IpProtocol": "tcp",
+            "ToPort": 443,
+          },
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow HTTP outbound",
+            "FromPort": 80,
+            "IpProtocol": "tcp",
+            "ToPort": 80,
+          },
+          {
+            "CidrIp": {
+              "Fn::ImportValue": "backend:ExportsOutputFnGetAttvpcA2121C38CidrBlock8A3D0BD6",
+            },
+            "Description": "Allow PostgreSQL inbound from VPC",
+            "FromPort": 5432,
+            "IpProtocol": "tcp",
+            "ToPort": 5432,
+          },
+          {
+            "CidrIp": "10.0.0.0/16",
+            "Description": "Allow PostgreSQL inbound from legacy VPC",
+            "FromPort": 5432,
+            "IpProtocol": "tcp",
+            "ToPort": 5432,
+          },
+        ],
+        "VpcId": {
+          "Fn::ImportValue": "backend:ExportsOutputRefvpcA2121C384D1B3CDE",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+  },
+  "Rules": {
+    "CheckBootstrapVersion": {
+      "Assertions": [
+        {
+          "Assert": {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  {
+                    "Ref": "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
+    },
+  },
+}
+`;
+
+exports[`Test Stack Should_CreateCoreBackendStack_When_BuildIsCalled: backend_githubrepo-S3BucketDatasets 1`] = `
+{
+  "Parameters": {
+    "BootstrapVersion": {
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+  },
+  "Resources": {
+    "S3Bucket07682993": {
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "BucketName": "githubrepo-datasets",
+        "CorsConfiguration": {
+          "CorsRules": [
+            {
+              "AllowedHeaders": [
+                "*",
+              ],
+              "AllowedMethods": [
+                "GET",
+                "PUT",
+                "HEAD",
+              ],
+              "AllowedOrigins": [
+                "*",
+              ],
+            },
+          ],
+        },
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "S3BucketPolicyF560589A": {
+      "Properties": {
+        "Bucket": {
+          "Ref": "S3Bucket07682993",
+        },
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "s3:*",
+              "Condition": {
+                "Bool": {
+                  "aws:SecureTransport": "false",
+                },
+              },
+              "Effect": "Deny",
+              "Principal": {
+                "AWS": "*",
+              },
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "S3Bucket07682993",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "S3Bucket07682993",
+                          "Arn",
+                        ],
+                      },
+                      "/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::S3::BucketPolicy",
+    },
+  },
+  "Rules": {
+    "CheckBootstrapVersion": {
+      "Assertions": [
+        {
+          "Assert": {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  {
+                    "Ref": "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
+    },
+  },
+}
+`;
+
+exports[`Test Stack Should_CreateCoreSharedStack_When_BuildIsCalled: shared_githubrepo-Bastion 1`] = `
+{
+  "Parameters": {
+    "BootstrapVersion": {
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+    "SsmParameterValueawsserviceamiwindowslatestWindowsServer2022EnglishFullBaseC96584B6F00A464EAD1953AFF4B05118Parameter": {
+      "Default": "/aws/service/ami-windows-latest/Windows_Server-2022-English-Full-Base",
+      "Type": "AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>",
+    },
+  },
+  "Resources": {
+    "Bastion2B4CEC30": {
+      "DependsOn": [
+        "ec2Role38AB65C0",
+      ],
+      "Properties": {
+        "AvailabilityZone": "dummy1a",
+        "IamInstanceProfile": {
+          "Ref": "BastionInstanceProfile95B62D1E",
+        },
+        "ImageId": {
+          "Ref": "SsmParameterValueawsserviceamiwindowslatestWindowsServer2022EnglishFullBaseC96584B6F00A464EAD1953AFF4B05118Parameter",
+        },
+        "InstanceType": "t3.micro",
+        "KeyName": {
+          "Ref": "KeyPair1622897B",
+        },
+        "LaunchTemplate": {
+          "LaunchTemplateName": "BastionLaunchTemplate",
+          "Version": {
+            "Fn::GetAtt": [
+              "BastionLaunchTemplate47A71220",
+              "LatestVersionNumber",
+            ],
+          },
+        },
+        "SecurityGroupIds": [
+          {
+            "Fn::GetAtt": [
+              "SecurityGroupEc2BastionC8045F3F",
+              "GroupId",
+            ],
+          },
+        ],
+        "SubnetId": {
+          "Fn::ImportValue": "shared:ExportsOutputRefvpcPublicSubnet1Subnet2E65531ECCB85041",
+        },
+        "Tags": [
+          {
+            "Key": "Environment",
+            "Value": "Production",
+          },
+          {
+            "Key": "Name",
+            "Value": "githubRepo-Production",
+          },
+          {
+            "Key": "Project",
+            "Value": "githubRepo",
+          },
+          {
+            "Key": "StackId",
+            "Value": "m47-githubrepo-bastion-production-stack",
+          },
+        ],
+        "UserData": {
+          "Fn::Base64": "<powershell></powershell>",
+        },
+      },
+      "Type": "AWS::EC2::Instance",
+    },
+    "BastionInstanceProfile95B62D1E": {
+      "Properties": {
+        "Roles": [
+          {
+            "Ref": "ec2Role38AB65C0",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::InstanceProfile",
+    },
+    "BastionLaunchTemplate47A71220": {
+      "Properties": {
+        "LaunchTemplateData": {
+          "MetadataOptions": {
+            "HttpTokens": "required",
+          },
+        },
+        "LaunchTemplateName": "BastionLaunchTemplate",
+      },
+      "Type": "AWS::EC2::LaunchTemplate",
+    },
+    "KeyPair1622897B": {
+      "Properties": {
+        "KeyFormat": "pem",
+        "KeyName": "keyname-githubrepo-production",
+        "KeyType": "rsa",
+      },
+      "Type": "AWS::EC2::KeyPair",
+    },
+    "SecurityGroupEc2BastionC8045F3F": {
+      "Properties": {
+        "GroupDescription": "Allow RDP",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1",
+          },
+        ],
+        "SecurityGroupIngress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "open RDP port",
+            "FromPort": 3389,
+            "IpProtocol": "tcp",
+            "ToPort": 3389,
+          },
+        ],
+        "VpcId": {
+          "Fn::ImportValue": "shared:ExportsOutputRefvpcA2121C384D1B3CDE",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "ec2Role38AB65C0": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ec2.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::Role",
+    },
+  },
+  "Rules": {
+    "CheckBootstrapVersion": {
+      "Assertions": [
+        {
+          "Assert": {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  {
+                    "Ref": "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
+    },
+  },
+}
+`;
+
+exports[`Test Stack Should_CreateCoreSharedStack_When_BuildIsCalled: shared_githubrepo-CodePipeline 1`] = `
+{
+  "Parameters": {
+    "BootstrapVersion": {
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+  },
+  "Resources": {
+    "PipelineC660917D": {
+      "DependsOn": [
+        "RolepipelineDefaultPolicyB1AF7048",
+        "Rolepipeline86313131",
+      ],
+      "Properties": {
+        "ArtifactStore": {
+          "Location": "workshop-codepipeline-artifact",
+          "Type": "S3",
+        },
+        "Name": "githubrepo-production",
+        "PipelineType": "V2",
+        "RoleArn": {
+          "Fn::GetAtt": [
+            "Rolepipeline86313131",
+            "Arn",
+          ],
+        },
+        "Stages": [
+          {
+            "Actions": [
+              {
+                "ActionTypeId": {
+                  "Category": "Source",
+                  "Owner": "ThirdParty",
+                  "Provider": "GitHub",
+                  "Version": "1",
+                },
+                "Configuration": {
+                  "Branch": "branch",
+                  "OAuthToken": "{{resolve:secretsmanager:arn:aws:secretsmanager:eu-west-1:account-id:secret:github-access-token-secret-dth2kY:SecretString:::}}",
+                  "Owner": "workshop",
+                  "PollForSourceChanges": false,
+                  "Repo": "githubRepo",
+                },
+                "Name": "checkout-production-githubrepo",
+                "OutputArtifacts": [
+                  {
+                    "Name": "Artifact_Source_checkout-production-githubrepo",
+                  },
+                ],
+                "RunOrder": 1,
+              },
+            ],
+            "Name": "Source",
+          },
+          {
+            "Actions": [
+              {
+                "ActionTypeId": {
+                  "Category": "Build",
+                  "Owner": "AWS",
+                  "Provider": "CodeBuild",
+                  "Version": "1",
+                },
+                "Configuration": {
+                  "ProjectName": {
+                    "Ref": "Testiac94221517",
+                  },
+                },
+                "InputArtifacts": [
+                  {
+                    "Name": "Artifact_Source_checkout-production-githubrepo",
+                  },
+                ],
+                "Name": "iac-test-githubrepo",
+                "RoleArn": {
+                  "Fn::GetAtt": [
+                    "Roletest8FE49675",
+                    "Arn",
+                  ],
+                },
+                "RunOrder": 1,
+              },
+              {
+                "ActionTypeId": {
+                  "Category": "Build",
+                  "Owner": "AWS",
+                  "Provider": "CodeBuild",
+                  "Version": "1",
+                },
+                "Configuration": {
+                  "ProjectName": {
+                    "Ref": "Testbackend9004B3C4",
+                  },
+                },
+                "InputArtifacts": [
+                  {
+                    "Name": "Artifact_Source_checkout-production-githubrepo",
+                  },
+                ],
+                "Name": "backend-test-githubrepo",
+                "RoleArn": {
+                  "Fn::GetAtt": [
+                    "Roletest8FE49675",
+                    "Arn",
+                  ],
+                },
+                "RunOrder": 1,
+              },
+            ],
+            "Name": "Test",
+          },
+          {
+            "Actions": [
+              {
+                "ActionTypeId": {
+                  "Category": "Build",
+                  "Owner": "AWS",
+                  "Provider": "CodeBuild",
+                  "Version": "1",
+                },
+                "Configuration": {
+                  "ProjectName": {
+                    "Ref": "backendApi0171685F",
+                  },
+                },
+                "InputArtifacts": [
+                  {
+                    "Name": "Artifact_Source_checkout-production-githubrepo",
+                  },
+                ],
+                "Name": "backendapi-deploy-githubrepo",
+                "RoleArn": {
+                  "Fn::GetAtt": [
+                    "Roledeploy92E6FB77",
+                    "Arn",
+                  ],
+                },
+                "RunOrder": 1,
+              },
+            ],
+            "Name": "Deploy",
+          },
+        ],
+      },
+      "Type": "AWS::CodePipeline::Pipeline",
+    },
+    "PipelineSourcecheckoutproductiongithubrepoWebhookResource522AE7E2": {
+      "Properties": {
+        "Authentication": "GITHUB_HMAC",
+        "AuthenticationConfiguration": {
+          "SecretToken": "{{resolve:secretsmanager:arn:aws:secretsmanager:eu-west-1:account-id:secret:github-access-token-secret-dth2kY:SecretString:::}}",
+        },
+        "Filters": [
+          {
+            "JsonPath": "$.ref",
+            "MatchEquals": "refs/heads/{Branch}",
+          },
+        ],
+        "RegisterWithThirdParty": true,
+        "TargetAction": "checkout-production-githubrepo",
+        "TargetPipeline": {
+          "Ref": "PipelineC660917D",
+        },
+        "TargetPipelineVersion": 1,
+      },
+      "Type": "AWS::CodePipeline::Webhook",
+    },
+    "Roledeploy92E6FB77": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": [
+                  "lambda.amazonaws.com",
+                  "codepipeline.amazonaws.com",
+                  "codebuild.amazonaws.com",
+                ],
+              },
+            },
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::GetAtt": [
+                    "Rolepipeline86313131",
+                    "Arn",
+                  ],
+                },
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "Description": "Role for CD pipeline in repo githubRepo (Production)",
+        "Policies": [
+          {
+            "PolicyDocument": {
+              "Statement": [
+                {
+                  "Action": "sts:AssumeRole",
+                  "Effect": "Allow",
+                  "Resource": "arn:aws:iam::account-id:role/*",
+                },
+                {
+                  "Action": [
+                    "logs:CreateLogGroup",
+                    "logs:CreateLogStream",
+                    "logs:PutLogEvents",
+                  ],
+                  "Effect": "Allow",
+                  "Resource": "arn:aws:logs:eu-west-1:account-id:log-group:*",
+                },
+                {
+                  "Action": [
+                    "codebuild:BatchPutCodeCoverages",
+                    "codebuild:BatchPutTestCases",
+                    "codebuild:CreateReport",
+                    "codebuild:CreateReportGroup",
+                    "codebuild:UpdateReport",
+                    "codebuild:StartBuild",
+                  ],
+                  "Effect": "Allow",
+                  "Resource": "arn:aws:codebuild:eu-west-1:account-id:project/*",
+                },
+                {
+                  "Action": [
+                    "s3:GetBucket*",
+                    "s3:GetObject*",
+                    "s3:List*",
+                  ],
+                  "Effect": "Allow",
+                  "Resource": "arn:aws:s3:::*",
+                },
+                {
+                  "Action": [
+                    "secretsmanager:GetResourcePolicy",
+                    "secretsmanager:GetSecretValue",
+                    "secretsmanager:DescribeSecret",
+                    "secretsmanager:ListSecretVersionIds",
+                  ],
+                  "Effect": "Allow",
+                  "Resource": "*",
+                },
+                {
+                  "Action": "ses:SendEmail",
+                  "Effect": "Allow",
+                  "Resource": "arn:aws:ses:eu-west-1:account-id:identity/workshop.com",
+                },
+                {
+                  "Action": [
+                    "kms:Decrypt",
+                    "kms:DescribeKey",
+                    "kms:Encrypt",
+                    "kms:GenerateDataKey*",
+                    "kms:ReEncrypt*",
+                  ],
+                  "Effect": "Allow",
+                  "Resource": "arn:aws:kms:eu-west-1:account-id:*",
+                },
+                {
+                  "Action": "sqs:*",
+                  "Effect": "Allow",
+                  "Resource": "arn:aws:sqs:eu-west-1:account-id:*",
+                },
+                {
+                  "Action": [
+                    "ssm:GetParameter",
+                    "ssm:GetParameters",
+                    "ssm:GetParametersByPath",
+                  ],
+                  "Effect": "Allow",
+                  "Resource": "arn:aws:ssm:eu-west-1:account-id:parameter/*",
+                },
+              ],
+              "Version": "2012-10-17",
+            },
+            "PolicyName": "customApiPolicyDocument",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "RoledeployDefaultPolicy3EF570DF": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents",
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":logs:eu-west-1:account-id:log-group:/aws/codebuild/",
+                      {
+                        "Ref": "backendApi0171685F",
+                      },
+                    ],
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":logs:eu-west-1:account-id:log-group:/aws/codebuild/",
+                      {
+                        "Ref": "backendApi0171685F",
+                      },
+                      ":*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            {
+              "Action": [
+                "codebuild:CreateReportGroup",
+                "codebuild:CreateReport",
+                "codebuild:UpdateReport",
+                "codebuild:BatchPutTestCases",
+                "codebuild:BatchPutCodeCoverages",
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":codebuild:eu-west-1:account-id:report-group/",
+                    {
+                      "Ref": "backendApi0171685F",
+                    },
+                    "-*",
+                  ],
+                ],
+              },
+            },
+            {
+              "Action": [
+                "codebuild:BatchGetBuilds",
+                "codebuild:StartBuild",
+                "codebuild:StopBuild",
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "backendApi0171685F",
+                  "Arn",
+                ],
+              },
+            },
+            {
+              "Action": [
+                "s3:GetObject*",
+                "s3:GetBucket*",
+                "s3:List*",
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":s3:::workshop-codepipeline-artifact",
+                    ],
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":s3:::workshop-codepipeline-artifact/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "RoledeployDefaultPolicy3EF570DF",
+        "Roles": [
+          {
+            "Ref": "Roledeploy92E6FB77",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "Rolepipeline86313131": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": [
+                  "lambda.amazonaws.com",
+                  "codepipeline.amazonaws.com",
+                  "codebuild.amazonaws.com",
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "Description": "Role for CD pipeline in repo githubRepo (Production)",
+        "Policies": [
+          {
+            "PolicyDocument": {
+              "Statement": [
+                {
+                  "Action": "sts:AssumeRole",
+                  "Effect": "Allow",
+                  "Resource": "arn:aws:iam::account-id:role/*",
+                },
+                {
+                  "Action": [
+                    "logs:CreateLogGroup",
+                    "logs:CreateLogStream",
+                    "logs:PutLogEvents",
+                  ],
+                  "Effect": "Allow",
+                  "Resource": "arn:aws:logs:eu-west-1:account-id:log-group:*",
+                },
+                {
+                  "Action": [
+                    "codebuild:BatchPutCodeCoverages",
+                    "codebuild:BatchPutTestCases",
+                    "codebuild:CreateReport",
+                    "codebuild:CreateReportGroup",
+                    "codebuild:UpdateReport",
+                    "codebuild:StartBuild",
+                  ],
+                  "Effect": "Allow",
+                  "Resource": "arn:aws:codebuild:eu-west-1:account-id:project/*",
+                },
+                {
+                  "Action": [
+                    "s3:GetBucket*",
+                    "s3:GetObject*",
+                    "s3:List*",
+                  ],
+                  "Effect": "Allow",
+                  "Resource": "arn:aws:s3:::*",
+                },
+                {
+                  "Action": [
+                    "secretsmanager:GetResourcePolicy",
+                    "secretsmanager:GetSecretValue",
+                    "secretsmanager:DescribeSecret",
+                    "secretsmanager:ListSecretVersionIds",
+                  ],
+                  "Effect": "Allow",
+                  "Resource": "*",
+                },
+                {
+                  "Action": "ses:SendEmail",
+                  "Effect": "Allow",
+                  "Resource": "arn:aws:ses:eu-west-1:account-id:identity/workshop.com",
+                },
+                {
+                  "Action": [
+                    "kms:Decrypt",
+                    "kms:DescribeKey",
+                    "kms:Encrypt",
+                    "kms:GenerateDataKey*",
+                    "kms:ReEncrypt*",
+                  ],
+                  "Effect": "Allow",
+                  "Resource": "arn:aws:kms:eu-west-1:account-id:*",
+                },
+                {
+                  "Action": "sqs:*",
+                  "Effect": "Allow",
+                  "Resource": "arn:aws:sqs:eu-west-1:account-id:*",
+                },
+                {
+                  "Action": [
+                    "ssm:GetParameter",
+                    "ssm:GetParameters",
+                    "ssm:GetParametersByPath",
+                  ],
+                  "Effect": "Allow",
+                  "Resource": "arn:aws:ssm:eu-west-1:account-id:parameter/*",
+                },
+              ],
+              "Version": "2012-10-17",
+            },
+            "PolicyName": "customApiPolicyDocument",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "RolepipelineDefaultPolicyB1AF7048": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "s3:GetObject*",
+                "s3:GetBucket*",
+                "s3:List*",
+                "s3:DeleteObject*",
+                "s3:PutObject",
+                "s3:PutObjectLegalHold",
+                "s3:PutObjectRetention",
+                "s3:PutObjectTagging",
+                "s3:PutObjectVersionTagging",
+                "s3:Abort*",
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":s3:::workshop-codepipeline-artifact",
+                    ],
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":s3:::workshop-codepipeline-artifact/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "Roletest8FE49675",
+                  "Arn",
+                ],
+              },
+            },
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "Roledeploy92E6FB77",
+                  "Arn",
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "RolepipelineDefaultPolicyB1AF7048",
+        "Roles": [
+          {
+            "Ref": "Rolepipeline86313131",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "Roletest8FE49675": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": [
+                  "lambda.amazonaws.com",
+                  "codepipeline.amazonaws.com",
+                  "codebuild.amazonaws.com",
+                ],
+              },
+            },
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::GetAtt": [
+                    "Rolepipeline86313131",
+                    "Arn",
+                  ],
+                },
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "Description": "Role for CD pipeline in repo githubRepo (Production)",
+        "Policies": [
+          {
+            "PolicyDocument": {
+              "Statement": [
+                {
+                  "Action": "sts:AssumeRole",
+                  "Effect": "Allow",
+                  "Resource": "arn:aws:iam::account-id:role/*",
+                },
+                {
+                  "Action": [
+                    "logs:CreateLogGroup",
+                    "logs:CreateLogStream",
+                    "logs:PutLogEvents",
+                  ],
+                  "Effect": "Allow",
+                  "Resource": "arn:aws:logs:eu-west-1:account-id:log-group:*",
+                },
+                {
+                  "Action": [
+                    "codebuild:BatchPutCodeCoverages",
+                    "codebuild:BatchPutTestCases",
+                    "codebuild:CreateReport",
+                    "codebuild:CreateReportGroup",
+                    "codebuild:UpdateReport",
+                    "codebuild:StartBuild",
+                  ],
+                  "Effect": "Allow",
+                  "Resource": "arn:aws:codebuild:eu-west-1:account-id:project/*",
+                },
+                {
+                  "Action": [
+                    "s3:GetBucket*",
+                    "s3:GetObject*",
+                    "s3:List*",
+                  ],
+                  "Effect": "Allow",
+                  "Resource": "arn:aws:s3:::*",
+                },
+                {
+                  "Action": [
+                    "secretsmanager:GetResourcePolicy",
+                    "secretsmanager:GetSecretValue",
+                    "secretsmanager:DescribeSecret",
+                    "secretsmanager:ListSecretVersionIds",
+                  ],
+                  "Effect": "Allow",
+                  "Resource": "*",
+                },
+                {
+                  "Action": "ses:SendEmail",
+                  "Effect": "Allow",
+                  "Resource": "arn:aws:ses:eu-west-1:account-id:identity/workshop.com",
+                },
+                {
+                  "Action": [
+                    "kms:Decrypt",
+                    "kms:DescribeKey",
+                    "kms:Encrypt",
+                    "kms:GenerateDataKey*",
+                    "kms:ReEncrypt*",
+                  ],
+                  "Effect": "Allow",
+                  "Resource": "arn:aws:kms:eu-west-1:account-id:*",
+                },
+                {
+                  "Action": "sqs:*",
+                  "Effect": "Allow",
+                  "Resource": "arn:aws:sqs:eu-west-1:account-id:*",
+                },
+                {
+                  "Action": [
+                    "ssm:GetParameter",
+                    "ssm:GetParameters",
+                    "ssm:GetParametersByPath",
+                  ],
+                  "Effect": "Allow",
+                  "Resource": "arn:aws:ssm:eu-west-1:account-id:parameter/*",
+                },
+              ],
+              "Version": "2012-10-17",
+            },
+            "PolicyName": "customApiPolicyDocument",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "RoletestDefaultPolicy62D11870": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "ec2:CreateNetworkInterfacePermission",
+              "Condition": {
+                "StringEquals": {
+                  "ec2:AuthorizedService": "codebuild.amazonaws.com",
+                  "ec2:Subnet": [
+                    {
+                      "Fn::Join": [
+                        "",
+                        [
+                          "arn:",
+                          {
+                            "Ref": "AWS::Partition",
+                          },
+                          ":ec2:",
+                          {
+                            "Ref": "AWS::Region",
+                          },
+                          ":",
+                          {
+                            "Ref": "AWS::AccountId",
+                          },
+                          ":subnet/",
+                          {
+                            "Fn::ImportValue": "shared:ExportsOutputRefvpcPrivateSubnet1Subnet934893E8236E2271",
+                          },
+                        ],
+                      ],
+                    },
+                    {
+                      "Fn::Join": [
+                        "",
+                        [
+                          "arn:",
+                          {
+                            "Ref": "AWS::Partition",
+                          },
+                          ":ec2:",
+                          {
+                            "Ref": "AWS::Region",
+                          },
+                          ":",
+                          {
+                            "Ref": "AWS::AccountId",
+                          },
+                          ":subnet/",
+                          {
+                            "Fn::ImportValue": "shared:ExportsOutputRefvpcPrivateSubnet2Subnet7031C2BA60DCB1EE",
+                          },
+                        ],
+                      ],
+                    },
+                    {
+                      "Fn::Join": [
+                        "",
+                        [
+                          "arn:",
+                          {
+                            "Ref": "AWS::Partition",
+                          },
+                          ":ec2:",
+                          {
+                            "Ref": "AWS::Region",
+                          },
+                          ":",
+                          {
+                            "Ref": "AWS::AccountId",
+                          },
+                          ":subnet/",
+                          {
+                            "Fn::ImportValue": "shared:ExportsOutputRefvpcPrivateSubnet3Subnet985AC459F9514491",
+                          },
+                        ],
+                      ],
+                    },
+                  ],
+                },
+              },
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":ec2:",
+                    {
+                      "Ref": "AWS::Region",
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":network-interface/*",
+                  ],
+                ],
+              },
+            },
+            {
+              "Action": [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents",
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":logs:eu-west-1:account-id:log-group:/aws/codebuild/",
+                      {
+                        "Ref": "Testiac94221517",
+                      },
+                    ],
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":logs:eu-west-1:account-id:log-group:/aws/codebuild/",
+                      {
+                        "Ref": "Testiac94221517",
+                      },
+                      ":*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            {
+              "Action": [
+                "codebuild:CreateReportGroup",
+                "codebuild:CreateReport",
+                "codebuild:UpdateReport",
+                "codebuild:BatchPutTestCases",
+                "codebuild:BatchPutCodeCoverages",
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":codebuild:eu-west-1:account-id:report-group/",
+                    {
+                      "Ref": "Testiac94221517",
+                    },
+                    "-*",
+                  ],
+                ],
+              },
+            },
+            {
+              "Action": [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents",
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":logs:eu-west-1:account-id:log-group:/aws/codebuild/",
+                      {
+                        "Ref": "Testbackend9004B3C4",
+                      },
+                    ],
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":logs:eu-west-1:account-id:log-group:/aws/codebuild/",
+                      {
+                        "Ref": "Testbackend9004B3C4",
+                      },
+                      ":*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            {
+              "Action": [
+                "codebuild:CreateReportGroup",
+                "codebuild:CreateReport",
+                "codebuild:UpdateReport",
+                "codebuild:BatchPutTestCases",
+                "codebuild:BatchPutCodeCoverages",
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":codebuild:eu-west-1:account-id:report-group/",
+                    {
+                      "Ref": "Testbackend9004B3C4",
+                    },
+                    "-*",
+                  ],
+                ],
+              },
+            },
+            {
+              "Action": [
+                "codebuild:BatchGetBuilds",
+                "codebuild:StartBuild",
+                "codebuild:StopBuild",
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "Testiac94221517",
+                  "Arn",
+                ],
+              },
+            },
+            {
+              "Action": [
+                "s3:GetObject*",
+                "s3:GetBucket*",
+                "s3:List*",
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":s3:::workshop-codepipeline-artifact",
+                    ],
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":s3:::workshop-codepipeline-artifact/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            {
+              "Action": [
+                "codebuild:BatchGetBuilds",
+                "codebuild:StartBuild",
+                "codebuild:StopBuild",
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "Testbackend9004B3C4",
+                  "Arn",
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "RoletestDefaultPolicy62D11870",
+        "Roles": [
+          {
+            "Ref": "Roletest8FE49675",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "Testbackend9004B3C4": {
+      "DependsOn": [
+        "TestiacPolicyDocumentDE4DEAC2",
+      ],
+      "Properties": {
+        "Artifacts": {
+          "Type": "CODEPIPELINE",
+        },
+        "Cache": {
+          "Type": "NO_CACHE",
+        },
+        "EncryptionKey": "alias/aws/s3",
+        "Environment": {
+          "ComputeType": "BUILD_GENERAL1_LARGE",
+          "Image": "aws/codebuild/standard:7.0",
+          "ImagePullCredentialsType": "CODEBUILD",
+          "PrivilegedMode": true,
+          "Type": "LINUX_CONTAINER",
+        },
+        "Name": "backend-test-githubrepo",
+        "ServiceRole": {
+          "Fn::GetAtt": [
+            "Roletest8FE49675",
+            "Arn",
+          ],
+        },
+        "Source": {
+          "BuildSpec": "workshop/src/iac/buildspecs/test/backend.yml",
+          "Type": "CODEPIPELINE",
+        },
+        "TimeoutInMinutes": 30,
+        "VpcConfig": {
+          "SecurityGroupIds": [
+            {
+              "Fn::GetAtt": [
+                "TestbackendSecurityGroupFE8A3BF5",
+                "GroupId",
+              ],
+            },
+          ],
+          "Subnets": [
+            {
+              "Fn::ImportValue": "shared:ExportsOutputRefvpcPrivateSubnet1Subnet934893E8236E2271",
+            },
+            {
+              "Fn::ImportValue": "shared:ExportsOutputRefvpcPrivateSubnet2Subnet7031C2BA60DCB1EE",
+            },
+            {
+              "Fn::ImportValue": "shared:ExportsOutputRefvpcPrivateSubnet3Subnet985AC459F9514491",
+            },
+          ],
+          "VpcId": {
+            "Fn::ImportValue": "shared:ExportsOutputRefvpcA2121C384D1B3CDE",
+          },
+        },
+      },
+      "Type": "AWS::CodeBuild::Project",
+    },
+    "TestbackendSecurityGroupFE8A3BF5": {
+      "Properties": {
+        "GroupDescription": "Automatic generated security group for CodeBuild sharedm47githubrepopipelineproductionstackTestbackend5A7CE2B9",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1",
+          },
+        ],
+        "VpcId": {
+          "Fn::ImportValue": "shared:ExportsOutputRefvpcA2121C384D1B3CDE",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "Testiac94221517": {
+      "DependsOn": [
+        "TestiacPolicyDocumentDE4DEAC2",
+      ],
+      "Properties": {
+        "Artifacts": {
+          "Type": "CODEPIPELINE",
+        },
+        "Cache": {
+          "Type": "NO_CACHE",
+        },
+        "EncryptionKey": "alias/aws/s3",
+        "Environment": {
+          "ComputeType": "BUILD_GENERAL1_LARGE",
+          "Image": "aws/codebuild/standard:7.0",
+          "ImagePullCredentialsType": "CODEBUILD",
+          "PrivilegedMode": true,
+          "Type": "LINUX_CONTAINER",
+        },
+        "Name": "iac-test-githubrepo",
+        "ServiceRole": {
+          "Fn::GetAtt": [
+            "Roletest8FE49675",
+            "Arn",
+          ],
+        },
+        "Source": {
+          "BuildSpec": "workshop/src/iac/buildspecs/test/iac.yml",
+          "Type": "CODEPIPELINE",
+        },
+        "TimeoutInMinutes": 30,
+        "VpcConfig": {
+          "SecurityGroupIds": [
+            {
+              "Fn::GetAtt": [
+                "TestiacSecurityGroupDCDD38EE",
+                "GroupId",
+              ],
+            },
+          ],
+          "Subnets": [
+            {
+              "Fn::ImportValue": "shared:ExportsOutputRefvpcPrivateSubnet1Subnet934893E8236E2271",
+            },
+            {
+              "Fn::ImportValue": "shared:ExportsOutputRefvpcPrivateSubnet2Subnet7031C2BA60DCB1EE",
+            },
+            {
+              "Fn::ImportValue": "shared:ExportsOutputRefvpcPrivateSubnet3Subnet985AC459F9514491",
+            },
+          ],
+          "VpcId": {
+            "Fn::ImportValue": "shared:ExportsOutputRefvpcA2121C384D1B3CDE",
+          },
+        },
+      },
+      "Type": "AWS::CodeBuild::Project",
+    },
+    "TestiacPolicyDocumentDE4DEAC2": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "ec2:CreateNetworkInterface",
+                "ec2:DescribeNetworkInterfaces",
+                "ec2:DeleteNetworkInterface",
+                "ec2:DescribeSubnets",
+                "ec2:DescribeSecurityGroups",
+                "ec2:DescribeDhcpOptions",
+                "ec2:DescribeVpcs",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "TestiacPolicyDocumentDE4DEAC2",
+        "Roles": [
+          {
+            "Ref": "Roletest8FE49675",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "TestiacSecurityGroupDCDD38EE": {
+      "Properties": {
+        "GroupDescription": "Automatic generated security group for CodeBuild sharedm47githubrepopipelineproductionstackTestiac2B1DB1B6",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1",
+          },
+        ],
+        "VpcId": {
+          "Fn::ImportValue": "shared:ExportsOutputRefvpcA2121C384D1B3CDE",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "backendApi0171685F": {
+      "Properties": {
+        "Artifacts": {
+          "Type": "CODEPIPELINE",
+        },
+        "Cache": {
+          "Type": "NO_CACHE",
+        },
+        "EncryptionKey": "alias/aws/s3",
+        "Environment": {
+          "ComputeType": "BUILD_GENERAL1_LARGE",
+          "EnvironmentVariables": [
+            {
+              "Name": "ASPNETCORE_ENVIRONMENT",
+              "Type": "PLAINTEXT",
+              "Value": "Production",
+            },
+          ],
+          "Image": "aws/codebuild/standard:7.0",
+          "ImagePullCredentialsType": "CODEBUILD",
+          "PrivilegedMode": true,
+          "Type": "LINUX_CONTAINER",
+        },
+        "Name": "backendapi-deploy-githubrepo",
+        "ServiceRole": {
+          "Fn::GetAtt": [
+            "Roledeploy92E6FB77",
+            "Arn",
+          ],
+        },
+        "Source": {
+          "BuildSpec": "workshop/src/iac/buildspecs/production/backendApi.yml",
+          "Type": "CODEPIPELINE",
+        },
+        "TimeoutInMinutes": 60,
+      },
+      "Type": "AWS::CodeBuild::Project",
+    },
+  },
+  "Rules": {
+    "CheckBootstrapVersion": {
+      "Assertions": [
+        {
+          "Assert": {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  {
+                    "Ref": "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
+    },
+  },
+}
+`;
+
+exports[`Test Stack Should_CreateCoreSharedStack_When_BuildIsCalled: shared_githubrepo-rds 1`] = `
+{
+  "Outputs": {
+    "RdsPostgresProductionPostgresDbName": {
+      "Export": {
+        "Name": "githubrepo-Production-PostgresDbName",
+      },
+      "Value": "workshop",
+    },
+    "RdsPostgresProductionPostgresEndpoint": {
+      "Export": {
+        "Name": "githubrepo-Production-PostgresEndPoint",
+      },
+      "Value": {
+        "Fn::GetAtt": [
+          "PostgresDatabase0A8A7373",
+          "Endpoint.Address",
+        ],
+      },
+    },
+    "RdsPostgresProductionPostgresUserName": {
+      "Export": {
+        "Name": "githubrepo-Production-PostgresUserName",
+      },
+      "Value": "masteruser",
+    },
+    "SecretARN": {
+      "Value": {
+        "Ref": "postgresqlCredentials71085D2E",
+      },
+    },
+    "SecretFullARN": {
+      "Value": {
+        "Ref": "postgresqlCredentials71085D2E",
+      },
+    },
+    "SecretName": {
+      "Value": {
+        "Fn::Select": [
+          0,
+          {
+            "Fn::Split": [
+              "-",
+              {
+                "Fn::Select": [
+                  6,
+                  {
+                    "Fn::Split": [
+                      ":",
+                      {
+                        "Ref": "postgresqlCredentials71085D2E",
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    },
+    "apiParameterPostgresConnectionParameterNameOutput": {
+      "Description": "The name of the SSM parameter",
+      "Export": {
+        "Name": "apiParameterPostgresConnectionParameterName",
+      },
+      "Value": {
+        "Ref": "apiParameterPostgresConnection9FF9728D",
+      },
+    },
+    "workerParameterPostgresConnectionParameterNameOutput": {
+      "Description": "The name of the SSM parameter",
+      "Export": {
+        "Name": "workerParameterPostgresConnectionParameterName",
+      },
+      "Value": {
+        "Ref": "workerParameterPostgresConnection552F442F",
+      },
+    },
+  },
+  "Parameters": {
+    "BootstrapVersion": {
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+  },
+  "Resources": {
+    "DatabaseSubnetGroup": {
+      "Properties": {
+        "DBSubnetGroupDescription": "githubrepo-rdssubnet group",
+        "DBSubnetGroupName": "githubrepo-rdssubnet group",
+        "SubnetIds": [
+          {
+            "Fn::ImportValue": "shared:ExportsOutputRefvpcPrivateSubnet1Subnet934893E8236E2271",
+          },
+          {
+            "Fn::ImportValue": "shared:ExportsOutputRefvpcPrivateSubnet2Subnet7031C2BA60DCB1EE",
+          },
+          {
+            "Fn::ImportValue": "shared:ExportsOutputRefvpcPrivateSubnet3Subnet985AC459F9514491",
+          },
+        ],
+      },
+      "Type": "AWS::RDS::DBSubnetGroup",
+    },
+    "ParameterGroup5E32DECB": {
+      "Properties": {
+        "Description": "Parameter group for postgres17",
+        "Family": "postgres17",
+        "Parameters": {},
+      },
+      "Type": "AWS::RDS::DBParameterGroup",
+    },
+    "PostgresDatabase0A8A7373": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "AllocatedStorage": "100",
+        "AllowMajorVersionUpgrade": false,
+        "AutoMinorVersionUpgrade": true,
+        "BackupRetentionPeriod": 14,
+        "CopyTagsToSnapshot": true,
+        "DBInstanceClass": "db.t3.micro",
+        "DBInstanceIdentifier": "workshop",
+        "DBName": "workshop",
+        "DBParameterGroupName": {
+          "Ref": "ParameterGroup5E32DECB",
+        },
+        "DBSubnetGroupName": {
+          "Ref": "DatabaseSubnetGroup",
+        },
+        "DeletionProtection": true,
+        "Engine": "postgres",
+        "EngineVersion": "17.4",
+        "MasterUserPassword": {
+          "Fn::Join": [
+            "",
+            [
+              "{{resolve:secretsmanager:",
+              {
+                "Ref": "postgresqlCredentials71085D2E",
+              },
+              ":SecretString:password::}}",
+            ],
+          ],
+        },
+        "MasterUsername": "masteruser",
+        "MaxAllocatedStorage": 111,
+        "MonitoringInterval": 60,
+        "MonitoringRoleArn": {
+          "Fn::GetAtt": [
+            "PostgresDatabaseMonitoringRole8AB0DCC9",
+            "Arn",
+          ],
+        },
+        "PreferredMaintenanceWindow": "Sun:03:00-Sun:04:00",
+        "PubliclyAccessible": false,
+        "StorageEncrypted": true,
+        "StorageType": "gp2",
+        "Tags": [
+          {
+            "Key": "Environment",
+            "Value": "Production",
+          },
+          {
+            "Key": "Project",
+            "Value": "githubRepo",
+          },
+          {
+            "Key": "StackId",
+            "Value": "m47-githubrepo-rdspostgres-production-stack",
+          },
+        ],
+        "VPCSecurityGroups": [
+          {
+            "Fn::GetAtt": [
+              "databaseSecurityGroupC7B2A60C",
+              "GroupId",
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::RDS::DBInstance",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "PostgresDatabaseMonitoringRole8AB0DCC9": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "monitoring.rds.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AmazonRDSEnhancedMonitoringRole",
+              ],
+            ],
+          },
+        ],
+        "Tags": [
+          {
+            "Key": "Environment",
+            "Value": "Production",
+          },
+          {
+            "Key": "Project",
+            "Value": "githubRepo",
+          },
+          {
+            "Key": "StackId",
+            "Value": "m47-githubrepo-rdspostgres-production-stack",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "apiParameterPostgresConnection9FF9728D": {
+      "Properties": {
+        "AllowedPattern": ".*",
+        "Description": "PostgreSQL string connection Githubrepo DB Production",
+        "Name": "/M47.Githubrepo.Apps.Minimal.Api/Production/Database/ConnectionStrings/WorkshopPostgres",
+        "Tier": "Standard",
+        "Type": "String",
+        "Value": {
+          "Fn::Join": [
+            "",
+            [
+              "host=",
+              {
+                "Fn::GetAtt": [
+                  "PostgresDatabase0A8A7373",
+                  "Endpoint.Address",
+                ],
+              },
+              ";user=masteruser;dbname=workshop;port=",
+              {
+                "Fn::GetAtt": [
+                  "PostgresDatabase0A8A7373",
+                  "Endpoint.Port",
+                ],
+              },
+              ";password={{resolve:secretsmanager:",
+              {
+                "Ref": "postgresqlCredentials71085D2E",
+              },
+              ":SecretString:password::}};sslmode=require;",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::SSM::Parameter",
+    },
+    "databaseSecurityGroupC7B2A60C": {
+      "Properties": {
+        "GroupDescription": "githubRepoDatabase",
+        "GroupName": "githubRepoDatabase",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1",
+          },
+        ],
+        "SecurityGroupIngress": [
+          {
+            "CidrIp": {
+              "Fn::ImportValue": "shared:ExportsOutputFnGetAttvpcA2121C38CidrBlock8A3D0BD6",
+            },
+            "Description": "Allow PostgreSQL inbound from VPC",
+            "FromPort": 5432,
+            "IpProtocol": "tcp",
+            "ToPort": 5432,
+          },
+          {
+            "CidrIp": "10.0.0.0/16",
+            "Description": "Allow PostgreSQL inbound from legacy VPC",
+            "FromPort": 5432,
+            "IpProtocol": "tcp",
+            "ToPort": 5432,
+          },
+        ],
+        "VpcId": {
+          "Fn::ImportValue": "shared:ExportsOutputRefvpcA2121C384D1B3CDE",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "databaseSecurityGroupfromsharedm47githubrepordspostgresproductionstackdatabaseSecurityGroup067E55A7543254326CE9EAE2": {
+      "Properties": {
+        "Description": "tcp5432 PostgreSQL",
+        "FromPort": 5432,
+        "GroupId": {
+          "Fn::GetAtt": [
+            "databaseSecurityGroupC7B2A60C",
+            "GroupId",
+          ],
+        },
+        "IpProtocol": "tcp",
+        "SourceSecurityGroupId": {
+          "Fn::GetAtt": [
+            "databaseSecurityGroupC7B2A60C",
+            "GroupId",
+          ],
+        },
+        "ToPort": 5432,
+      },
+      "Type": "AWS::EC2::SecurityGroupIngress",
+    },
+    "postgresqlCredentials71085D2E": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "Description": "workshopPostgreSQL Database Credentials",
+        "GenerateSecretString": {
+          "ExcludeCharacters": ""@/\\ ';:,=*!()$",
+          "GenerateStringKey": "password",
+          "PasswordLength": 30,
+          "SecretStringTemplate": "{"username":"masteruser"}",
+        },
+        "Name": "workshopPostgresqlCredentialsProduction",
+      },
+      "Type": "AWS::SecretsManager::Secret",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "postgresqlCredentialsAttachment0038AC2B": {
+      "Properties": {
+        "SecretId": {
+          "Ref": "postgresqlCredentials71085D2E",
+        },
+        "TargetId": {
+          "Ref": "PostgresDatabase0A8A7373",
+        },
+        "TargetType": "AWS::RDS::DBInstance",
+      },
+      "Type": "AWS::SecretsManager::SecretTargetAttachment",
+    },
+    "workerParameterPostgresConnection552F442F": {
+      "Properties": {
+        "AllowedPattern": ".*",
+        "Description": "PostgreSQL string connection Githubrepo DB Production",
+        "Name": "/M47.Githubrepo.Apps.WorkerService/Production/Database/ConnectionStrings/WorkshopPostgres",
+        "Tier": "Standard",
+        "Type": "String",
+        "Value": {
+          "Fn::Join": [
+            "",
+            [
+              "host=",
+              {
+                "Fn::GetAtt": [
+                  "PostgresDatabase0A8A7373",
+                  "Endpoint.Address",
+                ],
+              },
+              ";user=masteruser;dbname=workshop;port=",
+              {
+                "Fn::GetAtt": [
+                  "PostgresDatabase0A8A7373",
+                  "Endpoint.Port",
+                ],
+              },
+              ";password={{resolve:secretsmanager:",
+              {
+                "Ref": "postgresqlCredentials71085D2E",
+              },
+              ":SecretString:password::}};sslmode=require;",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::SSM::Parameter",
+    },
+  },
+  "Rules": {
+    "CheckBootstrapVersion": {
+      "Assertions": [
+        {
+          "Assert": {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  {
+                    "Ref": "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
+    },
+  },
+}
+`;

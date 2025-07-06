@@ -1,0 +1,392 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`ApigatewayStack Should_CreateNewApiGateway_When_StackIsCalled: apigatewayEcsStacktest 1`] = `
+{
+  "Outputs": {
+    "EcsRestApitestapigatewayEndpoint6DC0813A": {
+      "Value": {
+        "Fn::Join": [
+          "",
+          [
+            "https://",
+            {
+              "Ref": "EcsRestApitestapigatewayB8EC6526",
+            },
+            ".execute-api.eu-west-1.",
+            {
+              "Ref": "AWS::URLSuffix",
+            },
+            "/",
+            {
+              "Ref": "EcsRestApitestapigatewayDeploymentStageprodBC1873B4",
+            },
+            "/",
+          ],
+        ],
+      },
+    },
+    "apiUrl": {
+      "Value": {
+        "Fn::Join": [
+          "",
+          [
+            "https://",
+            {
+              "Ref": "EcsRestApitestapigatewayB8EC6526",
+            },
+            ".execute-api.eu-west-1.",
+            {
+              "Ref": "AWS::URLSuffix",
+            },
+            "/",
+            {
+              "Ref": "EcsRestApitestapigatewayDeploymentStageprodBC1873B4",
+            },
+            "/",
+          ],
+        ],
+      },
+    },
+    "recordUrl": {
+      "Value": "https://shared-api-test.some.test",
+    },
+  },
+  "Parameters": {
+    "BootstrapVersion": {
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+  },
+  "Resources": {
+    "ARecordtestapigatewayD480FC99": {
+      "Properties": {
+        "AliasTarget": {
+          "DNSName": {
+            "Fn::GetAtt": [
+              "EcsRestApitestapigatewayCustomDomainD5141EBD",
+              "DistributionDomainName",
+            ],
+          },
+          "HostedZoneId": {
+            "Fn::GetAtt": [
+              "EcsRestApitestapigatewayCustomDomainD5141EBD",
+              "DistributionHostedZoneId",
+            ],
+          },
+        },
+        "HostedZoneId": "DUMMY",
+        "Name": "shared-api-test.some.test.",
+        "Type": "A",
+      },
+      "Type": "AWS::Route53::RecordSet",
+    },
+    "ApiGatewayAccessLogstestapigateway87AB4249": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "RetentionInDays": 365,
+      },
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "ApiGatewayErrorAlarmtestapigateway59DB36BD": {
+      "Properties": {
+        "ActionsEnabled": true,
+        "AlarmActions": [
+          {
+            "Ref": "ApiGatewayErrorTopictestapigatewayBD34613D",
+          },
+        ],
+        "AlarmDescription": "API Gateway Error Alarm",
+        "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+        "Dimensions": [
+          {
+            "Name": "ApiName",
+            "Value": "EcsRestApi-test-apigateway",
+          },
+          {
+            "Name": "Stage",
+            "Value": {
+              "Ref": "EcsRestApitestapigatewayDeploymentStageprodBC1873B4",
+            },
+          },
+        ],
+        "EvaluationPeriods": 1,
+        "MetricName": "5XXError",
+        "Namespace": "AWS/ApiGateway",
+        "Period": 300,
+        "Statistic": "Sum",
+        "Threshold": 1,
+      },
+      "Type": "AWS::CloudWatch::Alarm",
+    },
+    "ApiGatewayErrorTopictestapigatewayBD34613D": {
+      "Properties": {
+        "DisplayName": "API Gateway Error Topic",
+      },
+      "Type": "AWS::SNS::Topic",
+    },
+    "EcsRestApitestapigatewayAccountC6E06284": {
+      "DeletionPolicy": "Retain",
+      "DependsOn": [
+        "EcsRestApitestapigatewayB8EC6526",
+      ],
+      "Properties": {
+        "CloudWatchRoleArn": {
+          "Fn::GetAtt": [
+            "EcsRestApitestapigatewayCloudWatchRole4B4E7886",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::ApiGateway::Account",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "EcsRestApitestapigatewayB8EC6526": {
+      "Properties": {
+        "BinaryMediaTypes": [
+          "multipart/form-data",
+        ],
+        "Description": "API Gateway ECS Fargate",
+        "Name": "EcsRestApi-test-apigateway",
+        "Tags": [
+          {
+            "Key": "Environment",
+            "Value": "Test",
+          },
+          {
+            "Key": "Project",
+            "Value": "test",
+          },
+          {
+            "Key": "StackId",
+            "Value": "m47-test-gatewayapistack-test-stack",
+          },
+        ],
+      },
+      "Type": "AWS::ApiGateway::RestApi",
+    },
+    "EcsRestApitestapigatewayCloudWatchRole4B4E7886": {
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "apigateway.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs",
+              ],
+            ],
+          },
+        ],
+        "Tags": [
+          {
+            "Key": "Environment",
+            "Value": "Test",
+          },
+          {
+            "Key": "Project",
+            "Value": "test",
+          },
+          {
+            "Key": "StackId",
+            "Value": "m47-test-gatewayapistack-test-stack",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "EcsRestApitestapigatewayCustomDomainD5141EBD": {
+      "Properties": {
+        "CertificateArn": "arn:aws:acm:us-east-1:account:certificate/someId",
+        "DomainName": "shared-api-test.some.test",
+        "EndpointConfiguration": {
+          "Types": [
+            "EDGE",
+          ],
+        },
+        "Tags": [
+          {
+            "Key": "Environment",
+            "Value": "Test",
+          },
+          {
+            "Key": "Project",
+            "Value": "test",
+          },
+          {
+            "Key": "StackId",
+            "Value": "m47-test-gatewayapistack-test-stack",
+          },
+        ],
+      },
+      "Type": "AWS::ApiGateway::DomainName",
+    },
+    "EcsRestApitestapigatewayCustomDomainMapapigatewayEcsStacktestm47testgatewayapistackteststackEcsRestApitestapigateway5D47165EAC4C9551": {
+      "Properties": {
+        "DomainName": {
+          "Ref": "EcsRestApitestapigatewayCustomDomainD5141EBD",
+        },
+        "RestApiId": {
+          "Ref": "EcsRestApitestapigatewayB8EC6526",
+        },
+        "Stage": {
+          "Ref": "EcsRestApitestapigatewayDeploymentStageprodBC1873B4",
+        },
+      },
+      "Type": "AWS::ApiGateway::BasePathMapping",
+    },
+    "EcsRestApitestapigatewayDeployment62CBAB02a43d96a34d9c81891b28160d49fd5bc2": {
+      "DependsOn": [
+        "EcsRestApitestapigatewayproxyANY5EF5721D",
+        "EcsRestApitestapigatewayproxyDC3B8397",
+      ],
+      "Metadata": {
+        "aws:cdk:do-not-refactor": true,
+      },
+      "Properties": {
+        "Description": "API Gateway ECS Fargate",
+        "RestApiId": {
+          "Ref": "EcsRestApitestapigatewayB8EC6526",
+        },
+      },
+      "Type": "AWS::ApiGateway::Deployment",
+    },
+    "EcsRestApitestapigatewayDeploymentStageprodBC1873B4": {
+      "DependsOn": [
+        "EcsRestApitestapigatewayAccountC6E06284",
+      ],
+      "Properties": {
+        "AccessLogSetting": {
+          "DestinationArn": {
+            "Fn::GetAtt": [
+              "ApiGatewayAccessLogstestapigateway87AB4249",
+              "Arn",
+            ],
+          },
+          "Format": "$context.identity.sourceIp $context.identity.caller $context.identity.user [$context.requestTime] "$context.httpMethod $context.resourcePath $context.protocol" $context.status $context.responseLength $context.requestId",
+        },
+        "DeploymentId": {},
+        "RestApiId": {
+          "Ref": "EcsRestApitestapigatewayB8EC6526",
+        },
+        "StageName": "prod",
+        "Tags": [
+          {
+            "Key": "Environment",
+            "Value": "Test",
+          },
+          {
+            "Key": "Project",
+            "Value": "test",
+          },
+          {
+            "Key": "StackId",
+            "Value": "m47-test-gatewayapistack-test-stack",
+          },
+        ],
+      },
+      "Type": "AWS::ApiGateway::Stage",
+    },
+    "EcsRestApitestapigatewayproxyANY5EF5721D": {
+      "Properties": {
+        "AuthorizationType": "NONE",
+        "HttpMethod": "ANY",
+        "Integration": {
+          "ConnectionId": {
+            "Ref": "VpcLinktestapigatewayCD7D21E9",
+          },
+          "ConnectionType": "VPC_LINK",
+          "IntegrationHttpMethod": "ANY",
+          "RequestParameters": {
+            "integration.request.path.proxy": "method.request.path.proxy",
+          },
+          "Type": "HTTP_PROXY",
+          "Uri": "http://my-load-balancer-1234567890.us-west-2.elb.amazonaws.com/{proxy}",
+        },
+        "RequestParameters": {
+          "method.request.path.proxy": true,
+        },
+        "ResourceId": {
+          "Ref": "EcsRestApitestapigatewayproxyDC3B8397",
+        },
+        "RestApiId": {
+          "Ref": "EcsRestApitestapigatewayB8EC6526",
+        },
+      },
+      "Type": "AWS::ApiGateway::Method",
+    },
+    "EcsRestApitestapigatewayproxyDC3B8397": {
+      "Properties": {
+        "ParentId": {
+          "Fn::GetAtt": [
+            "EcsRestApitestapigatewayB8EC6526",
+            "RootResourceId",
+          ],
+        },
+        "PathPart": "{proxy+}",
+        "RestApiId": {
+          "Ref": "EcsRestApitestapigatewayB8EC6526",
+        },
+      },
+      "Type": "AWS::ApiGateway::Resource",
+    },
+    "VpcLinktestapigatewayCD7D21E9": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "Description": "VPC Link to the NLB",
+        "Name": "VpcLink-test-apigateway",
+        "TargetArns": [
+          "arn:aws:elasticloadbalancing:us-west-2:123456789012:loadbalancer/network/my-load-balancer/50dc6c495c0c9188",
+        ],
+      },
+      "Type": "AWS::ApiGateway::VpcLink",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+  "Rules": {
+    "CheckBootstrapVersion": {
+      "Assertions": [
+        {
+          "Assert": {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  {
+                    "Ref": "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
+    },
+  },
+}
+`;

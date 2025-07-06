@@ -1,0 +1,594 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ApigatewayStack Should_CreateNewApiGateway_When_StackIsCalled: apigatewaystacktest 1`] = `
+{
+  "Outputs": {
+    "LambdaRestApitestapigatewayEndpointCEA80E3A": {
+      "Value": {
+        "Fn::Join": [
+          "",
+          [
+            "https://",
+            {
+              "Ref": "LambdaRestApitestapigatewayA4C007A6",
+            },
+            ".execute-api.eu-west-1.",
+            {
+              "Ref": "AWS::URLSuffix",
+            },
+            "/",
+            {
+              "Ref": "LambdaRestApitestapigatewayDeploymentStageprodB8CB301B",
+            },
+            "/",
+          ],
+        ],
+      },
+    },
+    "apiUrl": {
+      "Value": {
+        "Fn::Join": [
+          "",
+          [
+            "https://",
+            {
+              "Ref": "LambdaRestApitestapigatewayA4C007A6",
+            },
+            ".execute-api.eu-west-1.",
+            {
+              "Ref": "AWS::URLSuffix",
+            },
+            "/",
+            {
+              "Ref": "LambdaRestApitestapigatewayDeploymentStageprodB8CB301B",
+            },
+            "/",
+          ],
+        ],
+      },
+    },
+    "recordUrl": {
+      "Value": "https://shared-api-test.test.com",
+    },
+  },
+  "Parameters": {
+    "BootstrapVersion": {
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+  },
+  "Resources": {
+    "ARecordtestapigatewayD480FC99": {
+      "Properties": {
+        "AliasTarget": {
+          "DNSName": {
+            "Fn::GetAtt": [
+              "LambdaRestApitestapigatewayCustomDomainA5A41848",
+              "DistributionDomainName",
+            ],
+          },
+          "HostedZoneId": {
+            "Fn::GetAtt": [
+              "LambdaRestApitestapigatewayCustomDomainA5A41848",
+              "DistributionHostedZoneId",
+            ],
+          },
+        },
+        "HostedZoneId": "DUMMY",
+        "Name": "shared-api-test.test.com.",
+        "Type": "A",
+      },
+      "Type": "AWS::Route53::RecordSet",
+    },
+    "ApiGatewayAccessLogsFB871B4C": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "RetentionInDays": 365,
+      },
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "ApiGatewayErrorAlarmtestapigateway59DB36BD": {
+      "Properties": {
+        "ActionsEnabled": true,
+        "AlarmActions": [
+          {
+            "Ref": "ApiGatewayErrorTopicE8B30FAC",
+          },
+        ],
+        "AlarmDescription": "API Gateway Error Alarm",
+        "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+        "Dimensions": [
+          {
+            "Name": "ApiName",
+            "Value": "LambdaRestApi-test-apigateway",
+          },
+          {
+            "Name": "Stage",
+            "Value": {
+              "Ref": "LambdaRestApitestapigatewayDeploymentStageprodB8CB301B",
+            },
+          },
+        ],
+        "EvaluationPeriods": 1,
+        "MetricName": "5XXError",
+        "Namespace": "AWS/ApiGateway",
+        "Period": 300,
+        "Statistic": "Sum",
+        "Threshold": 1,
+      },
+      "Type": "AWS::CloudWatch::Alarm",
+    },
+    "ApiGatewayErrorTopicE8B30FAC": {
+      "Properties": {
+        "DisplayName": "API Gateway Error Topic",
+      },
+      "Type": "AWS::SNS::Topic",
+    },
+    "LambdaFunctionErrorAlarmtestapigateway8E385A12": {
+      "Properties": {
+        "ActionsEnabled": true,
+        "AlarmActions": [
+          {
+            "Ref": "ApiGatewayErrorTopicE8B30FAC",
+          },
+        ],
+        "AlarmDescription": "Lambda Function Error Alarm",
+        "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+        "Dimensions": [
+          {
+            "Name": "FunctionName",
+            "Value": {
+              "Fn::ImportValue": "apigatewaystacktest:ExportsOutputReftestapigatewayfunctionBB07AC3DCA481E53",
+            },
+          },
+        ],
+        "EvaluationPeriods": 1,
+        "MetricName": "Errors",
+        "Namespace": "AWS/Lambda",
+        "Period": 300,
+        "Statistic": "Sum",
+        "Threshold": 1,
+      },
+      "Type": "AWS::CloudWatch::Alarm",
+    },
+    "LambdaRestApitestapigatewayA4C007A6": {
+      "Properties": {
+        "BinaryMediaTypes": [
+          "multipart/form-data",
+        ],
+        "Name": "LambdaRestApi-test-apigateway",
+        "Tags": [
+          {
+            "Key": "Environment",
+            "Value": "Test",
+          },
+          {
+            "Key": "Project",
+            "Value": "test",
+          },
+          {
+            "Key": "StackId",
+            "Value": "m47-test-gatewayapistack-test-stack",
+          },
+        ],
+      },
+      "Type": "AWS::ApiGateway::RestApi",
+    },
+    "LambdaRestApitestapigatewayANYApiPermissionTestapigatewaystacktestm47testgatewayapistackteststackLambdaRestApitestapigateway9CB0C57BANY9D6D55E8": {
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::ImportValue": "apigatewaystacktest:ExportsOutputFnGetAtttestapigatewayfunctionBB07AC3DArn231706FC",
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:eu-west-1:account:",
+              {
+                "Ref": "LambdaRestApitestapigatewayA4C007A6",
+              },
+              "/test-invoke-stage/*/",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "LambdaRestApitestapigatewayANYApiPermissionapigatewaystacktestm47testgatewayapistackteststackLambdaRestApitestapigateway9CB0C57BANY0BE7F24E": {
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::ImportValue": "apigatewaystacktest:ExportsOutputFnGetAtttestapigatewayfunctionBB07AC3DArn231706FC",
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:eu-west-1:account:",
+              {
+                "Ref": "LambdaRestApitestapigatewayA4C007A6",
+              },
+              "/",
+              {
+                "Ref": "LambdaRestApitestapigatewayDeploymentStageprodB8CB301B",
+              },
+              "/*/",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "LambdaRestApitestapigatewayANYDC59B3DA": {
+      "Properties": {
+        "AuthorizationType": "NONE",
+        "HttpMethod": "ANY",
+        "Integration": {
+          "IntegrationHttpMethod": "POST",
+          "Type": "AWS_PROXY",
+          "Uri": {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":apigateway:eu-west-1:lambda:path/2015-03-31/functions/",
+                {
+                  "Fn::ImportValue": "apigatewaystacktest:ExportsOutputFnGetAtttestapigatewayfunctionBB07AC3DArn231706FC",
+                },
+                "/invocations",
+              ],
+            ],
+          },
+        },
+        "ResourceId": {
+          "Fn::GetAtt": [
+            "LambdaRestApitestapigatewayA4C007A6",
+            "RootResourceId",
+          ],
+        },
+        "RestApiId": {
+          "Ref": "LambdaRestApitestapigatewayA4C007A6",
+        },
+      },
+      "Type": "AWS::ApiGateway::Method",
+    },
+    "LambdaRestApitestapigatewayAccount4AA07316": {
+      "DeletionPolicy": "Retain",
+      "DependsOn": [
+        "LambdaRestApitestapigatewayA4C007A6",
+      ],
+      "Properties": {
+        "CloudWatchRoleArn": {
+          "Fn::GetAtt": [
+            "LambdaRestApitestapigatewayCloudWatchRoleA99FF14C",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::ApiGateway::Account",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "LambdaRestApitestapigatewayCloudWatchRoleA99FF14C": {
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "apigateway.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs",
+              ],
+            ],
+          },
+        ],
+        "Tags": [
+          {
+            "Key": "Environment",
+            "Value": "Test",
+          },
+          {
+            "Key": "Project",
+            "Value": "test",
+          },
+          {
+            "Key": "StackId",
+            "Value": "m47-test-gatewayapistack-test-stack",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "LambdaRestApitestapigatewayCustomDomainA5A41848": {
+      "Properties": {
+        "CertificateArn": "arn:aws:acm:us-east-1:account:certificate/someid",
+        "DomainName": "shared-api-test.test.com",
+        "EndpointConfiguration": {
+          "Types": [
+            "EDGE",
+          ],
+        },
+        "Tags": [
+          {
+            "Key": "Environment",
+            "Value": "Test",
+          },
+          {
+            "Key": "Project",
+            "Value": "test",
+          },
+          {
+            "Key": "StackId",
+            "Value": "m47-test-gatewayapistack-test-stack",
+          },
+        ],
+      },
+      "Type": "AWS::ApiGateway::DomainName",
+    },
+    "LambdaRestApitestapigatewayCustomDomainMapapigatewaystacktestm47testgatewayapistackteststackLambdaRestApitestapigateway9CB0C57BD5D7FBF6": {
+      "Properties": {
+        "DomainName": {
+          "Ref": "LambdaRestApitestapigatewayCustomDomainA5A41848",
+        },
+        "RestApiId": {
+          "Ref": "LambdaRestApitestapigatewayA4C007A6",
+        },
+        "Stage": {
+          "Ref": "LambdaRestApitestapigatewayDeploymentStageprodB8CB301B",
+        },
+      },
+      "Type": "AWS::ApiGateway::BasePathMapping",
+    },
+    "LambdaRestApitestapigatewayOPTIONSDD1E4163": {
+      "Properties": {
+        "ApiKeyRequired": false,
+        "AuthorizationType": "NONE",
+        "HttpMethod": "OPTIONS",
+        "Integration": {
+          "IntegrationResponses": [
+            {
+              "ResponseParameters": {
+                "method.response.header.Access-Control-Allow-Credentials": "'true'",
+                "method.response.header.Access-Control-Allow-Headers": "'Cache-Control,Content-Language,Content-Type,Expires,Last-Modified,Pragma,Acceptencoding,Authorization,X-Amz-Date,X-Api-Key,X-Forwarded-For'",
+                "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'",
+                "method.response.header.Access-Control-Allow-Origin": "'*'",
+              },
+              "StatusCode": "204",
+            },
+          ],
+          "RequestTemplates": {
+            "application/json": "{ statusCode: 200 }",
+          },
+          "Type": "MOCK",
+        },
+        "MethodResponses": [
+          {
+            "ResponseParameters": {
+              "method.response.header.Access-Control-Allow-Credentials": true,
+              "method.response.header.Access-Control-Allow-Headers": true,
+              "method.response.header.Access-Control-Allow-Methods": true,
+              "method.response.header.Access-Control-Allow-Origin": true,
+            },
+            "StatusCode": "204",
+          },
+        ],
+        "ResourceId": {
+          "Fn::GetAtt": [
+            "LambdaRestApitestapigatewayA4C007A6",
+            "RootResourceId",
+          ],
+        },
+        "RestApiId": {
+          "Ref": "LambdaRestApitestapigatewayA4C007A6",
+        },
+      },
+      "Type": "AWS::ApiGateway::Method",
+    },
+    "LambdaRestApitestapigatewayproxy278F93EA": {
+      "Properties": {
+        "ParentId": {
+          "Fn::GetAtt": [
+            "LambdaRestApitestapigatewayA4C007A6",
+            "RootResourceId",
+          ],
+        },
+        "PathPart": "{proxy+}",
+        "RestApiId": {
+          "Ref": "LambdaRestApitestapigatewayA4C007A6",
+        },
+      },
+      "Type": "AWS::ApiGateway::Resource",
+    },
+    "LambdaRestApitestapigatewayproxyANYApiPermissionTestapigatewaystacktestm47testgatewayapistackteststackLambdaRestApitestapigateway9CB0C57BANYproxy4077DB5D": {
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::ImportValue": "apigatewaystacktest:ExportsOutputFnGetAtttestapigatewayfunctionBB07AC3DArn231706FC",
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:eu-west-1:account:",
+              {
+                "Ref": "LambdaRestApitestapigatewayA4C007A6",
+              },
+              "/test-invoke-stage/*/*",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "LambdaRestApitestapigatewayproxyANYApiPermissionapigatewaystacktestm47testgatewayapistackteststackLambdaRestApitestapigateway9CB0C57BANYproxy8C18D3A8": {
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::ImportValue": "apigatewaystacktest:ExportsOutputFnGetAtttestapigatewayfunctionBB07AC3DArn231706FC",
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:eu-west-1:account:",
+              {
+                "Ref": "LambdaRestApitestapigatewayA4C007A6",
+              },
+              "/",
+              {
+                "Ref": "LambdaRestApitestapigatewayDeploymentStageprodB8CB301B",
+              },
+              "/*/*",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "LambdaRestApitestapigatewayproxyANYF4B4EAE7": {
+      "Properties": {
+        "AuthorizationType": "NONE",
+        "HttpMethod": "ANY",
+        "Integration": {
+          "IntegrationHttpMethod": "POST",
+          "Type": "AWS_PROXY",
+          "Uri": {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":apigateway:eu-west-1:lambda:path/2015-03-31/functions/",
+                {
+                  "Fn::ImportValue": "apigatewaystacktest:ExportsOutputFnGetAtttestapigatewayfunctionBB07AC3DArn231706FC",
+                },
+                "/invocations",
+              ],
+            ],
+          },
+        },
+        "ResourceId": {
+          "Ref": "LambdaRestApitestapigatewayproxy278F93EA",
+        },
+        "RestApiId": {
+          "Ref": "LambdaRestApitestapigatewayA4C007A6",
+        },
+      },
+      "Type": "AWS::ApiGateway::Method",
+    },
+    "LambdaRestApitestapigatewayproxyOPTIONSC2A4259B": {
+      "Properties": {
+        "ApiKeyRequired": false,
+        "AuthorizationType": "NONE",
+        "HttpMethod": "OPTIONS",
+        "Integration": {
+          "IntegrationResponses": [
+            {
+              "ResponseParameters": {
+                "method.response.header.Access-Control-Allow-Credentials": "'true'",
+                "method.response.header.Access-Control-Allow-Headers": "'Cache-Control,Content-Language,Content-Type,Expires,Last-Modified,Pragma,Acceptencoding,Authorization,X-Amz-Date,X-Api-Key,X-Forwarded-For'",
+                "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'",
+                "method.response.header.Access-Control-Allow-Origin": "'*'",
+              },
+              "StatusCode": "204",
+            },
+          ],
+          "RequestTemplates": {
+            "application/json": "{ statusCode: 200 }",
+          },
+          "Type": "MOCK",
+        },
+        "MethodResponses": [
+          {
+            "ResponseParameters": {
+              "method.response.header.Access-Control-Allow-Credentials": true,
+              "method.response.header.Access-Control-Allow-Headers": true,
+              "method.response.header.Access-Control-Allow-Methods": true,
+              "method.response.header.Access-Control-Allow-Origin": true,
+            },
+            "StatusCode": "204",
+          },
+        ],
+        "ResourceId": {
+          "Ref": "LambdaRestApitestapigatewayproxy278F93EA",
+        },
+        "RestApiId": {
+          "Ref": "LambdaRestApitestapigatewayA4C007A6",
+        },
+      },
+      "Type": "AWS::ApiGateway::Method",
+    },
+  },
+  "Rules": {
+    "CheckBootstrapVersion": {
+      "Assertions": [
+        {
+          "Assert": {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  {
+                    "Ref": "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
+    },
+  },
+}
+`;

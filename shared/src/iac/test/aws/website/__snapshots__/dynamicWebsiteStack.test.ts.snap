@@ -1,0 +1,722 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`DynamicWebsiteStack Should_CreateLambdaAndApiGateway_When_StackIsCreated: dynamicwebsitestacktest 1`] = `
+{
+  "Outputs": {
+    "SsrRestApitestdynamicwebsiteEndpoint4FFCAB2C": {
+      "Value": {
+        "Fn::Join": [
+          "",
+          [
+            "https://",
+            {
+              "Ref": "SsrRestApitestdynamicwebsiteE322047A",
+            },
+            ".execute-api.us-east-1.",
+            {
+              "Ref": "AWS::URLSuffix",
+            },
+            "/",
+            {
+              "Ref": "SsrRestApitestdynamicwebsiteDeploymentStageprod088066C6",
+            },
+            "/",
+          ],
+        ],
+      },
+    },
+  },
+  "Parameters": {
+    "BootstrapVersion": {
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+  },
+  "Resources": {
+    "ARecordtestdynamicwebsite36E5982E": {
+      "Properties": {
+        "AliasTarget": {
+          "DNSName": {
+            "Fn::GetAtt": [
+              "SsrRestApitestdynamicwebsiteCustomDomain6E9CFF83",
+              "DistributionDomainName",
+            ],
+          },
+          "HostedZoneId": {
+            "Fn::GetAtt": [
+              "SsrRestApitestdynamicwebsiteCustomDomain6E9CFF83",
+              "DistributionHostedZoneId",
+            ],
+          },
+        },
+        "HostedZoneId": "Z1234567890ABC",
+        "Name": "website-test.example.com.",
+        "Type": "A",
+      },
+      "Type": "AWS::Route53::RecordSet",
+    },
+    "ApiGatewayAccessLogsFB871B4C": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "RetentionInDays": 365,
+      },
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "LambdaRole3A44B857": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "LambdaRoleDefaultPolicy75625A82": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents",
+              ],
+              "Effect": "Allow",
+              "Resource": "arn:aws:logs:*:*:*",
+            },
+            {
+              "Action": [
+                "ec2:CreateNetworkInterface",
+                "ec2:DescribeNetworkInterfaces",
+                "ec2:DeleteNetworkInterface",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "LambdaRoleDefaultPolicy75625A82",
+        "Roles": [
+          {
+            "Ref": "LambdaRole3A44B857",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "SecurityGrouptestdynamicwebsite28AF3389": {
+      "Properties": {
+        "GroupDescription": "test-dynamic-website-SecurityGroup",
+        "GroupName": "test-dynamic-website-SecurityGroup",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow HTTPS outbound",
+            "FromPort": 443,
+            "IpProtocol": "tcp",
+            "ToPort": 443,
+          },
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow HTTP outbound",
+            "FromPort": 80,
+            "IpProtocol": "tcp",
+            "ToPort": 80,
+          },
+        ],
+        "VpcId": {
+          "Fn::ImportValue": "dynamicwebsitestack:ExportsOutputRefvpcA2121C384D1B3CDE",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "SsrLambdaFunction4886C5BE": {
+      "DependsOn": [
+        "LambdaRoleDefaultPolicy75625A82",
+        "LambdaRole3A44B857",
+      ],
+      "Properties": {
+        "Code": {
+          "ImageUri": {
+            "Fn::Sub": "account.dkr.ecr.us-east-1.\${AWS::URLSuffix}/cdk-hnb659fds-container-assets-account-us-east-1:HASH-NORMALIZED-FOR-TESTING",
+          },
+        },
+        "Environment": {
+          "Variables": {
+            "NODE_ENV": "development",
+            "TEST_VAR": "test-value",
+          },
+        },
+        "FunctionName": "website-test-ssr-test",
+        "MemorySize": 512,
+        "PackageType": "Image",
+        "Role": {
+          "Fn::GetAtt": [
+            "LambdaRole3A44B857",
+            "Arn",
+          ],
+        },
+        "Tags": [
+          {
+            "Key": "Environment",
+            "Value": "Test",
+          },
+          {
+            "Key": "Project",
+            "Value": "test",
+          },
+          {
+            "Key": "StackId",
+            "Value": "m47-test-dynamicwebsitestack-test-stack",
+          },
+        ],
+        "Timeout": 30,
+        "VpcConfig": {
+          "SecurityGroupIds": [
+            {
+              "Fn::GetAtt": [
+                "SecurityGrouptestdynamicwebsite28AF3389",
+                "GroupId",
+              ],
+            },
+          ],
+          "SubnetIds": [
+            {
+              "Fn::ImportValue": "dynamicwebsitestack:ExportsOutputRefvpcPrivateSubnet1Subnet934893E8236E2271",
+            },
+            {
+              "Fn::ImportValue": "dynamicwebsitestack:ExportsOutputRefvpcPrivateSubnet2Subnet7031C2BA60DCB1EE",
+            },
+            {
+              "Fn::ImportValue": "dynamicwebsitestack:ExportsOutputRefvpcPrivateSubnet3Subnet985AC459F9514491",
+            },
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "SsrRestApitestdynamicwebsiteANYApiPermissionTestdynamicwebsitestackm47testdynamicwebsitestackteststackSsrRestApitestdynamicwebsiteEC31DC7FANY61356FCA": {
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "SsrLambdaFunction4886C5BE",
+            "Arn",
+          ],
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:us-east-1:account:",
+              {
+                "Ref": "SsrRestApitestdynamicwebsiteE322047A",
+              },
+              "/test-invoke-stage/*/",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "SsrRestApitestdynamicwebsiteANYApiPermissiondynamicwebsitestackm47testdynamicwebsitestackteststackSsrRestApitestdynamicwebsiteEC31DC7FANYB1D8A301": {
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "SsrLambdaFunction4886C5BE",
+            "Arn",
+          ],
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:us-east-1:account:",
+              {
+                "Ref": "SsrRestApitestdynamicwebsiteE322047A",
+              },
+              "/",
+              {
+                "Ref": "SsrRestApitestdynamicwebsiteDeploymentStageprod088066C6",
+              },
+              "/*/",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "SsrRestApitestdynamicwebsiteANYF08D86F5": {
+      "Properties": {
+        "AuthorizationType": "NONE",
+        "HttpMethod": "ANY",
+        "Integration": {
+          "IntegrationHttpMethod": "POST",
+          "Type": "AWS_PROXY",
+          "Uri": {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+                {
+                  "Fn::GetAtt": [
+                    "SsrLambdaFunction4886C5BE",
+                    "Arn",
+                  ],
+                },
+                "/invocations",
+              ],
+            ],
+          },
+        },
+        "ResourceId": {
+          "Fn::GetAtt": [
+            "SsrRestApitestdynamicwebsiteE322047A",
+            "RootResourceId",
+          ],
+        },
+        "RestApiId": {
+          "Ref": "SsrRestApitestdynamicwebsiteE322047A",
+        },
+      },
+      "Type": "AWS::ApiGateway::Method",
+    },
+    "SsrRestApitestdynamicwebsiteAccount2643C295": {
+      "DeletionPolicy": "Retain",
+      "DependsOn": [
+        "SsrRestApitestdynamicwebsiteE322047A",
+      ],
+      "Properties": {
+        "CloudWatchRoleArn": {
+          "Fn::GetAtt": [
+            "SsrRestApitestdynamicwebsiteCloudWatchRole06EDF10F",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::ApiGateway::Account",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "SsrRestApitestdynamicwebsiteCloudWatchRole06EDF10F": {
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "apigateway.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs",
+              ],
+            ],
+          },
+        ],
+        "Tags": [
+          {
+            "Key": "Environment",
+            "Value": "Test",
+          },
+          {
+            "Key": "Project",
+            "Value": "test",
+          },
+          {
+            "Key": "StackId",
+            "Value": "m47-test-dynamicwebsitestack-test-stack",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "SsrRestApitestdynamicwebsiteCustomDomain6E9CFF83": {
+      "Properties": {
+        "CertificateArn": "arn:aws:acm:us-east-1:account:certificate/someid",
+        "DomainName": "website-test.example.com",
+        "EndpointConfiguration": {
+          "Types": [
+            "EDGE",
+          ],
+        },
+        "Tags": [
+          {
+            "Key": "Environment",
+            "Value": "Test",
+          },
+          {
+            "Key": "Project",
+            "Value": "test",
+          },
+          {
+            "Key": "StackId",
+            "Value": "m47-test-dynamicwebsitestack-test-stack",
+          },
+        ],
+      },
+      "Type": "AWS::ApiGateway::DomainName",
+    },
+    "SsrRestApitestdynamicwebsiteCustomDomainMapdynamicwebsitestackm47testdynamicwebsitestackteststackSsrRestApitestdynamicwebsiteEC31DC7F9294C551": {
+      "Properties": {
+        "DomainName": {
+          "Ref": "SsrRestApitestdynamicwebsiteCustomDomain6E9CFF83",
+        },
+        "RestApiId": {
+          "Ref": "SsrRestApitestdynamicwebsiteE322047A",
+        },
+        "Stage": {
+          "Ref": "SsrRestApitestdynamicwebsiteDeploymentStageprod088066C6",
+        },
+      },
+      "Type": "AWS::ApiGateway::BasePathMapping",
+    },
+    "SsrRestApitestdynamicwebsiteDeployment6BCFA781cadf2ea05a4248c26f5af698d228cf00": {
+      "DependsOn": [
+        "SsrRestApitestdynamicwebsiteproxyANYD02741BA",
+        "SsrRestApitestdynamicwebsiteproxyOPTIONSB1A75B27",
+        "SsrRestApitestdynamicwebsiteproxy2CEFAC0B",
+        "SsrRestApitestdynamicwebsiteANYF08D86F5",
+        "SsrRestApitestdynamicwebsiteOPTIONS93F1B843",
+      ],
+      "Metadata": {
+        "aws:cdk:do-not-refactor": true,
+      },
+      "Properties": {
+        "Description": "Automatically created by the RestApi construct",
+        "RestApiId": {
+          "Ref": "SsrRestApitestdynamicwebsiteE322047A",
+        },
+      },
+      "Type": "AWS::ApiGateway::Deployment",
+    },
+    "SsrRestApitestdynamicwebsiteDeploymentStageprod088066C6": {
+      "DependsOn": [
+        "SsrRestApitestdynamicwebsiteAccount2643C295",
+      ],
+      "Properties": {
+        "AccessLogSetting": {
+          "DestinationArn": {
+            "Fn::GetAtt": [
+              "ApiGatewayAccessLogsFB871B4C",
+              "Arn",
+            ],
+          },
+          "Format": "$context.identity.sourceIp $context.identity.caller $context.identity.user [$context.requestTime] "$context.httpMethod $context.resourcePath $context.protocol" $context.status $context.responseLength $context.requestId",
+        },
+        "DeploymentId": {
+          "Ref": undefined,
+        },
+        "RestApiId": {
+          "Ref": "SsrRestApitestdynamicwebsiteE322047A",
+        },
+        "StageName": "prod",
+        "Tags": [
+          {
+            "Key": "Environment",
+            "Value": "Test",
+          },
+          {
+            "Key": "Project",
+            "Value": "test",
+          },
+          {
+            "Key": "StackId",
+            "Value": "m47-test-dynamicwebsitestack-test-stack",
+          },
+        ],
+      },
+      "Type": "AWS::ApiGateway::Stage",
+    },
+    "SsrRestApitestdynamicwebsiteE322047A": {
+      "Properties": {
+        "BinaryMediaTypes": [
+          "*/*",
+        ],
+        "Name": "SsrRestApi-test-dynamic-website",
+        "Tags": [
+          {
+            "Key": "Environment",
+            "Value": "Test",
+          },
+          {
+            "Key": "Project",
+            "Value": "test",
+          },
+          {
+            "Key": "StackId",
+            "Value": "m47-test-dynamicwebsitestack-test-stack",
+          },
+        ],
+      },
+      "Type": "AWS::ApiGateway::RestApi",
+    },
+    "SsrRestApitestdynamicwebsiteOPTIONS93F1B843": {
+      "Properties": {
+        "ApiKeyRequired": false,
+        "AuthorizationType": "NONE",
+        "HttpMethod": "OPTIONS",
+        "Integration": {
+          "IntegrationResponses": [
+            {
+              "ResponseParameters": {
+                "method.response.header.Access-Control-Allow-Credentials": "'true'",
+                "method.response.header.Access-Control-Allow-Headers": "'Cache-Control,Content-Language,Content-Type,Expires,Last-Modified,Pragma,Authorization,X-Amz-Date,X-Api-Key,X-Forwarded-For'",
+                "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'",
+                "method.response.header.Access-Control-Allow-Origin": "'*'",
+              },
+              "StatusCode": "204",
+            },
+          ],
+          "RequestTemplates": {
+            "application/json": "{ statusCode: 200 }",
+          },
+          "Type": "MOCK",
+        },
+        "MethodResponses": [
+          {
+            "ResponseParameters": {
+              "method.response.header.Access-Control-Allow-Credentials": true,
+              "method.response.header.Access-Control-Allow-Headers": true,
+              "method.response.header.Access-Control-Allow-Methods": true,
+              "method.response.header.Access-Control-Allow-Origin": true,
+            },
+            "StatusCode": "204",
+          },
+        ],
+        "ResourceId": {
+          "Fn::GetAtt": [
+            "SsrRestApitestdynamicwebsiteE322047A",
+            "RootResourceId",
+          ],
+        },
+        "RestApiId": {
+          "Ref": "SsrRestApitestdynamicwebsiteE322047A",
+        },
+      },
+      "Type": "AWS::ApiGateway::Method",
+    },
+    "SsrRestApitestdynamicwebsiteproxy2CEFAC0B": {
+      "Properties": {
+        "ParentId": {
+          "Fn::GetAtt": [
+            "SsrRestApitestdynamicwebsiteE322047A",
+            "RootResourceId",
+          ],
+        },
+        "PathPart": "{proxy+}",
+        "RestApiId": {
+          "Ref": "SsrRestApitestdynamicwebsiteE322047A",
+        },
+      },
+      "Type": "AWS::ApiGateway::Resource",
+    },
+    "SsrRestApitestdynamicwebsiteproxyANYApiPermissionTestdynamicwebsitestackm47testdynamicwebsitestackteststackSsrRestApitestdynamicwebsiteEC31DC7FANYproxy5BACC110": {
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "SsrLambdaFunction4886C5BE",
+            "Arn",
+          ],
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:us-east-1:account:",
+              {
+                "Ref": "SsrRestApitestdynamicwebsiteE322047A",
+              },
+              "/test-invoke-stage/*/*",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "SsrRestApitestdynamicwebsiteproxyANYApiPermissiondynamicwebsitestackm47testdynamicwebsitestackteststackSsrRestApitestdynamicwebsiteEC31DC7FANYproxy06BA2C0D": {
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "SsrLambdaFunction4886C5BE",
+            "Arn",
+          ],
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:us-east-1:account:",
+              {
+                "Ref": "SsrRestApitestdynamicwebsiteE322047A",
+              },
+              "/",
+              {
+                "Ref": "SsrRestApitestdynamicwebsiteDeploymentStageprod088066C6",
+              },
+              "/*/*",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "SsrRestApitestdynamicwebsiteproxyANYD02741BA": {
+      "Properties": {
+        "AuthorizationType": "NONE",
+        "HttpMethod": "ANY",
+        "Integration": {
+          "IntegrationHttpMethod": "POST",
+          "Type": "AWS_PROXY",
+          "Uri": {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+                {
+                  "Fn::GetAtt": [
+                    "SsrLambdaFunction4886C5BE",
+                    "Arn",
+                  ],
+                },
+                "/invocations",
+              ],
+            ],
+          },
+        },
+        "ResourceId": {
+          "Ref": "SsrRestApitestdynamicwebsiteproxy2CEFAC0B",
+        },
+        "RestApiId": {
+          "Ref": "SsrRestApitestdynamicwebsiteE322047A",
+        },
+      },
+      "Type": "AWS::ApiGateway::Method",
+    },
+    "SsrRestApitestdynamicwebsiteproxyOPTIONSB1A75B27": {
+      "Properties": {
+        "ApiKeyRequired": false,
+        "AuthorizationType": "NONE",
+        "HttpMethod": "OPTIONS",
+        "Integration": {
+          "IntegrationResponses": [
+            {
+              "ResponseParameters": {
+                "method.response.header.Access-Control-Allow-Credentials": "'true'",
+                "method.response.header.Access-Control-Allow-Headers": "'Cache-Control,Content-Language,Content-Type,Expires,Last-Modified,Pragma,Authorization,X-Amz-Date,X-Api-Key,X-Forwarded-For'",
+                "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'",
+                "method.response.header.Access-Control-Allow-Origin": "'*'",
+              },
+              "StatusCode": "204",
+            },
+          ],
+          "RequestTemplates": {
+            "application/json": "{ statusCode: 200 }",
+          },
+          "Type": "MOCK",
+        },
+        "MethodResponses": [
+          {
+            "ResponseParameters": {
+              "method.response.header.Access-Control-Allow-Credentials": true,
+              "method.response.header.Access-Control-Allow-Headers": true,
+              "method.response.header.Access-Control-Allow-Methods": true,
+              "method.response.header.Access-Control-Allow-Origin": true,
+            },
+            "StatusCode": "204",
+          },
+        ],
+        "ResourceId": {
+          "Ref": "SsrRestApitestdynamicwebsiteproxy2CEFAC0B",
+        },
+        "RestApiId": {
+          "Ref": "SsrRestApitestdynamicwebsiteE322047A",
+        },
+      },
+      "Type": "AWS::ApiGateway::Method",
+    },
+  },
+  "Rules": {
+    "CheckBootstrapVersion": {
+      "Assertions": [
+        {
+          "Assert": {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  {
+                    "Ref": "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
+    },
+  },
+}
+`;

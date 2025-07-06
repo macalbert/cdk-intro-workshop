@@ -1,0 +1,3752 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FargateStack Should_ConfigureContainerWithPortMapping_When_ContainerPortIsSpecified: FargateStackWithPortMapping 1`] = `
+{
+  "Parameters": {
+    "BootstrapVersion": {
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+  },
+  "Resources": {
+    "ClusterEB0386A7": {
+      "Properties": {
+        "ClusterName": "test-cluster",
+        "ClusterSettings": [
+          {
+            "Name": "containerInsights",
+            "Value": "enabled",
+          },
+        ],
+      },
+      "Type": "AWS::ECS::Cluster",
+    },
+    "FargateContainerRole2B900156": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ecs-tasks.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "RoleName": "stackNameTest-TaskRole-Test",
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "FargateContainerRoleDefaultPolicyA183E47D": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "*",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": [
+                "ecr:BatchCheckLayerAvailability",
+                "ecr:GetDownloadUrlForLayer",
+                "ecr:BatchGetImage",
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":ecr:",
+                    {
+                      "Ref": "AWS::Region",
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":repository/",
+                    {
+                      "Fn::Sub": "cdk-hnb659fds-container-assets-\${AWS::AccountId}-\${AWS::Region}",
+                    },
+                  ],
+                ],
+              },
+            },
+            {
+              "Action": "ecr:GetAuthorizationToken",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": [
+                "logs:CreateLogStream",
+                "logs:PutLogEvents",
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "testmyfargatestacktestF786578C",
+                  "Arn",
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "FargateContainerRoleDefaultPolicyA183E47D",
+        "Roles": [
+          {
+            "Ref": "FargateContainerRole2B900156",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "MyFargateStackTaskDefinitionTest754067BB": {
+      "Properties": {
+        "ContainerDefinitions": [
+          {
+            "Environment": [
+              {
+                "Name": "ASPNETCORE_ENVIRONMENT",
+                "Value": "Test",
+              },
+              {
+                "Name": "BUCKET_NAME",
+                "Value": "",
+              },
+            ],
+            "Essential": true,
+            "Image": {
+              "Fn::Join": [
+                "",
+                [
+                  {
+                    "Ref": "AWS::AccountId",
+                  },
+                  ".dkr.ecr.",
+                  {
+                    "Ref": "AWS::Region",
+                  },
+                  ".",
+                  {
+                    "Ref": "AWS::URLSuffix",
+                  },
+                  "/",
+                  {
+                    "Fn::Sub": "cdk-hnb659fds-container-assets-\${AWS::AccountId}-\${AWS::Region}",
+                  },
+                  ":NORMALIZED_DOCKER_HASH",
+                ],
+              ],
+            },
+            "LogConfiguration": {
+              "LogDriver": "awslogs",
+              "Options": {
+                "awslogs-group": {
+                  "Ref": "testmyfargatestacktestF786578C",
+                },
+                "awslogs-region": {
+                  "Ref": "AWS::Region",
+                },
+                "awslogs-stream-prefix": "aws/ecs/test/test/myfargatestack",
+              },
+            },
+            "Name": "MyFargateStackContainer",
+            "PortMappings": [
+              {
+                "ContainerPort": 8080,
+                "Protocol": "tcp",
+              },
+            ],
+          },
+        ],
+        "Cpu": "256",
+        "ExecutionRoleArn": {
+          "Fn::GetAtt": [
+            "FargateContainerRole2B900156",
+            "Arn",
+          ],
+        },
+        "Family": "test-myfargatestack-test",
+        "Memory": "512",
+        "NetworkMode": "awsvpc",
+        "RequiresCompatibilities": [
+          "FARGATE",
+        ],
+        "TaskRoleArn": {
+          "Fn::GetAtt": [
+            "FargateContainerRole2B900156",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::ECS::TaskDefinition",
+    },
+    "servicestacknametestServiceFC030095": {
+      "DependsOn": [
+        "FargateContainerRoleDefaultPolicyA183E47D",
+        "FargateContainerRole2B900156",
+      ],
+      "Properties": {
+        "CapacityProviderStrategy": [
+          {
+            "CapacityProvider": "FARGATE_SPOT",
+            "Weight": 1,
+          },
+        ],
+        "Cluster": {
+          "Ref": "ClusterEB0386A7",
+        },
+        "DeploymentConfiguration": {
+          "Alarms": {
+            "AlarmNames": [],
+            "Enable": false,
+            "Rollback": false,
+          },
+          "MaximumPercent": 200,
+          "MinimumHealthyPercent": 100,
+        },
+        "EnableECSManagedTags": false,
+        "NetworkConfiguration": {
+          "AwsvpcConfiguration": {
+            "AssignPublicIp": "DISABLED",
+            "SecurityGroups": [
+              {
+                "Fn::GetAtt": [
+                  "sgstacknametest75C73875",
+                  "GroupId",
+                ],
+              },
+            ],
+            "Subnets": [
+              {
+                "Fn::ImportValue": "FargateStackWithPortMapping:ExportsOutputRefvpcPrivateSubnet1Subnet934893E8236E2271",
+              },
+              {
+                "Fn::ImportValue": "FargateStackWithPortMapping:ExportsOutputRefvpcPrivateSubnet2Subnet7031C2BA60DCB1EE",
+              },
+            ],
+          },
+        },
+        "PlatformVersion": "LATEST",
+        "ServiceName": "MyFargateService",
+        "TaskDefinition": {
+          "Ref": "MyFargateStackTaskDefinitionTest754067BB",
+        },
+      },
+      "Type": "AWS::ECS::Service",
+    },
+    "sgstacknametest75C73875": {
+      "Properties": {
+        "GroupDescription": "Allow all traffic",
+        "GroupName": "stackNameTest-sg",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1",
+          },
+        ],
+        "SecurityGroupIngress": [
+          {
+            "CidrIp": {
+              "Fn::ImportValue": "FargateStackWithPortMapping:ExportsOutputFnGetAttvpcA2121C38CidrBlock8A3D0BD6",
+            },
+            "Description": "Allow all traffic from VPC",
+            "IpProtocol": "-1",
+          },
+        ],
+        "VpcId": {
+          "Fn::ImportValue": "FargateStackWithPortMapping:ExportsOutputRefvpcA2121C384D1B3CDE",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "testmyfargatestacktestF786578C": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "LogGroupName": "test-myfargatestack-test",
+        "RetentionInDays": 365,
+      },
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+  "Rules": {
+    "CheckBootstrapVersion": {
+      "Assertions": [
+        {
+          "Assert": {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  {
+                    "Ref": "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
+    },
+  },
+}
+`;
+
+exports[`FargateStack Should_ConfigureContainerWithTelemetrySidecar_When_TelemetryIsEnabled: FargateStackWithTelemetry 1`] = `
+{
+  "Parameters": {
+    "BootstrapVersion": {
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+  },
+  "Resources": {
+    "ClusterEB0386A7": {
+      "Properties": {
+        "ClusterName": "test-cluster",
+        "ClusterSettings": [
+          {
+            "Name": "containerInsights",
+            "Value": "enabled",
+          },
+        ],
+      },
+      "Type": "AWS::ECS::Cluster",
+    },
+    "FargateContainerRole2B900156": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ecs-tasks.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "RoleName": "stackNameTest-TaskRole-Test",
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "FargateContainerRoleDefaultPolicyA183E47D": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "*",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": [
+                "ecr:BatchCheckLayerAvailability",
+                "ecr:GetDownloadUrlForLayer",
+                "ecr:BatchGetImage",
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":ecr:",
+                    {
+                      "Ref": "AWS::Region",
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":repository/",
+                    {
+                      "Fn::Sub": "cdk-hnb659fds-container-assets-\${AWS::AccountId}-\${AWS::Region}",
+                    },
+                  ],
+                ],
+              },
+            },
+            {
+              "Action": "ecr:GetAuthorizationToken",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": [
+                "logs:CreateLogStream",
+                "logs:PutLogEvents",
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "testmyfargatestacktestF786578C",
+                  "Arn",
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "FargateContainerRoleDefaultPolicyA183E47D",
+        "Roles": [
+          {
+            "Ref": "FargateContainerRole2B900156",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "MyFargateStackTaskDefinitionTest754067BB": {
+      "Properties": {
+        "ContainerDefinitions": [
+          {
+            "Environment": [
+              {
+                "Name": "ASPNETCORE_ENVIRONMENT",
+                "Value": "Test",
+              },
+              {
+                "Name": "BUCKET_NAME",
+                "Value": "",
+              },
+            ],
+            "Essential": true,
+            "Image": {
+              "Fn::Join": [
+                "",
+                [
+                  {
+                    "Ref": "AWS::AccountId",
+                  },
+                  ".dkr.ecr.",
+                  {
+                    "Ref": "AWS::Region",
+                  },
+                  ".",
+                  {
+                    "Ref": "AWS::URLSuffix",
+                  },
+                  "/",
+                  {
+                    "Fn::Sub": "cdk-hnb659fds-container-assets-\${AWS::AccountId}-\${AWS::Region}",
+                  },
+                  ":NORMALIZED_DOCKER_HASH",
+                ],
+              ],
+            },
+            "LogConfiguration": {
+              "LogDriver": "awslogs",
+              "Options": {
+                "awslogs-group": {
+                  "Ref": "testmyfargatestacktestF786578C",
+                },
+                "awslogs-region": {
+                  "Ref": "AWS::Region",
+                },
+                "awslogs-stream-prefix": "aws/ecs/test/test/myfargatestack",
+              },
+            },
+            "Name": "MyFargateStackContainer",
+          },
+          {
+            "Environment": [
+              {
+                "Name": "OTEL_EXPORTER_OTLP_ENDPOINT",
+                "Value": "http://localhost:4318",
+              },
+            ],
+            "Essential": true,
+            "Image": "amazon/aws-otel-collector",
+            "Name": "MyFargateStackSidecar",
+          },
+        ],
+        "Cpu": "256",
+        "ExecutionRoleArn": {
+          "Fn::GetAtt": [
+            "FargateContainerRole2B900156",
+            "Arn",
+          ],
+        },
+        "Family": "test-myfargatestack-test",
+        "Memory": "512",
+        "NetworkMode": "awsvpc",
+        "RequiresCompatibilities": [
+          "FARGATE",
+        ],
+        "TaskRoleArn": {
+          "Fn::GetAtt": [
+            "FargateContainerRole2B900156",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::ECS::TaskDefinition",
+    },
+    "servicestacknametestServiceFC030095": {
+      "DependsOn": [
+        "FargateContainerRoleDefaultPolicyA183E47D",
+        "FargateContainerRole2B900156",
+      ],
+      "Properties": {
+        "CapacityProviderStrategy": [
+          {
+            "CapacityProvider": "FARGATE_SPOT",
+            "Weight": 1,
+          },
+        ],
+        "Cluster": {
+          "Ref": "ClusterEB0386A7",
+        },
+        "DeploymentConfiguration": {
+          "Alarms": {
+            "AlarmNames": [],
+            "Enable": false,
+            "Rollback": false,
+          },
+          "MaximumPercent": 200,
+          "MinimumHealthyPercent": 100,
+        },
+        "EnableECSManagedTags": false,
+        "NetworkConfiguration": {
+          "AwsvpcConfiguration": {
+            "AssignPublicIp": "DISABLED",
+            "SecurityGroups": [
+              {
+                "Fn::GetAtt": [
+                  "sgstacknametest75C73875",
+                  "GroupId",
+                ],
+              },
+            ],
+            "Subnets": [
+              {
+                "Fn::ImportValue": "FargateStackWithTelemetry:ExportsOutputRefvpcPrivateSubnet1Subnet934893E8236E2271",
+              },
+              {
+                "Fn::ImportValue": "FargateStackWithTelemetry:ExportsOutputRefvpcPrivateSubnet2Subnet7031C2BA60DCB1EE",
+              },
+            ],
+          },
+        },
+        "PlatformVersion": "LATEST",
+        "ServiceName": "MyFargateService",
+        "TaskDefinition": {
+          "Ref": "MyFargateStackTaskDefinitionTest754067BB",
+        },
+      },
+      "Type": "AWS::ECS::Service",
+    },
+    "sgstacknametest75C73875": {
+      "Properties": {
+        "GroupDescription": "Allow all traffic",
+        "GroupName": "stackNameTest-sg",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1",
+          },
+        ],
+        "SecurityGroupIngress": [
+          {
+            "CidrIp": {
+              "Fn::ImportValue": "FargateStackWithTelemetry:ExportsOutputFnGetAttvpcA2121C38CidrBlock8A3D0BD6",
+            },
+            "Description": "Allow all traffic from VPC",
+            "IpProtocol": "-1",
+          },
+        ],
+        "VpcId": {
+          "Fn::ImportValue": "FargateStackWithTelemetry:ExportsOutputRefvpcA2121C384D1B3CDE",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "testmyfargatestacktestF786578C": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "LogGroupName": "test-myfargatestack-test",
+        "RetentionInDays": 365,
+      },
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+  "Rules": {
+    "CheckBootstrapVersion": {
+      "Assertions": [
+        {
+          "Assert": {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  {
+                    "Ref": "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
+    },
+  },
+}
+`;
+
+exports[`FargateStack Should_ConfigureCustomMaxCapacity_When_MaxCapacityIsSpecified: FargateStackWithCustomCapacity 1`] = `
+{
+  "Parameters": {
+    "BootstrapVersion": {
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+  },
+  "Resources": {
+    "ClusterEB0386A7": {
+      "Properties": {
+        "ClusterName": "test-cluster",
+        "ClusterSettings": [
+          {
+            "Name": "containerInsights",
+            "Value": "enabled",
+          },
+        ],
+      },
+      "Type": "AWS::ECS::Cluster",
+    },
+    "FargateContainerRole2B900156": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ecs-tasks.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "RoleName": "stackNameTest-TaskRole-Test",
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "FargateContainerRoleDefaultPolicyA183E47D": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "*",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": [
+                "ecr:BatchCheckLayerAvailability",
+                "ecr:GetDownloadUrlForLayer",
+                "ecr:BatchGetImage",
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":ecr:",
+                    {
+                      "Ref": "AWS::Region",
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":repository/",
+                    {
+                      "Fn::Sub": "cdk-hnb659fds-container-assets-\${AWS::AccountId}-\${AWS::Region}",
+                    },
+                  ],
+                ],
+              },
+            },
+            {
+              "Action": "ecr:GetAuthorizationToken",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": [
+                "logs:CreateLogStream",
+                "logs:PutLogEvents",
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "testmyfargatestacktestF786578C",
+                  "Arn",
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "FargateContainerRoleDefaultPolicyA183E47D",
+        "Roles": [
+          {
+            "Ref": "FargateContainerRole2B900156",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "MyFargateStackTaskDefinitionTest754067BB": {
+      "Properties": {
+        "ContainerDefinitions": [
+          {
+            "Environment": [
+              {
+                "Name": "ASPNETCORE_ENVIRONMENT",
+                "Value": "Test",
+              },
+              {
+                "Name": "BUCKET_NAME",
+                "Value": "",
+              },
+            ],
+            "Essential": true,
+            "Image": {
+              "Fn::Join": [
+                "",
+                [
+                  {
+                    "Ref": "AWS::AccountId",
+                  },
+                  ".dkr.ecr.",
+                  {
+                    "Ref": "AWS::Region",
+                  },
+                  ".",
+                  {
+                    "Ref": "AWS::URLSuffix",
+                  },
+                  "/",
+                  {
+                    "Fn::Sub": "cdk-hnb659fds-container-assets-\${AWS::AccountId}-\${AWS::Region}",
+                  },
+                  ":NORMALIZED_DOCKER_HASH",
+                ],
+              ],
+            },
+            "LogConfiguration": {
+              "LogDriver": "awslogs",
+              "Options": {
+                "awslogs-group": {
+                  "Ref": "testmyfargatestacktestF786578C",
+                },
+                "awslogs-region": {
+                  "Ref": "AWS::Region",
+                },
+                "awslogs-stream-prefix": "aws/ecs/test/test/myfargatestack",
+              },
+            },
+            "Name": "MyFargateStackContainer",
+          },
+        ],
+        "Cpu": "256",
+        "ExecutionRoleArn": {
+          "Fn::GetAtt": [
+            "FargateContainerRole2B900156",
+            "Arn",
+          ],
+        },
+        "Family": "test-myfargatestack-test",
+        "Memory": "512",
+        "NetworkMode": "awsvpc",
+        "RequiresCompatibilities": [
+          "FARGATE",
+        ],
+        "TaskRoleArn": {
+          "Fn::GetAtt": [
+            "FargateContainerRole2B900156",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::ECS::TaskDefinition",
+    },
+    "servicestacknametestServiceFC030095": {
+      "DependsOn": [
+        "FargateContainerRoleDefaultPolicyA183E47D",
+        "FargateContainerRole2B900156",
+      ],
+      "Properties": {
+        "CapacityProviderStrategy": [
+          {
+            "CapacityProvider": "FARGATE_SPOT",
+            "Weight": 1,
+          },
+        ],
+        "Cluster": {
+          "Ref": "ClusterEB0386A7",
+        },
+        "DeploymentConfiguration": {
+          "Alarms": {
+            "AlarmNames": [],
+            "Enable": false,
+            "Rollback": false,
+          },
+          "MaximumPercent": 200,
+          "MinimumHealthyPercent": 100,
+        },
+        "EnableECSManagedTags": false,
+        "NetworkConfiguration": {
+          "AwsvpcConfiguration": {
+            "AssignPublicIp": "DISABLED",
+            "SecurityGroups": [
+              {
+                "Fn::GetAtt": [
+                  "sgstacknametest75C73875",
+                  "GroupId",
+                ],
+              },
+            ],
+            "Subnets": [
+              {
+                "Fn::ImportValue": "FargateStackWithCustomCapacity:ExportsOutputRefvpcPrivateSubnet1Subnet934893E8236E2271",
+              },
+              {
+                "Fn::ImportValue": "FargateStackWithCustomCapacity:ExportsOutputRefvpcPrivateSubnet2Subnet7031C2BA60DCB1EE",
+              },
+            ],
+          },
+        },
+        "PlatformVersion": "LATEST",
+        "ServiceName": "MyFargateService",
+        "TaskDefinition": {
+          "Ref": "MyFargateStackTaskDefinitionTest754067BB",
+        },
+      },
+      "Type": "AWS::ECS::Service",
+    },
+    "servicestacknametestTaskCountTarget0CC6F028": {
+      "DependsOn": [
+        "FargateContainerRoleDefaultPolicyA183E47D",
+        "FargateContainerRole2B900156",
+      ],
+      "Properties": {
+        "MaxCapacity": 5,
+        "MinCapacity": 0,
+        "ResourceId": {
+          "Fn::Join": [
+            "",
+            [
+              "service/",
+              {
+                "Ref": "ClusterEB0386A7",
+              },
+              "/",
+              {
+                "Fn::GetAtt": [
+                  "servicestacknametestServiceFC030095",
+                  "Name",
+                ],
+              },
+            ],
+          ],
+        },
+        "RoleARN": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition",
+              },
+              ":iam::",
+              {
+                "Ref": "AWS::AccountId",
+              },
+              ":role/aws-service-role/ecs.application-autoscaling.amazonaws.com/AWSServiceRoleForApplicationAutoScaling_ECSService",
+            ],
+          ],
+        },
+        "ScalableDimension": "ecs:service:DesiredCount",
+        "ServiceNamespace": "ecs",
+      },
+      "Type": "AWS::ApplicationAutoScaling::ScalableTarget",
+    },
+    "servicestacknametestTaskCountTargetScaleInLowerAlarm453823CA": {
+      "DependsOn": [
+        "FargateContainerRoleDefaultPolicyA183E47D",
+        "FargateContainerRole2B900156",
+      ],
+      "Properties": {
+        "AlarmActions": [
+          {
+            "Ref": "servicestacknametestTaskCountTargetScaleInLowerPolicyF7F59B14",
+          },
+        ],
+        "AlarmDescription": "Lower threshold scaling alarm",
+        "ComparisonOperator": "LessThanOrEqualToThreshold",
+        "DatapointsToAlarm": 3,
+        "EvaluationPeriods": 3,
+        "Metrics": [
+          {
+            "Expression": "IF(m1 + m2 > 0, 1, 0)",
+            "Id": "expr_1",
+            "Label": "ApproximateNumberOfMessages-my-queue",
+            "ReturnData": true,
+          },
+          {
+            "Id": "m1",
+            "MetricStat": {
+              "Metric": {
+                "Dimensions": [
+                  {
+                    "Name": "QueueName",
+                    "Value": "my-queue",
+                  },
+                ],
+                "MetricName": "ApproximateNumberOfMessagesVisible",
+                "Namespace": "AWS/SQS",
+              },
+              "Period": 60,
+              "Stat": "Sum",
+            },
+            "ReturnData": false,
+          },
+          {
+            "Id": "m2",
+            "MetricStat": {
+              "Metric": {
+                "Dimensions": [
+                  {
+                    "Name": "QueueName",
+                    "Value": "my-queue",
+                  },
+                ],
+                "MetricName": "ApproximateNumberOfMessagesNotVisible",
+                "Namespace": "AWS/SQS",
+              },
+              "Period": 60,
+              "Stat": "Sum",
+            },
+            "ReturnData": false,
+          },
+        ],
+        "Threshold": 0,
+      },
+      "Type": "AWS::CloudWatch::Alarm",
+    },
+    "servicestacknametestTaskCountTargetScaleInLowerPolicyF7F59B14": {
+      "DependsOn": [
+        "FargateContainerRoleDefaultPolicyA183E47D",
+        "FargateContainerRole2B900156",
+      ],
+      "Properties": {
+        "PolicyName": "FargateStackWithCustomCapacitym47testmyfargatestackteststackservicestacknametestTaskCountTargetScaleInLowerPolicy7F42AEB4",
+        "PolicyType": "StepScaling",
+        "ScalingTargetId": {
+          "Ref": "servicestacknametestTaskCountTarget0CC6F028",
+        },
+        "StepScalingPolicyConfiguration": {
+          "AdjustmentType": "ChangeInCapacity",
+          "Cooldown": 900,
+          "MetricAggregationType": "Average",
+          "StepAdjustments": [
+            {
+              "MetricIntervalUpperBound": 0,
+              "ScalingAdjustment": -1,
+            },
+          ],
+        },
+      },
+      "Type": "AWS::ApplicationAutoScaling::ScalingPolicy",
+    },
+    "servicestacknametestTaskCountTargetScaleOutUpperAlarm9704ED03": {
+      "DependsOn": [
+        "FargateContainerRoleDefaultPolicyA183E47D",
+        "FargateContainerRole2B900156",
+      ],
+      "Properties": {
+        "AlarmActions": [
+          {
+            "Ref": "servicestacknametestTaskCountTargetScaleOutUpperPolicy8DE26297",
+          },
+        ],
+        "AlarmDescription": "Upper threshold scaling alarm",
+        "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+        "DatapointsToAlarm": 1,
+        "Dimensions": [
+          {
+            "Name": "QueueName",
+            "Value": "my-queue",
+          },
+        ],
+        "EvaluationPeriods": 1,
+        "MetricName": "ApproximateNumberOfMessagesVisible",
+        "Namespace": "AWS/SQS",
+        "Period": 10,
+        "Statistic": "Average",
+        "Threshold": 1,
+      },
+      "Type": "AWS::CloudWatch::Alarm",
+    },
+    "servicestacknametestTaskCountTargetScaleOutUpperPolicy8DE26297": {
+      "DependsOn": [
+        "FargateContainerRoleDefaultPolicyA183E47D",
+        "FargateContainerRole2B900156",
+      ],
+      "Properties": {
+        "PolicyName": "FargateStackWithCustomCapacitym47testmyfargatestackteststackservicestacknametestTaskCountTargetScaleOutUpperPolicy538481D5",
+        "PolicyType": "StepScaling",
+        "ScalingTargetId": {
+          "Ref": "servicestacknametestTaskCountTarget0CC6F028",
+        },
+        "StepScalingPolicyConfiguration": {
+          "AdjustmentType": "ChangeInCapacity",
+          "Cooldown": 10,
+          "MetricAggregationType": "Average",
+          "StepAdjustments": [
+            {
+              "MetricIntervalLowerBound": 0,
+              "ScalingAdjustment": 1,
+            },
+          ],
+        },
+      },
+      "Type": "AWS::ApplicationAutoScaling::ScalingPolicy",
+    },
+    "sgstacknametest75C73875": {
+      "Properties": {
+        "GroupDescription": "Allow all traffic",
+        "GroupName": "stackNameTest-sg",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1",
+          },
+        ],
+        "SecurityGroupIngress": [
+          {
+            "CidrIp": {
+              "Fn::ImportValue": "FargateStackWithCustomCapacity:ExportsOutputFnGetAttvpcA2121C38CidrBlock8A3D0BD6",
+            },
+            "Description": "Allow all traffic from VPC",
+            "IpProtocol": "-1",
+          },
+        ],
+        "VpcId": {
+          "Fn::ImportValue": "FargateStackWithCustomCapacity:ExportsOutputRefvpcA2121C384D1B3CDE",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "testmyfargatestacktestF786578C": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "LogGroupName": "test-myfargatestack-test",
+        "RetentionInDays": 365,
+      },
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+  "Rules": {
+    "CheckBootstrapVersion": {
+      "Assertions": [
+        {
+          "Assert": {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  {
+                    "Ref": "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
+    },
+  },
+}
+`;
+
+exports[`FargateStack Should_ConfigureStorageBucketAccess_When_BucketIsProvided: FargateStackWithBucket 1`] = `
+{
+  "Parameters": {
+    "BootstrapVersion": {
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+  },
+  "Resources": {
+    "ClusterEB0386A7": {
+      "Properties": {
+        "ClusterName": "test-cluster",
+        "ClusterSettings": [
+          {
+            "Name": "containerInsights",
+            "Value": "enabled",
+          },
+        ],
+      },
+      "Type": "AWS::ECS::Cluster",
+    },
+    "FargateContainerRole2B900156": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ecs-tasks.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "RoleName": "stackNameTest-TaskRole-Test",
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "FargateContainerRoleDefaultPolicyA183E47D": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "*",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": [
+                "ecr:BatchCheckLayerAvailability",
+                "ecr:GetDownloadUrlForLayer",
+                "ecr:BatchGetImage",
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":ecr:",
+                    {
+                      "Ref": "AWS::Region",
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":repository/",
+                    {
+                      "Fn::Sub": "cdk-hnb659fds-container-assets-\${AWS::AccountId}-\${AWS::Region}",
+                    },
+                  ],
+                ],
+              },
+            },
+            {
+              "Action": "ecr:GetAuthorizationToken",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": [
+                "logs:CreateLogStream",
+                "logs:PutLogEvents",
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "testmyfargatestacktestF786578C",
+                  "Arn",
+                ],
+              },
+            },
+            {
+              "Action": [
+                "s3:GetObject*",
+                "s3:GetBucket*",
+                "s3:List*",
+                "s3:DeleteObject*",
+                "s3:PutObject",
+                "s3:PutObjectLegalHold",
+                "s3:PutObjectRetention",
+                "s3:PutObjectTagging",
+                "s3:PutObjectVersionTagging",
+                "s3:Abort*",
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::ImportValue": "FargateStackWithBucket:ExportsOutputFnGetAttTestBucket560B80BCArnA29F078C",
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::ImportValue": "FargateStackWithBucket:ExportsOutputFnGetAttTestBucket560B80BCArnA29F078C",
+                      },
+                      "/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "FargateContainerRoleDefaultPolicyA183E47D",
+        "Roles": [
+          {
+            "Ref": "FargateContainerRole2B900156",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "MyFargateStackTaskDefinitionTest754067BB": {
+      "Properties": {
+        "ContainerDefinitions": [
+          {
+            "Environment": [
+              {
+                "Name": "ASPNETCORE_ENVIRONMENT",
+                "Value": "Test",
+              },
+              {
+                "Name": "BUCKET_NAME",
+                "Value": {
+                  "Fn::ImportValue": "FargateStackWithBucket:ExportsOutputRefTestBucket560B80BC3F12F1DE",
+                },
+              },
+            ],
+            "Essential": true,
+            "Image": {
+              "Fn::Join": [
+                "",
+                [
+                  {
+                    "Ref": "AWS::AccountId",
+                  },
+                  ".dkr.ecr.",
+                  {
+                    "Ref": "AWS::Region",
+                  },
+                  ".",
+                  {
+                    "Ref": "AWS::URLSuffix",
+                  },
+                  "/",
+                  {
+                    "Fn::Sub": "cdk-hnb659fds-container-assets-\${AWS::AccountId}-\${AWS::Region}",
+                  },
+                  ":NORMALIZED_DOCKER_HASH",
+                ],
+              ],
+            },
+            "LogConfiguration": {
+              "LogDriver": "awslogs",
+              "Options": {
+                "awslogs-group": {
+                  "Ref": "testmyfargatestacktestF786578C",
+                },
+                "awslogs-region": {
+                  "Ref": "AWS::Region",
+                },
+                "awslogs-stream-prefix": "aws/ecs/test/test/myfargatestack",
+              },
+            },
+            "Name": "MyFargateStackContainer",
+          },
+        ],
+        "Cpu": "256",
+        "ExecutionRoleArn": {
+          "Fn::GetAtt": [
+            "FargateContainerRole2B900156",
+            "Arn",
+          ],
+        },
+        "Family": "test-myfargatestack-test",
+        "Memory": "512",
+        "NetworkMode": "awsvpc",
+        "RequiresCompatibilities": [
+          "FARGATE",
+        ],
+        "TaskRoleArn": {
+          "Fn::GetAtt": [
+            "FargateContainerRole2B900156",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::ECS::TaskDefinition",
+    },
+    "servicestacknametestServiceFC030095": {
+      "DependsOn": [
+        "FargateContainerRoleDefaultPolicyA183E47D",
+        "FargateContainerRole2B900156",
+      ],
+      "Properties": {
+        "CapacityProviderStrategy": [
+          {
+            "CapacityProvider": "FARGATE_SPOT",
+            "Weight": 1,
+          },
+        ],
+        "Cluster": {
+          "Ref": "ClusterEB0386A7",
+        },
+        "DeploymentConfiguration": {
+          "Alarms": {
+            "AlarmNames": [],
+            "Enable": false,
+            "Rollback": false,
+          },
+          "MaximumPercent": 200,
+          "MinimumHealthyPercent": 100,
+        },
+        "EnableECSManagedTags": false,
+        "NetworkConfiguration": {
+          "AwsvpcConfiguration": {
+            "AssignPublicIp": "DISABLED",
+            "SecurityGroups": [
+              {
+                "Fn::GetAtt": [
+                  "sgstacknametest75C73875",
+                  "GroupId",
+                ],
+              },
+            ],
+            "Subnets": [
+              {
+                "Fn::ImportValue": "FargateStackWithBucket:ExportsOutputRefvpcPrivateSubnet1Subnet934893E8236E2271",
+              },
+              {
+                "Fn::ImportValue": "FargateStackWithBucket:ExportsOutputRefvpcPrivateSubnet2Subnet7031C2BA60DCB1EE",
+              },
+            ],
+          },
+        },
+        "PlatformVersion": "LATEST",
+        "ServiceName": "MyFargateService",
+        "TaskDefinition": {
+          "Ref": "MyFargateStackTaskDefinitionTest754067BB",
+        },
+      },
+      "Type": "AWS::ECS::Service",
+    },
+    "sgstacknametest75C73875": {
+      "Properties": {
+        "GroupDescription": "Allow all traffic",
+        "GroupName": "stackNameTest-sg",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1",
+          },
+        ],
+        "SecurityGroupIngress": [
+          {
+            "CidrIp": {
+              "Fn::ImportValue": "FargateStackWithBucket:ExportsOutputFnGetAttvpcA2121C38CidrBlock8A3D0BD6",
+            },
+            "Description": "Allow all traffic from VPC",
+            "IpProtocol": "-1",
+          },
+        ],
+        "VpcId": {
+          "Fn::ImportValue": "FargateStackWithBucket:ExportsOutputRefvpcA2121C384D1B3CDE",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "testmyfargatestacktestF786578C": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "LogGroupName": "test-myfargatestack-test",
+        "RetentionInDays": 365,
+      },
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+  "Rules": {
+    "CheckBootstrapVersion": {
+      "Assertions": [
+        {
+          "Assert": {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  {
+                    "Ref": "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
+    },
+  },
+}
+`;
+
+exports[`FargateStack Should_ConfigureWithLoadBalancerAndHttpsListener_When_LoadBalancerArnAndCertificate: FargateStackWithLoadBalancer 1`] = `
+{
+  "Parameters": {
+    "BootstrapVersion": {
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+  },
+  "Resources": {
+    "ClusterEB0386A7": {
+      "Properties": {
+        "ClusterName": "test-cluster",
+        "ClusterSettings": [
+          {
+            "Name": "containerInsights",
+            "Value": "enabled",
+          },
+        ],
+      },
+      "Type": "AWS::ECS::Cluster",
+    },
+    "FargateContainerRole2B900156": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ecs-tasks.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "RoleName": "stackNameTest-TaskRole-Test",
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "FargateContainerRoleDefaultPolicyA183E47D": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "*",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": [
+                "ecr:BatchCheckLayerAvailability",
+                "ecr:GetDownloadUrlForLayer",
+                "ecr:BatchGetImage",
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":ecr:",
+                    {
+                      "Ref": "AWS::Region",
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":repository/",
+                    {
+                      "Fn::Sub": "cdk-hnb659fds-container-assets-\${AWS::AccountId}-\${AWS::Region}",
+                    },
+                  ],
+                ],
+              },
+            },
+            {
+              "Action": "ecr:GetAuthorizationToken",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": [
+                "logs:CreateLogStream",
+                "logs:PutLogEvents",
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "testmyfargatestacktestF786578C",
+                  "Arn",
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "FargateContainerRoleDefaultPolicyA183E47D",
+        "Roles": [
+          {
+            "Ref": "FargateContainerRole2B900156",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "MyFargateStackTaskDefinitionTest754067BB": {
+      "Properties": {
+        "ContainerDefinitions": [
+          {
+            "Environment": [
+              {
+                "Name": "ASPNETCORE_ENVIRONMENT",
+                "Value": "Test",
+              },
+              {
+                "Name": "BUCKET_NAME",
+                "Value": "",
+              },
+            ],
+            "Essential": true,
+            "Image": {
+              "Fn::Join": [
+                "",
+                [
+                  {
+                    "Ref": "AWS::AccountId",
+                  },
+                  ".dkr.ecr.",
+                  {
+                    "Ref": "AWS::Region",
+                  },
+                  ".",
+                  {
+                    "Ref": "AWS::URLSuffix",
+                  },
+                  "/",
+                  {
+                    "Fn::Sub": "cdk-hnb659fds-container-assets-\${AWS::AccountId}-\${AWS::Region}",
+                  },
+                  ":NORMALIZED_DOCKER_HASH",
+                ],
+              ],
+            },
+            "LogConfiguration": {
+              "LogDriver": "awslogs",
+              "Options": {
+                "awslogs-group": {
+                  "Ref": "testmyfargatestacktestF786578C",
+                },
+                "awslogs-region": {
+                  "Ref": "AWS::Region",
+                },
+                "awslogs-stream-prefix": "aws/ecs/test/test/myfargatestack",
+              },
+            },
+            "Name": "MyFargateStackContainer",
+            "PortMappings": [
+              {
+                "ContainerPort": 8080,
+                "Protocol": "tcp",
+              },
+            ],
+          },
+        ],
+        "Cpu": "256",
+        "ExecutionRoleArn": {
+          "Fn::GetAtt": [
+            "FargateContainerRole2B900156",
+            "Arn",
+          ],
+        },
+        "Family": "test-myfargatestack-test",
+        "Memory": "512",
+        "NetworkMode": "awsvpc",
+        "RequiresCompatibilities": [
+          "FARGATE",
+        ],
+        "TaskRoleArn": {
+          "Fn::GetAtt": [
+            "FargateContainerRole2B900156",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::ECS::TaskDefinition",
+    },
+    "NLBListenerhttpsstackNameTestBFB2C9B1": {
+      "Properties": {
+        "Certificates": [
+          {
+            "CertificateArn": "arn:aws:acm:us-west-2:123456789012:certificate/abcdef123456",
+          },
+        ],
+        "DefaultActions": [
+          {
+            "TargetGroupArn": {
+              "Ref": "TargetGroupstackNameTest23B8B08B",
+            },
+            "Type": "forward",
+          },
+        ],
+        "LoadBalancerArn": "arn:aws:elasticloadbalancing:us-west-2:123456789012:loadbalancer/net/my-load-balancer/abcdef123456",
+        "Port": 443,
+        "Protocol": "TLS",
+      },
+      "Type": "AWS::ElasticLoadBalancingV2::Listener",
+    },
+    "NLBListenerstackNameTestE4B92EF8": {
+      "Properties": {
+        "DefaultActions": [
+          {
+            "TargetGroupArn": {
+              "Ref": "TargetGroupstackNameTest23B8B08B",
+            },
+            "Type": "forward",
+          },
+        ],
+        "LoadBalancerArn": "arn:aws:elasticloadbalancing:us-west-2:123456789012:loadbalancer/net/my-load-balancer/abcdef123456",
+        "Port": 80,
+        "Protocol": "TCP",
+      },
+      "Type": "AWS::ElasticLoadBalancingV2::Listener",
+    },
+    "TargetGroupstackNameTest23B8B08B": {
+      "Properties": {
+        "Port": 8080,
+        "Protocol": "TCP",
+        "TargetType": "ip",
+        "VpcId": {
+          "Fn::ImportValue": "FargateStackWithLoadBalancer:ExportsOutputRefvpcA2121C384D1B3CDE",
+        },
+      },
+      "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
+    },
+    "servicestacknametestServiceFC030095": {
+      "DependsOn": [
+        "FargateContainerRoleDefaultPolicyA183E47D",
+        "FargateContainerRole2B900156",
+        "NLBListenerhttpsstackNameTestBFB2C9B1",
+        "NLBListenerstackNameTestE4B92EF8",
+      ],
+      "Properties": {
+        "CapacityProviderStrategy": [
+          {
+            "CapacityProvider": "FARGATE_SPOT",
+            "Weight": 1,
+          },
+        ],
+        "Cluster": {
+          "Ref": "ClusterEB0386A7",
+        },
+        "DeploymentConfiguration": {
+          "Alarms": {
+            "AlarmNames": [],
+            "Enable": false,
+            "Rollback": false,
+          },
+          "MaximumPercent": 200,
+          "MinimumHealthyPercent": 100,
+        },
+        "EnableECSManagedTags": false,
+        "HealthCheckGracePeriodSeconds": 60,
+        "LoadBalancers": [
+          {
+            "ContainerName": "MyFargateStackContainer",
+            "ContainerPort": 8080,
+            "TargetGroupArn": {
+              "Ref": "TargetGroupstackNameTest23B8B08B",
+            },
+          },
+        ],
+        "NetworkConfiguration": {
+          "AwsvpcConfiguration": {
+            "AssignPublicIp": "DISABLED",
+            "SecurityGroups": [
+              {
+                "Fn::GetAtt": [
+                  "sgstacknametest75C73875",
+                  "GroupId",
+                ],
+              },
+            ],
+            "Subnets": [
+              {
+                "Fn::ImportValue": "FargateStackWithLoadBalancer:ExportsOutputRefvpcPrivateSubnet1Subnet934893E8236E2271",
+              },
+              {
+                "Fn::ImportValue": "FargateStackWithLoadBalancer:ExportsOutputRefvpcPrivateSubnet2Subnet7031C2BA60DCB1EE",
+              },
+            ],
+          },
+        },
+        "PlatformVersion": "LATEST",
+        "ServiceName": "MyFargateService",
+        "TaskDefinition": {
+          "Ref": "MyFargateStackTaskDefinitionTest754067BB",
+        },
+      },
+      "Type": "AWS::ECS::Service",
+    },
+    "sgstacknametest75C73875": {
+      "Properties": {
+        "GroupDescription": "Allow all traffic",
+        "GroupName": "stackNameTest-sg",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1",
+          },
+        ],
+        "SecurityGroupIngress": [
+          {
+            "CidrIp": {
+              "Fn::ImportValue": "FargateStackWithLoadBalancer:ExportsOutputFnGetAttvpcA2121C38CidrBlock8A3D0BD6",
+            },
+            "Description": "Allow all traffic from VPC",
+            "IpProtocol": "-1",
+          },
+        ],
+        "VpcId": {
+          "Fn::ImportValue": "FargateStackWithLoadBalancer:ExportsOutputRefvpcA2121C384D1B3CDE",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "testmyfargatestacktestF786578C": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "LogGroupName": "test-myfargatestack-test",
+        "RetentionInDays": 365,
+      },
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+  "Rules": {
+    "CheckBootstrapVersion": {
+      "Assertions": [
+        {
+          "Assert": {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  {
+                    "Ref": "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
+    },
+  },
+}
+`;
+
+exports[`FargateStack Should_CreateFargateServiceWithAutoScaling_When_QueueIsProvided: FargateStack 1`] = `
+{
+  "Parameters": {
+    "BootstrapVersion": {
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+  },
+  "Resources": {
+    "ClusterEB0386A7": {
+      "Properties": {
+        "ClusterName": "test-cluster",
+        "ClusterSettings": [
+          {
+            "Name": "containerInsights",
+            "Value": "enabled",
+          },
+        ],
+      },
+      "Type": "AWS::ECS::Cluster",
+    },
+    "FargateContainerRole2B900156": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ecs-tasks.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "RoleName": "stackNameTest-TaskRole-Test",
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "FargateContainerRoleDefaultPolicyA183E47D": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "*",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": [
+                "ecr:BatchCheckLayerAvailability",
+                "ecr:GetDownloadUrlForLayer",
+                "ecr:BatchGetImage",
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":ecr:",
+                    {
+                      "Ref": "AWS::Region",
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":repository/",
+                    {
+                      "Fn::Sub": "cdk-hnb659fds-container-assets-\${AWS::AccountId}-\${AWS::Region}",
+                    },
+                  ],
+                ],
+              },
+            },
+            {
+              "Action": "ecr:GetAuthorizationToken",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": [
+                "logs:CreateLogStream",
+                "logs:PutLogEvents",
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "testmyfargatestacktestF786578C",
+                  "Arn",
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "FargateContainerRoleDefaultPolicyA183E47D",
+        "Roles": [
+          {
+            "Ref": "FargateContainerRole2B900156",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "MyFargateStackTaskDefinitionTest754067BB": {
+      "Properties": {
+        "ContainerDefinitions": [
+          {
+            "Environment": [
+              {
+                "Name": "ASPNETCORE_ENVIRONMENT",
+                "Value": "Test",
+              },
+              {
+                "Name": "BUCKET_NAME",
+                "Value": "",
+              },
+            ],
+            "Essential": true,
+            "Image": {
+              "Fn::Join": [
+                "",
+                [
+                  {
+                    "Ref": "AWS::AccountId",
+                  },
+                  ".dkr.ecr.",
+                  {
+                    "Ref": "AWS::Region",
+                  },
+                  ".",
+                  {
+                    "Ref": "AWS::URLSuffix",
+                  },
+                  "/",
+                  {
+                    "Fn::Sub": "cdk-hnb659fds-container-assets-\${AWS::AccountId}-\${AWS::Region}",
+                  },
+                  ":NORMALIZED_DOCKER_HASH",
+                ],
+              ],
+            },
+            "LogConfiguration": {
+              "LogDriver": "awslogs",
+              "Options": {
+                "awslogs-group": {
+                  "Ref": "testmyfargatestacktestF786578C",
+                },
+                "awslogs-region": {
+                  "Ref": "AWS::Region",
+                },
+                "awslogs-stream-prefix": "aws/ecs/test/test/myfargatestack",
+              },
+            },
+            "Name": "MyFargateStackContainer",
+          },
+        ],
+        "Cpu": "256",
+        "ExecutionRoleArn": {
+          "Fn::GetAtt": [
+            "FargateContainerRole2B900156",
+            "Arn",
+          ],
+        },
+        "Family": "test-myfargatestack-test",
+        "Memory": "512",
+        "NetworkMode": "awsvpc",
+        "RequiresCompatibilities": [
+          "FARGATE",
+        ],
+        "TaskRoleArn": {
+          "Fn::GetAtt": [
+            "FargateContainerRole2B900156",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::ECS::TaskDefinition",
+    },
+    "servicestacknametestServiceFC030095": {
+      "DependsOn": [
+        "FargateContainerRoleDefaultPolicyA183E47D",
+        "FargateContainerRole2B900156",
+      ],
+      "Properties": {
+        "CapacityProviderStrategy": [
+          {
+            "CapacityProvider": "FARGATE_SPOT",
+            "Weight": 1,
+          },
+        ],
+        "Cluster": {
+          "Ref": "ClusterEB0386A7",
+        },
+        "DeploymentConfiguration": {
+          "Alarms": {
+            "AlarmNames": [],
+            "Enable": false,
+            "Rollback": false,
+          },
+          "MaximumPercent": 200,
+          "MinimumHealthyPercent": 100,
+        },
+        "EnableECSManagedTags": false,
+        "NetworkConfiguration": {
+          "AwsvpcConfiguration": {
+            "AssignPublicIp": "DISABLED",
+            "SecurityGroups": [
+              {
+                "Fn::GetAtt": [
+                  "sgstacknametest75C73875",
+                  "GroupId",
+                ],
+              },
+            ],
+            "Subnets": [
+              {
+                "Fn::ImportValue": "FargateStack:ExportsOutputRefvpcPrivateSubnet1Subnet934893E8236E2271",
+              },
+              {
+                "Fn::ImportValue": "FargateStack:ExportsOutputRefvpcPrivateSubnet2Subnet7031C2BA60DCB1EE",
+              },
+            ],
+          },
+        },
+        "PlatformVersion": "LATEST",
+        "ServiceName": "MyFargateService",
+        "TaskDefinition": {
+          "Ref": "MyFargateStackTaskDefinitionTest754067BB",
+        },
+      },
+      "Type": "AWS::ECS::Service",
+    },
+    "servicestacknametestTaskCountTarget0CC6F028": {
+      "DependsOn": [
+        "FargateContainerRoleDefaultPolicyA183E47D",
+        "FargateContainerRole2B900156",
+      ],
+      "Properties": {
+        "MaxCapacity": 1,
+        "MinCapacity": 0,
+        "ResourceId": {
+          "Fn::Join": [
+            "",
+            [
+              "service/",
+              {
+                "Ref": "ClusterEB0386A7",
+              },
+              "/",
+              {
+                "Fn::GetAtt": [
+                  "servicestacknametestServiceFC030095",
+                  "Name",
+                ],
+              },
+            ],
+          ],
+        },
+        "RoleARN": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition",
+              },
+              ":iam::",
+              {
+                "Ref": "AWS::AccountId",
+              },
+              ":role/aws-service-role/ecs.application-autoscaling.amazonaws.com/AWSServiceRoleForApplicationAutoScaling_ECSService",
+            ],
+          ],
+        },
+        "ScalableDimension": "ecs:service:DesiredCount",
+        "ServiceNamespace": "ecs",
+      },
+      "Type": "AWS::ApplicationAutoScaling::ScalableTarget",
+    },
+    "servicestacknametestTaskCountTargetScaleInLowerAlarm453823CA": {
+      "DependsOn": [
+        "FargateContainerRoleDefaultPolicyA183E47D",
+        "FargateContainerRole2B900156",
+      ],
+      "Properties": {
+        "AlarmActions": [
+          {
+            "Ref": "servicestacknametestTaskCountTargetScaleInLowerPolicyF7F59B14",
+          },
+        ],
+        "AlarmDescription": "Lower threshold scaling alarm",
+        "ComparisonOperator": "LessThanOrEqualToThreshold",
+        "DatapointsToAlarm": 3,
+        "EvaluationPeriods": 3,
+        "Metrics": [
+          {
+            "Expression": "IF(m1 + m2 > 0, 1, 0)",
+            "Id": "expr_1",
+            "Label": "ApproximateNumberOfMessages-my-queue",
+            "ReturnData": true,
+          },
+          {
+            "Id": "m1",
+            "MetricStat": {
+              "Metric": {
+                "Dimensions": [
+                  {
+                    "Name": "QueueName",
+                    "Value": "my-queue",
+                  },
+                ],
+                "MetricName": "ApproximateNumberOfMessagesVisible",
+                "Namespace": "AWS/SQS",
+              },
+              "Period": 60,
+              "Stat": "Sum",
+            },
+            "ReturnData": false,
+          },
+          {
+            "Id": "m2",
+            "MetricStat": {
+              "Metric": {
+                "Dimensions": [
+                  {
+                    "Name": "QueueName",
+                    "Value": "my-queue",
+                  },
+                ],
+                "MetricName": "ApproximateNumberOfMessagesNotVisible",
+                "Namespace": "AWS/SQS",
+              },
+              "Period": 60,
+              "Stat": "Sum",
+            },
+            "ReturnData": false,
+          },
+        ],
+        "Threshold": 0,
+      },
+      "Type": "AWS::CloudWatch::Alarm",
+    },
+    "servicestacknametestTaskCountTargetScaleInLowerPolicyF7F59B14": {
+      "DependsOn": [
+        "FargateContainerRoleDefaultPolicyA183E47D",
+        "FargateContainerRole2B900156",
+      ],
+      "Properties": {
+        "PolicyName": "FargateStackm47testmyfargatestackteststackservicestacknametestTaskCountTargetScaleInLowerPolicyA6DAAC8F",
+        "PolicyType": "StepScaling",
+        "ScalingTargetId": {
+          "Ref": "servicestacknametestTaskCountTarget0CC6F028",
+        },
+        "StepScalingPolicyConfiguration": {
+          "AdjustmentType": "ChangeInCapacity",
+          "Cooldown": 900,
+          "MetricAggregationType": "Average",
+          "StepAdjustments": [
+            {
+              "MetricIntervalUpperBound": 0,
+              "ScalingAdjustment": -1,
+            },
+          ],
+        },
+      },
+      "Type": "AWS::ApplicationAutoScaling::ScalingPolicy",
+    },
+    "servicestacknametestTaskCountTargetScaleOutUpperAlarm9704ED03": {
+      "DependsOn": [
+        "FargateContainerRoleDefaultPolicyA183E47D",
+        "FargateContainerRole2B900156",
+      ],
+      "Properties": {
+        "AlarmActions": [
+          {
+            "Ref": "servicestacknametestTaskCountTargetScaleOutUpperPolicy8DE26297",
+          },
+        ],
+        "AlarmDescription": "Upper threshold scaling alarm",
+        "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+        "DatapointsToAlarm": 1,
+        "Dimensions": [
+          {
+            "Name": "QueueName",
+            "Value": "my-queue",
+          },
+        ],
+        "EvaluationPeriods": 1,
+        "MetricName": "ApproximateNumberOfMessagesVisible",
+        "Namespace": "AWS/SQS",
+        "Period": 10,
+        "Statistic": "Average",
+        "Threshold": 1,
+      },
+      "Type": "AWS::CloudWatch::Alarm",
+    },
+    "servicestacknametestTaskCountTargetScaleOutUpperPolicy8DE26297": {
+      "DependsOn": [
+        "FargateContainerRoleDefaultPolicyA183E47D",
+        "FargateContainerRole2B900156",
+      ],
+      "Properties": {
+        "PolicyName": "FargateStackm47testmyfargatestackteststackservicestacknametestTaskCountTargetScaleOutUpperPolicy8F93758C",
+        "PolicyType": "StepScaling",
+        "ScalingTargetId": {
+          "Ref": "servicestacknametestTaskCountTarget0CC6F028",
+        },
+        "StepScalingPolicyConfiguration": {
+          "AdjustmentType": "ChangeInCapacity",
+          "Cooldown": 10,
+          "MetricAggregationType": "Average",
+          "StepAdjustments": [
+            {
+              "MetricIntervalLowerBound": 0,
+              "ScalingAdjustment": 1,
+            },
+          ],
+        },
+      },
+      "Type": "AWS::ApplicationAutoScaling::ScalingPolicy",
+    },
+    "sgstacknametest75C73875": {
+      "Properties": {
+        "GroupDescription": "Allow all traffic",
+        "GroupName": "stackNameTest-sg",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1",
+          },
+        ],
+        "SecurityGroupIngress": [
+          {
+            "CidrIp": {
+              "Fn::ImportValue": "FargateStack:ExportsOutputFnGetAttvpcA2121C38CidrBlock8A3D0BD6",
+            },
+            "Description": "Allow all traffic from VPC",
+            "IpProtocol": "-1",
+          },
+        ],
+        "VpcId": {
+          "Fn::ImportValue": "FargateStack:ExportsOutputRefvpcA2121C384D1B3CDE",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "testmyfargatestacktestF786578C": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "LogGroupName": "test-myfargatestack-test",
+        "RetentionInDays": 365,
+      },
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+  "Rules": {
+    "CheckBootstrapVersion": {
+      "Assertions": [
+        {
+          "Assert": {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  {
+                    "Ref": "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
+    },
+  },
+}
+`;
+
+exports[`FargateStack Should_CreateFargateServiceWithoutAutoScaling_When_QueueIsNotProvided: FargateStackWithoutAutoScaling 1`] = `
+{
+  "Parameters": {
+    "BootstrapVersion": {
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+  },
+  "Resources": {
+    "ClusterEB0386A7": {
+      "Properties": {
+        "ClusterName": "test-cluster",
+        "ClusterSettings": [
+          {
+            "Name": "containerInsights",
+            "Value": "enabled",
+          },
+        ],
+      },
+      "Type": "AWS::ECS::Cluster",
+    },
+    "FargateContainerRole2B900156": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ecs-tasks.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "RoleName": "stackNameTest-TaskRole-Test",
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "FargateContainerRoleDefaultPolicyA183E47D": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "*",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": [
+                "ecr:BatchCheckLayerAvailability",
+                "ecr:GetDownloadUrlForLayer",
+                "ecr:BatchGetImage",
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":ecr:",
+                    {
+                      "Ref": "AWS::Region",
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":repository/",
+                    {
+                      "Fn::Sub": "cdk-hnb659fds-container-assets-\${AWS::AccountId}-\${AWS::Region}",
+                    },
+                  ],
+                ],
+              },
+            },
+            {
+              "Action": "ecr:GetAuthorizationToken",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": [
+                "logs:CreateLogStream",
+                "logs:PutLogEvents",
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "testmyfargatestacktestF786578C",
+                  "Arn",
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "FargateContainerRoleDefaultPolicyA183E47D",
+        "Roles": [
+          {
+            "Ref": "FargateContainerRole2B900156",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "MyFargateStackTaskDefinitionTest754067BB": {
+      "Properties": {
+        "ContainerDefinitions": [
+          {
+            "Environment": [
+              {
+                "Name": "ASPNETCORE_ENVIRONMENT",
+                "Value": "Test",
+              },
+              {
+                "Name": "BUCKET_NAME",
+                "Value": "",
+              },
+            ],
+            "Essential": true,
+            "Image": {
+              "Fn::Join": [
+                "",
+                [
+                  {
+                    "Ref": "AWS::AccountId",
+                  },
+                  ".dkr.ecr.",
+                  {
+                    "Ref": "AWS::Region",
+                  },
+                  ".",
+                  {
+                    "Ref": "AWS::URLSuffix",
+                  },
+                  "/",
+                  {
+                    "Fn::Sub": "cdk-hnb659fds-container-assets-\${AWS::AccountId}-\${AWS::Region}",
+                  },
+                  ":NORMALIZED_DOCKER_HASH",
+                ],
+              ],
+            },
+            "LogConfiguration": {
+              "LogDriver": "awslogs",
+              "Options": {
+                "awslogs-group": {
+                  "Ref": "testmyfargatestacktestF786578C",
+                },
+                "awslogs-region": {
+                  "Ref": "AWS::Region",
+                },
+                "awslogs-stream-prefix": "aws/ecs/test/test/myfargatestack",
+              },
+            },
+            "Name": "MyFargateStackContainer",
+          },
+        ],
+        "Cpu": "256",
+        "ExecutionRoleArn": {
+          "Fn::GetAtt": [
+            "FargateContainerRole2B900156",
+            "Arn",
+          ],
+        },
+        "Family": "test-myfargatestack-test",
+        "Memory": "512",
+        "NetworkMode": "awsvpc",
+        "RequiresCompatibilities": [
+          "FARGATE",
+        ],
+        "TaskRoleArn": {
+          "Fn::GetAtt": [
+            "FargateContainerRole2B900156",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::ECS::TaskDefinition",
+    },
+    "servicestacknametestServiceFC030095": {
+      "DependsOn": [
+        "FargateContainerRoleDefaultPolicyA183E47D",
+        "FargateContainerRole2B900156",
+      ],
+      "Properties": {
+        "CapacityProviderStrategy": [
+          {
+            "CapacityProvider": "FARGATE_SPOT",
+            "Weight": 1,
+          },
+        ],
+        "Cluster": {
+          "Ref": "ClusterEB0386A7",
+        },
+        "DeploymentConfiguration": {
+          "Alarms": {
+            "AlarmNames": [],
+            "Enable": false,
+            "Rollback": false,
+          },
+          "MaximumPercent": 200,
+          "MinimumHealthyPercent": 100,
+        },
+        "EnableECSManagedTags": false,
+        "NetworkConfiguration": {
+          "AwsvpcConfiguration": {
+            "AssignPublicIp": "DISABLED",
+            "SecurityGroups": [
+              {
+                "Fn::GetAtt": [
+                  "sgstacknametest75C73875",
+                  "GroupId",
+                ],
+              },
+            ],
+            "Subnets": [
+              {
+                "Fn::ImportValue": "FargateStackWithoutAutoScaling:ExportsOutputRefvpcPrivateSubnet1Subnet934893E8236E2271",
+              },
+              {
+                "Fn::ImportValue": "FargateStackWithoutAutoScaling:ExportsOutputRefvpcPrivateSubnet2Subnet7031C2BA60DCB1EE",
+              },
+            ],
+          },
+        },
+        "PlatformVersion": "LATEST",
+        "ServiceName": "MyFargateService",
+        "TaskDefinition": {
+          "Ref": "MyFargateStackTaskDefinitionTest754067BB",
+        },
+      },
+      "Type": "AWS::ECS::Service",
+    },
+    "sgstacknametest75C73875": {
+      "Properties": {
+        "GroupDescription": "Allow all traffic",
+        "GroupName": "stackNameTest-sg",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1",
+          },
+        ],
+        "SecurityGroupIngress": [
+          {
+            "CidrIp": {
+              "Fn::ImportValue": "FargateStackWithoutAutoScaling:ExportsOutputFnGetAttvpcA2121C38CidrBlock8A3D0BD6",
+            },
+            "Description": "Allow all traffic from VPC",
+            "IpProtocol": "-1",
+          },
+        ],
+        "VpcId": {
+          "Fn::ImportValue": "FargateStackWithoutAutoScaling:ExportsOutputRefvpcA2121C384D1B3CDE",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "testmyfargatestacktestF786578C": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "LogGroupName": "test-myfargatestack-test",
+        "RetentionInDays": 365,
+      },
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+  "Rules": {
+    "CheckBootstrapVersion": {
+      "Assertions": [
+        {
+          "Assert": {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  {
+                    "Ref": "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
+    },
+  },
+}
+`;
+
+exports[`FargateStack Should_IncludeRdsSecurityGroup_When_RdsSecurityGroupIdIsSpecified: FargateStackWithRdsSg 1`] = `
+{
+  "Parameters": {
+    "BootstrapVersion": {
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+  },
+  "Resources": {
+    "ClusterEB0386A7": {
+      "Properties": {
+        "ClusterName": "test-cluster",
+        "ClusterSettings": [
+          {
+            "Name": "containerInsights",
+            "Value": "enabled",
+          },
+        ],
+      },
+      "Type": "AWS::ECS::Cluster",
+    },
+    "FargateContainerRole2B900156": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ecs-tasks.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "RoleName": "stackNameTest-TaskRole-Test",
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "FargateContainerRoleDefaultPolicyA183E47D": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "*",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": [
+                "ecr:BatchCheckLayerAvailability",
+                "ecr:GetDownloadUrlForLayer",
+                "ecr:BatchGetImage",
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":ecr:",
+                    {
+                      "Ref": "AWS::Region",
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":repository/",
+                    {
+                      "Fn::Sub": "cdk-hnb659fds-container-assets-\${AWS::AccountId}-\${AWS::Region}",
+                    },
+                  ],
+                ],
+              },
+            },
+            {
+              "Action": "ecr:GetAuthorizationToken",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": [
+                "logs:CreateLogStream",
+                "logs:PutLogEvents",
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "testmyfargatestacktestF786578C",
+                  "Arn",
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "FargateContainerRoleDefaultPolicyA183E47D",
+        "Roles": [
+          {
+            "Ref": "FargateContainerRole2B900156",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "MyFargateStackTaskDefinitionTest754067BB": {
+      "Properties": {
+        "ContainerDefinitions": [
+          {
+            "Environment": [
+              {
+                "Name": "ASPNETCORE_ENVIRONMENT",
+                "Value": "Test",
+              },
+              {
+                "Name": "BUCKET_NAME",
+                "Value": "",
+              },
+            ],
+            "Essential": true,
+            "Image": {
+              "Fn::Join": [
+                "",
+                [
+                  {
+                    "Ref": "AWS::AccountId",
+                  },
+                  ".dkr.ecr.",
+                  {
+                    "Ref": "AWS::Region",
+                  },
+                  ".",
+                  {
+                    "Ref": "AWS::URLSuffix",
+                  },
+                  "/",
+                  {
+                    "Fn::Sub": "cdk-hnb659fds-container-assets-\${AWS::AccountId}-\${AWS::Region}",
+                  },
+                  ":NORMALIZED_DOCKER_HASH",
+                ],
+              ],
+            },
+            "LogConfiguration": {
+              "LogDriver": "awslogs",
+              "Options": {
+                "awslogs-group": {
+                  "Ref": "testmyfargatestacktestF786578C",
+                },
+                "awslogs-region": {
+                  "Ref": "AWS::Region",
+                },
+                "awslogs-stream-prefix": "aws/ecs/test/test/myfargatestack",
+              },
+            },
+            "Name": "MyFargateStackContainer",
+          },
+        ],
+        "Cpu": "256",
+        "ExecutionRoleArn": {
+          "Fn::GetAtt": [
+            "FargateContainerRole2B900156",
+            "Arn",
+          ],
+        },
+        "Family": "test-myfargatestack-test",
+        "Memory": "512",
+        "NetworkMode": "awsvpc",
+        "RequiresCompatibilities": [
+          "FARGATE",
+        ],
+        "TaskRoleArn": {
+          "Fn::GetAtt": [
+            "FargateContainerRole2B900156",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::ECS::TaskDefinition",
+    },
+    "servicestacknametestServiceFC030095": {
+      "DependsOn": [
+        "FargateContainerRoleDefaultPolicyA183E47D",
+        "FargateContainerRole2B900156",
+      ],
+      "Properties": {
+        "CapacityProviderStrategy": [
+          {
+            "CapacityProvider": "FARGATE_SPOT",
+            "Weight": 1,
+          },
+        ],
+        "Cluster": {
+          "Ref": "ClusterEB0386A7",
+        },
+        "DeploymentConfiguration": {
+          "Alarms": {
+            "AlarmNames": [],
+            "Enable": false,
+            "Rollback": false,
+          },
+          "MaximumPercent": 200,
+          "MinimumHealthyPercent": 100,
+        },
+        "EnableECSManagedTags": false,
+        "NetworkConfiguration": {
+          "AwsvpcConfiguration": {
+            "AssignPublicIp": "DISABLED",
+            "SecurityGroups": [
+              {
+                "Fn::GetAtt": [
+                  "sgstacknametest75C73875",
+                  "GroupId",
+                ],
+              },
+              "sg-12345",
+            ],
+            "Subnets": [
+              {
+                "Fn::ImportValue": "FargateStackWithRdsSg:ExportsOutputRefvpcPrivateSubnet1Subnet934893E8236E2271",
+              },
+              {
+                "Fn::ImportValue": "FargateStackWithRdsSg:ExportsOutputRefvpcPrivateSubnet2Subnet7031C2BA60DCB1EE",
+              },
+            ],
+          },
+        },
+        "PlatformVersion": "LATEST",
+        "ServiceName": "MyFargateService",
+        "TaskDefinition": {
+          "Ref": "MyFargateStackTaskDefinitionTest754067BB",
+        },
+      },
+      "Type": "AWS::ECS::Service",
+    },
+    "sgstacknametest75C73875": {
+      "Properties": {
+        "GroupDescription": "Allow all traffic",
+        "GroupName": "stackNameTest-sg",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1",
+          },
+        ],
+        "SecurityGroupIngress": [
+          {
+            "CidrIp": {
+              "Fn::ImportValue": "FargateStackWithRdsSg:ExportsOutputFnGetAttvpcA2121C38CidrBlock8A3D0BD6",
+            },
+            "Description": "Allow all traffic from VPC",
+            "IpProtocol": "-1",
+          },
+        ],
+        "VpcId": {
+          "Fn::ImportValue": "FargateStackWithRdsSg:ExportsOutputRefvpcA2121C384D1B3CDE",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "testmyfargatestacktestF786578C": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "LogGroupName": "test-myfargatestack-test",
+        "RetentionInDays": 365,
+      },
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+  "Rules": {
+    "CheckBootstrapVersion": {
+      "Assertions": [
+        {
+          "Assert": {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  {
+                    "Ref": "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
+    },
+  },
+}
+`;
+
+exports[`FargateStack Should_MatchSnapshot_When_FargateStackIsCreated: FargateStackSnapshotTest 1`] = `
+{
+  "Parameters": {
+    "BootstrapVersion": {
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+  },
+  "Resources": {
+    "ClusterEB0386A7": {
+      "Properties": {
+        "ClusterName": "test-cluster",
+        "ClusterSettings": [
+          {
+            "Name": "containerInsights",
+            "Value": "enabled",
+          },
+        ],
+      },
+      "Type": "AWS::ECS::Cluster",
+    },
+    "FargateContainerRole2B900156": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ecs-tasks.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "RoleName": "stackNameTest-TaskRole-Test",
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "FargateContainerRoleDefaultPolicyA183E47D": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "*",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": [
+                "ecr:BatchCheckLayerAvailability",
+                "ecr:GetDownloadUrlForLayer",
+                "ecr:BatchGetImage",
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":ecr:",
+                    {
+                      "Ref": "AWS::Region",
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":repository/",
+                    {
+                      "Fn::Sub": "cdk-hnb659fds-container-assets-\${AWS::AccountId}-\${AWS::Region}",
+                    },
+                  ],
+                ],
+              },
+            },
+            {
+              "Action": "ecr:GetAuthorizationToken",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": [
+                "logs:CreateLogStream",
+                "logs:PutLogEvents",
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "testmyfargatestacktestF786578C",
+                  "Arn",
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "FargateContainerRoleDefaultPolicyA183E47D",
+        "Roles": [
+          {
+            "Ref": "FargateContainerRole2B900156",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "MyFargateStackTaskDefinitionTest754067BB": {
+      "Properties": {
+        "ContainerDefinitions": [
+          {
+            "Environment": [
+              {
+                "Name": "ASPNETCORE_ENVIRONMENT",
+                "Value": "Test",
+              },
+              {
+                "Name": "BUCKET_NAME",
+                "Value": "",
+              },
+            ],
+            "Essential": true,
+            "Image": {
+              "Fn::Join": [
+                "",
+                [
+                  {
+                    "Ref": "AWS::AccountId",
+                  },
+                  ".dkr.ecr.",
+                  {
+                    "Ref": "AWS::Region",
+                  },
+                  ".",
+                  {
+                    "Ref": "AWS::URLSuffix",
+                  },
+                  "/",
+                  {
+                    "Fn::Sub": "cdk-hnb659fds-container-assets-\${AWS::AccountId}-\${AWS::Region}",
+                  },
+                  ":NORMALIZED_DOCKER_HASH",
+                ],
+              ],
+            },
+            "LogConfiguration": {
+              "LogDriver": "awslogs",
+              "Options": {
+                "awslogs-group": {
+                  "Ref": "testmyfargatestacktestF786578C",
+                },
+                "awslogs-region": {
+                  "Ref": "AWS::Region",
+                },
+                "awslogs-stream-prefix": "aws/ecs/test/test/myfargatestack",
+              },
+            },
+            "Name": "MyFargateStackContainer",
+          },
+        ],
+        "Cpu": "256",
+        "ExecutionRoleArn": {
+          "Fn::GetAtt": [
+            "FargateContainerRole2B900156",
+            "Arn",
+          ],
+        },
+        "Family": "test-myfargatestack-test",
+        "Memory": "512",
+        "NetworkMode": "awsvpc",
+        "RequiresCompatibilities": [
+          "FARGATE",
+        ],
+        "TaskRoleArn": {
+          "Fn::GetAtt": [
+            "FargateContainerRole2B900156",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::ECS::TaskDefinition",
+    },
+    "servicestacknametestServiceFC030095": {
+      "DependsOn": [
+        "FargateContainerRoleDefaultPolicyA183E47D",
+        "FargateContainerRole2B900156",
+      ],
+      "Properties": {
+        "CapacityProviderStrategy": [
+          {
+            "CapacityProvider": "FARGATE_SPOT",
+            "Weight": 1,
+          },
+        ],
+        "Cluster": {
+          "Ref": "ClusterEB0386A7",
+        },
+        "DeploymentConfiguration": {
+          "Alarms": {
+            "AlarmNames": [],
+            "Enable": false,
+            "Rollback": false,
+          },
+          "MaximumPercent": 200,
+          "MinimumHealthyPercent": 100,
+        },
+        "EnableECSManagedTags": false,
+        "NetworkConfiguration": {
+          "AwsvpcConfiguration": {
+            "AssignPublicIp": "DISABLED",
+            "SecurityGroups": [
+              {
+                "Fn::GetAtt": [
+                  "sgstacknametest75C73875",
+                  "GroupId",
+                ],
+              },
+            ],
+            "Subnets": [
+              {
+                "Fn::ImportValue": "FargateStackSnapshotTest:ExportsOutputRefvpcPrivateSubnet1Subnet934893E8236E2271",
+              },
+              {
+                "Fn::ImportValue": "FargateStackSnapshotTest:ExportsOutputRefvpcPrivateSubnet2Subnet7031C2BA60DCB1EE",
+              },
+            ],
+          },
+        },
+        "PlatformVersion": "LATEST",
+        "ServiceName": "MyFargateService",
+        "TaskDefinition": {
+          "Ref": "MyFargateStackTaskDefinitionTest754067BB",
+        },
+      },
+      "Type": "AWS::ECS::Service",
+    },
+    "sgstacknametest75C73875": {
+      "Properties": {
+        "GroupDescription": "Allow all traffic",
+        "GroupName": "stackNameTest-sg",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1",
+          },
+        ],
+        "SecurityGroupIngress": [
+          {
+            "CidrIp": {
+              "Fn::ImportValue": "FargateStackSnapshotTest:ExportsOutputFnGetAttvpcA2121C38CidrBlock8A3D0BD6",
+            },
+            "Description": "Allow all traffic from VPC",
+            "IpProtocol": "-1",
+          },
+        ],
+        "VpcId": {
+          "Fn::ImportValue": "FargateStackSnapshotTest:ExportsOutputRefvpcA2121C384D1B3CDE",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "testmyfargatestacktestF786578C": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "LogGroupName": "test-myfargatestack-test",
+        "RetentionInDays": 365,
+      },
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+  "Rules": {
+    "CheckBootstrapVersion": {
+      "Assertions": [
+        {
+          "Assert": {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  {
+                    "Ref": "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
+    },
+  },
+}
+`;
+
+exports[`FargateStack Should_MatchSnapshot_When_FargateStackWithQueueAndTelemetryIsCreated: FargateStackComplexTest 1`] = `
+{
+  "Parameters": {
+    "BootstrapVersion": {
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+  },
+  "Resources": {
+    "ClusterEB0386A7": {
+      "Properties": {
+        "ClusterName": "test-cluster",
+        "ClusterSettings": [
+          {
+            "Name": "containerInsights",
+            "Value": "enabled",
+          },
+        ],
+      },
+      "Type": "AWS::ECS::Cluster",
+    },
+    "FargateContainerRole2B900156": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ecs-tasks.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "RoleName": "stackNameTest-TaskRole-Test",
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "FargateContainerRoleDefaultPolicyA183E47D": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "*",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": [
+                "ecr:BatchCheckLayerAvailability",
+                "ecr:GetDownloadUrlForLayer",
+                "ecr:BatchGetImage",
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":ecr:",
+                    {
+                      "Ref": "AWS::Region",
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":repository/",
+                    {
+                      "Fn::Sub": "cdk-hnb659fds-container-assets-\${AWS::AccountId}-\${AWS::Region}",
+                    },
+                  ],
+                ],
+              },
+            },
+            {
+              "Action": "ecr:GetAuthorizationToken",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": [
+                "logs:CreateLogStream",
+                "logs:PutLogEvents",
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "testmyfargatestacktestF786578C",
+                  "Arn",
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "FargateContainerRoleDefaultPolicyA183E47D",
+        "Roles": [
+          {
+            "Ref": "FargateContainerRole2B900156",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "MyFargateStackTaskDefinitionTest754067BB": {
+      "Properties": {
+        "ContainerDefinitions": [
+          {
+            "Environment": [
+              {
+                "Name": "ASPNETCORE_ENVIRONMENT",
+                "Value": "Test",
+              },
+              {
+                "Name": "BUCKET_NAME",
+                "Value": "",
+              },
+            ],
+            "Essential": true,
+            "Image": {
+              "Fn::Join": [
+                "",
+                [
+                  {
+                    "Ref": "AWS::AccountId",
+                  },
+                  ".dkr.ecr.",
+                  {
+                    "Ref": "AWS::Region",
+                  },
+                  ".",
+                  {
+                    "Ref": "AWS::URLSuffix",
+                  },
+                  "/",
+                  {
+                    "Fn::Sub": "cdk-hnb659fds-container-assets-\${AWS::AccountId}-\${AWS::Region}",
+                  },
+                  ":NORMALIZED_DOCKER_HASH",
+                ],
+              ],
+            },
+            "LogConfiguration": {
+              "LogDriver": "awslogs",
+              "Options": {
+                "awslogs-group": {
+                  "Ref": "testmyfargatestacktestF786578C",
+                },
+                "awslogs-region": {
+                  "Ref": "AWS::Region",
+                },
+                "awslogs-stream-prefix": "aws/ecs/test/test/myfargatestack",
+              },
+            },
+            "Name": "MyFargateStackContainer",
+            "PortMappings": [
+              {
+                "ContainerPort": 8080,
+                "Protocol": "tcp",
+              },
+            ],
+          },
+          {
+            "Environment": [
+              {
+                "Name": "OTEL_EXPORTER_OTLP_ENDPOINT",
+                "Value": "http://localhost:4318",
+              },
+            ],
+            "Essential": true,
+            "Image": "amazon/aws-otel-collector",
+            "Name": "MyFargateStackSidecar",
+          },
+        ],
+        "Cpu": "256",
+        "ExecutionRoleArn": {
+          "Fn::GetAtt": [
+            "FargateContainerRole2B900156",
+            "Arn",
+          ],
+        },
+        "Family": "test-myfargatestack-test",
+        "Memory": "512",
+        "NetworkMode": "awsvpc",
+        "RequiresCompatibilities": [
+          "FARGATE",
+        ],
+        "TaskRoleArn": {
+          "Fn::GetAtt": [
+            "FargateContainerRole2B900156",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::ECS::TaskDefinition",
+    },
+    "servicestacknametestServiceFC030095": {
+      "DependsOn": [
+        "FargateContainerRoleDefaultPolicyA183E47D",
+        "FargateContainerRole2B900156",
+      ],
+      "Properties": {
+        "CapacityProviderStrategy": [
+          {
+            "CapacityProvider": "FARGATE_SPOT",
+            "Weight": 1,
+          },
+        ],
+        "Cluster": {
+          "Ref": "ClusterEB0386A7",
+        },
+        "DeploymentConfiguration": {
+          "Alarms": {
+            "AlarmNames": [],
+            "Enable": false,
+            "Rollback": false,
+          },
+          "MaximumPercent": 200,
+          "MinimumHealthyPercent": 100,
+        },
+        "EnableECSManagedTags": false,
+        "NetworkConfiguration": {
+          "AwsvpcConfiguration": {
+            "AssignPublicIp": "DISABLED",
+            "SecurityGroups": [
+              {
+                "Fn::GetAtt": [
+                  "sgstacknametest75C73875",
+                  "GroupId",
+                ],
+              },
+            ],
+            "Subnets": [
+              {
+                "Fn::ImportValue": "FargateStackComplexTest:ExportsOutputRefvpcPrivateSubnet1Subnet934893E8236E2271",
+              },
+              {
+                "Fn::ImportValue": "FargateStackComplexTest:ExportsOutputRefvpcPrivateSubnet2Subnet7031C2BA60DCB1EE",
+              },
+            ],
+          },
+        },
+        "PlatformVersion": "LATEST",
+        "ServiceName": "MyFargateService",
+        "TaskDefinition": {
+          "Ref": "MyFargateStackTaskDefinitionTest754067BB",
+        },
+      },
+      "Type": "AWS::ECS::Service",
+    },
+    "servicestacknametestTaskCountTarget0CC6F028": {
+      "DependsOn": [
+        "FargateContainerRoleDefaultPolicyA183E47D",
+        "FargateContainerRole2B900156",
+      ],
+      "Properties": {
+        "MaxCapacity": 5,
+        "MinCapacity": 0,
+        "ResourceId": {
+          "Fn::Join": [
+            "",
+            [
+              "service/",
+              {
+                "Ref": "ClusterEB0386A7",
+              },
+              "/",
+              {
+                "Fn::GetAtt": [
+                  "servicestacknametestServiceFC030095",
+                  "Name",
+                ],
+              },
+            ],
+          ],
+        },
+        "RoleARN": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition",
+              },
+              ":iam::",
+              {
+                "Ref": "AWS::AccountId",
+              },
+              ":role/aws-service-role/ecs.application-autoscaling.amazonaws.com/AWSServiceRoleForApplicationAutoScaling_ECSService",
+            ],
+          ],
+        },
+        "ScalableDimension": "ecs:service:DesiredCount",
+        "ServiceNamespace": "ecs",
+      },
+      "Type": "AWS::ApplicationAutoScaling::ScalableTarget",
+    },
+    "servicestacknametestTaskCountTargetScaleInLowerAlarm453823CA": {
+      "DependsOn": [
+        "FargateContainerRoleDefaultPolicyA183E47D",
+        "FargateContainerRole2B900156",
+      ],
+      "Properties": {
+        "AlarmActions": [
+          {
+            "Ref": "servicestacknametestTaskCountTargetScaleInLowerPolicyF7F59B14",
+          },
+        ],
+        "AlarmDescription": "Lower threshold scaling alarm",
+        "ComparisonOperator": "LessThanOrEqualToThreshold",
+        "DatapointsToAlarm": 3,
+        "EvaluationPeriods": 3,
+        "Metrics": [
+          {
+            "Expression": "IF(m1 + m2 > 0, 1, 0)",
+            "Id": "expr_1",
+            "Label": "ApproximateNumberOfMessages-my-queue",
+            "ReturnData": true,
+          },
+          {
+            "Id": "m1",
+            "MetricStat": {
+              "Metric": {
+                "Dimensions": [
+                  {
+                    "Name": "QueueName",
+                    "Value": "my-queue",
+                  },
+                ],
+                "MetricName": "ApproximateNumberOfMessagesVisible",
+                "Namespace": "AWS/SQS",
+              },
+              "Period": 60,
+              "Stat": "Sum",
+            },
+            "ReturnData": false,
+          },
+          {
+            "Id": "m2",
+            "MetricStat": {
+              "Metric": {
+                "Dimensions": [
+                  {
+                    "Name": "QueueName",
+                    "Value": "my-queue",
+                  },
+                ],
+                "MetricName": "ApproximateNumberOfMessagesNotVisible",
+                "Namespace": "AWS/SQS",
+              },
+              "Period": 60,
+              "Stat": "Sum",
+            },
+            "ReturnData": false,
+          },
+        ],
+        "Threshold": 0,
+      },
+      "Type": "AWS::CloudWatch::Alarm",
+    },
+    "servicestacknametestTaskCountTargetScaleInLowerPolicyF7F59B14": {
+      "DependsOn": [
+        "FargateContainerRoleDefaultPolicyA183E47D",
+        "FargateContainerRole2B900156",
+      ],
+      "Properties": {
+        "PolicyName": "FargateStackComplexTestm47testmyfargatestackteststackservicestacknametestTaskCountTargetScaleInLowerPolicy6C1F8B5C",
+        "PolicyType": "StepScaling",
+        "ScalingTargetId": {
+          "Ref": "servicestacknametestTaskCountTarget0CC6F028",
+        },
+        "StepScalingPolicyConfiguration": {
+          "AdjustmentType": "ChangeInCapacity",
+          "Cooldown": 900,
+          "MetricAggregationType": "Average",
+          "StepAdjustments": [
+            {
+              "MetricIntervalUpperBound": 0,
+              "ScalingAdjustment": -1,
+            },
+          ],
+        },
+      },
+      "Type": "AWS::ApplicationAutoScaling::ScalingPolicy",
+    },
+    "servicestacknametestTaskCountTargetScaleOutUpperAlarm9704ED03": {
+      "DependsOn": [
+        "FargateContainerRoleDefaultPolicyA183E47D",
+        "FargateContainerRole2B900156",
+      ],
+      "Properties": {
+        "AlarmActions": [
+          {
+            "Ref": "servicestacknametestTaskCountTargetScaleOutUpperPolicy8DE26297",
+          },
+        ],
+        "AlarmDescription": "Upper threshold scaling alarm",
+        "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+        "DatapointsToAlarm": 1,
+        "Dimensions": [
+          {
+            "Name": "QueueName",
+            "Value": "my-queue",
+          },
+        ],
+        "EvaluationPeriods": 1,
+        "MetricName": "ApproximateNumberOfMessagesVisible",
+        "Namespace": "AWS/SQS",
+        "Period": 10,
+        "Statistic": "Average",
+        "Threshold": 1,
+      },
+      "Type": "AWS::CloudWatch::Alarm",
+    },
+    "servicestacknametestTaskCountTargetScaleOutUpperPolicy8DE26297": {
+      "DependsOn": [
+        "FargateContainerRoleDefaultPolicyA183E47D",
+        "FargateContainerRole2B900156",
+      ],
+      "Properties": {
+        "PolicyName": "FargateStackComplexTestm47testmyfargatestackteststackservicestacknametestTaskCountTargetScaleOutUpperPolicy6B2AEC2E",
+        "PolicyType": "StepScaling",
+        "ScalingTargetId": {
+          "Ref": "servicestacknametestTaskCountTarget0CC6F028",
+        },
+        "StepScalingPolicyConfiguration": {
+          "AdjustmentType": "ChangeInCapacity",
+          "Cooldown": 10,
+          "MetricAggregationType": "Average",
+          "StepAdjustments": [
+            {
+              "MetricIntervalLowerBound": 0,
+              "ScalingAdjustment": 1,
+            },
+          ],
+        },
+      },
+      "Type": "AWS::ApplicationAutoScaling::ScalingPolicy",
+    },
+    "sgstacknametest75C73875": {
+      "Properties": {
+        "GroupDescription": "Allow all traffic",
+        "GroupName": "stackNameTest-sg",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1",
+          },
+        ],
+        "SecurityGroupIngress": [
+          {
+            "CidrIp": {
+              "Fn::ImportValue": "FargateStackComplexTest:ExportsOutputFnGetAttvpcA2121C38CidrBlock8A3D0BD6",
+            },
+            "Description": "Allow all traffic from VPC",
+            "IpProtocol": "-1",
+          },
+        ],
+        "VpcId": {
+          "Fn::ImportValue": "FargateStackComplexTest:ExportsOutputRefvpcA2121C384D1B3CDE",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "testmyfargatestacktestF786578C": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "LogGroupName": "test-myfargatestack-test",
+        "RetentionInDays": 365,
+      },
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+  "Rules": {
+    "CheckBootstrapVersion": {
+      "Assertions": [
+        {
+          "Assert": {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  {
+                    "Ref": "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
+    },
+  },
+}
+`;

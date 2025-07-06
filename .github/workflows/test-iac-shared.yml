@@ -1,0 +1,53 @@
+name: 🔗 Test shared (aws-cdk)
+
+on:
+  workflow_dispatch: {}
+
+  pull_request:
+    branches:
+      - "*"
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - ready_for_review
+    paths:
+      - ".github/workflows/test-iac-shared.yml"
+      - "shared/src/iac/**"
+      - "pnpm-lock.yaml"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.sha }}
+  cancel-in-progress: true
+
+jobs:
+  test-shared-iac:
+    runs-on: ubuntu-latest
+    if: ${{ !github.event.pull_request.draft }}
+    timeout-minutes: 10
+
+    steps:
+      - name: 🚀 ♂️ Checkout
+        uses: actions/checkout@v4
+
+      - name: 🔧 Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+          run_install: false
+
+      - name: 🌱 Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22.x"
+          cache: "pnpm"
+          cache-dependency-path: "pnpm-lock.yaml"
+
+      - name: 📦 Install packages
+        run: pnpm --filter @m47/shared-iac install
+
+      - name: 🔍 Run code quality checker
+        run: pnpm --filter @m47/shared-iac lint
+
+      - name: 🏎️ Run tests
+        run: pnpm --filter @m47/shared-iac test:ci

@@ -1,0 +1,272 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SQS Stack Should_SqsWithDeadLetter_When_StackIsCalled: sqsStackTest 1`] = `
+{
+  "Outputs": {
+    "DeadLetterQueueArn": {
+      "Value": {
+        "Fn::GetAtt": [
+          "DeadLetterQueue9F481546",
+          "Arn",
+        ],
+      },
+    },
+    "MainQueueArn": {
+      "Value": {
+        "Fn::GetAtt": [
+          "MainQueueD24C6076",
+          "Arn",
+        ],
+      },
+    },
+    "teststringTestapiparamParameterNameOutput": {
+      "Description": "The SQS url test string Test",
+      "Export": {
+        "Name": "test-string-Test-api-paramParameterName",
+      },
+      "Value": {
+        "Ref": "teststringTestapiparam5B953861",
+      },
+    },
+    "teststringTestworkerserviceparamParameterNameOutput": {
+      "Description": "The SQS url test string Test",
+      "Export": {
+        "Name": "test-string-Test-workerservice-paramParameterName",
+      },
+      "Value": {
+        "Ref": "teststringTestworkerserviceparamAAB3492B",
+      },
+    },
+  },
+  "Parameters": {
+    "BootstrapVersion": {
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+  },
+  "Resources": {
+    "DeadLetterQueue9F481546": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "MessageRetentionPeriod": 1209600,
+        "QueueName": "string-deadletter",
+        "VisibilityTimeout": 0,
+      },
+      "Type": "AWS::SQS::Queue",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "DeadLetterQueuePolicyB1FB890C": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "sqs:SendMessage",
+                "sqs:GetQueueAttributes",
+                "sqs:GetQueueUrl",
+              ],
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "sqs.amazonaws.com",
+              },
+              "Resource": {
+                "Fn::GetAtt": [
+                  "DeadLetterQueue9F481546",
+                  "Arn",
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "Queues": [
+          {
+            "Ref": "DeadLetterQueue9F481546",
+          },
+        ],
+      },
+      "Type": "AWS::SQS::QueuePolicy",
+    },
+    "MainQueueD24C6076": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "DelaySeconds": 5,
+        "MessageRetentionPeriod": 1209600,
+        "QueueName": "string",
+        "RedrivePolicy": {
+          "deadLetterTargetArn": {
+            "Fn::GetAtt": [
+              "DeadLetterQueue9F481546",
+              "Arn",
+            ],
+          },
+          "maxReceiveCount": 3,
+        },
+        "VisibilityTimeout": 600,
+      },
+      "Type": "AWS::SQS::Queue",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "teststringTestapiparam5B953861": {
+      "Properties": {
+        "AllowedPattern": ".*",
+        "Description": "The SQS url test string Test",
+        "Name": "/M47.Test.Apps.Minimal.Api/Test/Sqsstacktest/Aws/QueueUrl",
+        "Tier": "Standard",
+        "Type": "String",
+        "Value": {
+          "Ref": "MainQueueD24C6076",
+        },
+      },
+      "Type": "AWS::SSM::Parameter",
+    },
+    "teststringTestworkerserviceparamAAB3492B": {
+      "Properties": {
+        "AllowedPattern": ".*",
+        "Description": "The SQS url test string Test",
+        "Name": "/M47.Test.Apps.WorkerService/Test/Sqsstacktest/Aws/QueueUrl",
+        "Tier": "Standard",
+        "Type": "String",
+        "Value": {
+          "Ref": "MainQueueD24C6076",
+        },
+      },
+      "Type": "AWS::SSM::Parameter",
+    },
+  },
+  "Rules": {
+    "CheckBootstrapVersion": {
+      "Assertions": [
+        {
+          "Assert": {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  {
+                    "Ref": "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
+    },
+  },
+}
+`;
+
+exports[`SQS Stack Should_SqsWithoutDeadLetter_When_StackIsCalled: sqsWithoutDeadLetterStackTest 1`] = `
+{
+  "Outputs": {
+    "MainQueueArn": {
+      "Value": {
+        "Fn::GetAtt": [
+          "MainQueueD24C6076",
+          "Arn",
+        ],
+      },
+    },
+    "teststringTestapiparamParameterNameOutput": {
+      "Description": "The SQS url test string Test",
+      "Export": {
+        "Name": "test-string-Test-api-paramParameterName",
+      },
+      "Value": {
+        "Ref": "teststringTestapiparam5B953861",
+      },
+    },
+    "teststringTestworkerserviceparamParameterNameOutput": {
+      "Description": "The SQS url test string Test",
+      "Export": {
+        "Name": "test-string-Test-workerservice-paramParameterName",
+      },
+      "Value": {
+        "Ref": "teststringTestworkerserviceparamAAB3492B",
+      },
+    },
+  },
+  "Parameters": {
+    "BootstrapVersion": {
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+  },
+  "Resources": {
+    "MainQueueD24C6076": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "DelaySeconds": 5,
+        "MessageRetentionPeriod": 1209600,
+        "QueueName": "string",
+        "VisibilityTimeout": 600,
+      },
+      "Type": "AWS::SQS::Queue",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "teststringTestapiparam5B953861": {
+      "Properties": {
+        "AllowedPattern": ".*",
+        "Description": "The SQS url test string Test",
+        "Name": "/M47.Test.Apps.Minimal.Api/Test/Sqsstacktest/Aws/QueueUrl",
+        "Tier": "Standard",
+        "Type": "String",
+        "Value": {
+          "Ref": "MainQueueD24C6076",
+        },
+      },
+      "Type": "AWS::SSM::Parameter",
+    },
+    "teststringTestworkerserviceparamAAB3492B": {
+      "Properties": {
+        "AllowedPattern": ".*",
+        "Description": "The SQS url test string Test",
+        "Name": "/M47.Test.Apps.WorkerService/Test/Sqsstacktest/Aws/QueueUrl",
+        "Tier": "Standard",
+        "Type": "String",
+        "Value": {
+          "Ref": "MainQueueD24C6076",
+        },
+      },
+      "Type": "AWS::SSM::Parameter",
+    },
+  },
+  "Rules": {
+    "CheckBootstrapVersion": {
+      "Assertions": [
+        {
+          "Assert": {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  {
+                    "Ref": "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
+    },
+  },
+}
+`;

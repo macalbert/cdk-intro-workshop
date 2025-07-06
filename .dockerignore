@@ -1,0 +1,39 @@
+# Exclude build artifacts
+**/node_modules/
+**/.next/
+**/dist/
+**/docs/
+**/cdk.out/
+**/bin/
+**/obj/
+
+# Exclude version control files
+**/.ollama/
+**/.git/
+**/.vs/
+.gitignore
+.dockerignore
+docker-compose*
+Dockerfile*
+
+# Exclude package manager lock files (commented out as inclusion is recommended)
+# package-lock.json
+# pnpm-lock.yaml
+
+# Exclude unnecessary files and directories
+.classpath
+.nuget
+.project
+.settings
+.toolstarget
+.vs
+.vscode
+*.dbmdl
+*.jfm
+azds.yaml
+charts
+npm-debug.log
+secrets.dev.yaml
+values.dev.yaml
+LICENSE
+*.md

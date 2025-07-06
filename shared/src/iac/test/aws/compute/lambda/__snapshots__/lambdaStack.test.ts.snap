@@ -1,0 +1,1072 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LambdaStack Should_MatchSnapshot_When_LambdaStackIsCreated: LambdaStackTest 1`] = `
+{
+  "Parameters": {
+    "BootstrapVersion": {
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+  },
+  "Resources": {
+    "DockerLambdaFunction2179A773": {
+      "DependsOn": [
+        "LambdaRoleDefaultPolicy75625A82",
+        "LambdaRole3A44B857",
+      ],
+      "Properties": {
+        "Code": {
+          "ImageUri": {
+            "Fn::Sub": "\${AWS::AccountId}.dkr.ecr.\${AWS::Region}.\${AWS::URLSuffix}/cdk-container-assets-NORMALIZED_HASH",
+          },
+        },
+        "FunctionName": "test-function-test",
+        "MemorySize": 128,
+        "PackageType": "Image",
+        "Role": {
+          "Fn::GetAtt": [
+            "LambdaRole3A44B857",
+            "Arn",
+          ],
+        },
+        "Tags": [
+          {
+            "Key": "Environment",
+            "Value": "Test",
+          },
+          {
+            "Key": "Project",
+            "Value": "test",
+          },
+          {
+            "Key": "StackId",
+            "Value": "m47-test-lambda-test-stack",
+          },
+        ],
+        "Timeout": 300,
+        "VpcConfig": {
+          "SecurityGroupIds": [
+            {
+              "Fn::GetAtt": [
+                "SecurityGroupm47testlambdateststack0D75B4A8",
+                "GroupId",
+              ],
+            },
+          ],
+          "SubnetIds": [
+            {
+              "Fn::ImportValue": "LambdaStackTest:ExportsOutputRefvpcPrivateSubnet1Subnet934893E8236E2271",
+            },
+            {
+              "Fn::ImportValue": "LambdaStackTest:ExportsOutputRefvpcPrivateSubnet2Subnet7031C2BA60DCB1EE",
+            },
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "LambdaRole3A44B857": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "RoleName": "test-function-lambda-LambdaRole-Test",
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "LambdaRoleDefaultPolicy75625A82": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "dynamodb:PutItem",
+                "dynamodb:UpdateItem",
+                "dynamodb:DeleteItem",
+                "dynamodb:GetItem",
+                "dynamodb:BatchGetItem",
+                "dynamodb:BatchWriteItem",
+                "dynamodb:Query",
+                "dynamodb:Scan",
+                "lambda:InvokeFunction",
+                "lambda:InvokeAsync",
+                "rds-data:*",
+                "ec2:CreateNetworkInterface",
+                "ec2:DescribeNetworkInterfaces",
+                "ec2:DeleteNetworkInterface",
+                "logs:CreateLogGroup",
+                "logs:DescribeLogGroups",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents",
+                "ds:CreateComputer",
+                "ds:DescribeDirectories",
+                "ssm:GetParameter",
+                "ssm:GetParameters",
+                "ssm:GetParameterHistory",
+                "ssm:GetParametersByPath",
+                "sqs:ReceiveMessage",
+                "sqs:DeleteMessage",
+                "sqs:SendMessage",
+                "sqs:GetQueueAttributes",
+                "sqs:GetQueueUrl",
+                "sns:Publish",
+                "cloudformation:DescribeStacks",
+                "cloudformation:ListStackResources",
+                "cloudwatch:ListMetrics",
+                "cloudwatch:GetMetricData",
+                "ec2:DescribeSecurityGroups",
+                "ec2:DescribeSubnets",
+                "ec2:DescribeVpcs",
+                "kms:ListAliases",
+                "iam:GetPolicy",
+                "iam:GetPolicyVersion",
+                "iam:GetRole",
+                "iam:GetRolePolicy",
+                "iam:ListAttachedRolePolicies",
+                "iam:ListRolePolicies",
+                "iam:ListRoles",
+                "lambda:*",
+                "states:DescribeStateMachine",
+                "states:ListStateMachines",
+                "tag:GetResources",
+                "xray:GetTraceSummaries",
+                "xray:BatchGetTraces",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": "iam:PassRole",
+              "Condition": {
+                "StringEquals": {
+                  "iam:PassedToService": "lambda.amazonaws.com",
+                },
+              },
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": [
+                "logs:DescribeLogStreams",
+                "logs:GetLogEvents",
+                "logs:FilterLogEvents",
+              ],
+              "Effect": "Allow",
+              "Resource": "arn:aws:logs:*:*:log-group:/aws/lambda/*",
+            },
+            {
+              "Action": [
+                "secretsmanager:GetSecretValue",
+                "secretsmanager:DescribeSecret",
+                "secretsmanager:TagResource",
+              ],
+              "Effect": "Allow",
+              "Resource": "arn:aws:secretsmanager:*:*:secret:rds-db-credentials/*",
+            },
+            {
+              "Action": [
+                "s3:*",
+                "s3-object-lambda:*",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "LambdaRoleDefaultPolicy75625A82",
+        "Roles": [
+          {
+            "Ref": "LambdaRole3A44B857",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "SecurityGroupm47testlambdateststack0D75B4A8": {
+      "Properties": {
+        "GroupDescription": "m47-test-lambda-test-stack-SecurityGroup2",
+        "GroupName": "m47-test-lambda-test-stack-SecurityGroup2",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow HTTPS outbound",
+            "FromPort": 443,
+            "IpProtocol": "tcp",
+            "ToPort": 443,
+          },
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow HTTP outbound",
+            "FromPort": 80,
+            "IpProtocol": "tcp",
+            "ToPort": 80,
+          },
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow PostgreSQL outbound to RDS",
+            "FromPort": 5432,
+            "IpProtocol": "tcp",
+            "ToPort": 5432,
+          },
+        ],
+        "VpcId": {
+          "Fn::ImportValue": "LambdaStackTest:ExportsOutputRefvpcA2121C384D1B3CDE",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+  },
+  "Rules": {
+    "CheckBootstrapVersion": {
+      "Assertions": [
+        {
+          "Assert": {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  {
+                    "Ref": "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
+    },
+  },
+}
+`;
+
+exports[`LambdaStack Should_MatchSnapshot_When_LambdaStackWithEnvVarsIsCreated: LambdaStackWithEnvVarsTest 1`] = `
+{
+  "Parameters": {
+    "BootstrapVersion": {
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+  },
+  "Resources": {
+    "DockerLambdaFunction2179A773": {
+      "DependsOn": [
+        "LambdaRoleDefaultPolicy75625A82",
+        "LambdaRole3A44B857",
+      ],
+      "Properties": {
+        "Code": {
+          "ImageUri": {
+            "Fn::Sub": "\${AWS::AccountId}.dkr.ecr.\${AWS::Region}.\${AWS::URLSuffix}/cdk-container-assets-NORMALIZED_HASH",
+          },
+        },
+        "Environment": {
+          "Variables": {
+            "API_KEY": "test-api-key",
+            "DEBUG": "true",
+            "REGION": "us-east-1",
+          },
+        },
+        "FunctionName": "test-function-test",
+        "MemorySize": 128,
+        "PackageType": "Image",
+        "Role": {
+          "Fn::GetAtt": [
+            "LambdaRole3A44B857",
+            "Arn",
+          ],
+        },
+        "Tags": [
+          {
+            "Key": "Environment",
+            "Value": "Test",
+          },
+          {
+            "Key": "Project",
+            "Value": "test",
+          },
+          {
+            "Key": "StackId",
+            "Value": "m47-test-lambda-test-stack",
+          },
+        ],
+        "Timeout": 300,
+        "VpcConfig": {
+          "SecurityGroupIds": [
+            {
+              "Fn::GetAtt": [
+                "SecurityGroupm47testlambdateststack0D75B4A8",
+                "GroupId",
+              ],
+            },
+          ],
+          "SubnetIds": [
+            {
+              "Fn::ImportValue": "LambdaStackWithEnvVarsTest:ExportsOutputRefvpcPrivateSubnet1Subnet934893E8236E2271",
+            },
+            {
+              "Fn::ImportValue": "LambdaStackWithEnvVarsTest:ExportsOutputRefvpcPrivateSubnet2Subnet7031C2BA60DCB1EE",
+            },
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "LambdaRole3A44B857": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "RoleName": "test-function-lambda-LambdaRole-Test",
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "LambdaRoleDefaultPolicy75625A82": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "dynamodb:PutItem",
+                "dynamodb:UpdateItem",
+                "dynamodb:DeleteItem",
+                "dynamodb:GetItem",
+                "dynamodb:BatchGetItem",
+                "dynamodb:BatchWriteItem",
+                "dynamodb:Query",
+                "dynamodb:Scan",
+                "lambda:InvokeFunction",
+                "lambda:InvokeAsync",
+                "rds-data:*",
+                "ec2:CreateNetworkInterface",
+                "ec2:DescribeNetworkInterfaces",
+                "ec2:DeleteNetworkInterface",
+                "logs:CreateLogGroup",
+                "logs:DescribeLogGroups",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents",
+                "ds:CreateComputer",
+                "ds:DescribeDirectories",
+                "ssm:GetParameter",
+                "ssm:GetParameters",
+                "ssm:GetParameterHistory",
+                "ssm:GetParametersByPath",
+                "sqs:ReceiveMessage",
+                "sqs:DeleteMessage",
+                "sqs:SendMessage",
+                "sqs:GetQueueAttributes",
+                "sqs:GetQueueUrl",
+                "sns:Publish",
+                "cloudformation:DescribeStacks",
+                "cloudformation:ListStackResources",
+                "cloudwatch:ListMetrics",
+                "cloudwatch:GetMetricData",
+                "ec2:DescribeSecurityGroups",
+                "ec2:DescribeSubnets",
+                "ec2:DescribeVpcs",
+                "kms:ListAliases",
+                "iam:GetPolicy",
+                "iam:GetPolicyVersion",
+                "iam:GetRole",
+                "iam:GetRolePolicy",
+                "iam:ListAttachedRolePolicies",
+                "iam:ListRolePolicies",
+                "iam:ListRoles",
+                "lambda:*",
+                "states:DescribeStateMachine",
+                "states:ListStateMachines",
+                "tag:GetResources",
+                "xray:GetTraceSummaries",
+                "xray:BatchGetTraces",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": "iam:PassRole",
+              "Condition": {
+                "StringEquals": {
+                  "iam:PassedToService": "lambda.amazonaws.com",
+                },
+              },
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": [
+                "logs:DescribeLogStreams",
+                "logs:GetLogEvents",
+                "logs:FilterLogEvents",
+              ],
+              "Effect": "Allow",
+              "Resource": "arn:aws:logs:*:*:log-group:/aws/lambda/*",
+            },
+            {
+              "Action": [
+                "secretsmanager:GetSecretValue",
+                "secretsmanager:DescribeSecret",
+                "secretsmanager:TagResource",
+              ],
+              "Effect": "Allow",
+              "Resource": "arn:aws:secretsmanager:*:*:secret:rds-db-credentials/*",
+            },
+            {
+              "Action": [
+                "s3:*",
+                "s3-object-lambda:*",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "LambdaRoleDefaultPolicy75625A82",
+        "Roles": [
+          {
+            "Ref": "LambdaRole3A44B857",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "SecurityGroupm47testlambdateststack0D75B4A8": {
+      "Properties": {
+        "GroupDescription": "m47-test-lambda-test-stack-SecurityGroup2",
+        "GroupName": "m47-test-lambda-test-stack-SecurityGroup2",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow HTTPS outbound",
+            "FromPort": 443,
+            "IpProtocol": "tcp",
+            "ToPort": 443,
+          },
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow HTTP outbound",
+            "FromPort": 80,
+            "IpProtocol": "tcp",
+            "ToPort": 80,
+          },
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow PostgreSQL outbound to RDS",
+            "FromPort": 5432,
+            "IpProtocol": "tcp",
+            "ToPort": 5432,
+          },
+        ],
+        "VpcId": {
+          "Fn::ImportValue": "LambdaStackWithEnvVarsTest:ExportsOutputRefvpcA2121C384D1B3CDE",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+  },
+  "Rules": {
+    "CheckBootstrapVersion": {
+      "Assertions": [
+        {
+          "Assert": {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  {
+                    "Ref": "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
+    },
+  },
+}
+`;
+
+exports[`LambdaStack Should_MatchSnapshot_When_LambdaStackWithReservedConcurrencyIsCreated: LambdaStackWithConcurrencyTest 1`] = `
+{
+  "Parameters": {
+    "BootstrapVersion": {
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+  },
+  "Resources": {
+    "DockerLambdaFunction2179A773": {
+      "DependsOn": [
+        "LambdaRoleDefaultPolicy75625A82",
+        "LambdaRole3A44B857",
+      ],
+      "Properties": {
+        "Code": {
+          "ImageUri": {
+            "Fn::Sub": "\${AWS::AccountId}.dkr.ecr.\${AWS::Region}.\${AWS::URLSuffix}/cdk-container-assets-NORMALIZED_HASH",
+          },
+        },
+        "FunctionName": "test-function-test",
+        "MemorySize": 128,
+        "PackageType": "Image",
+        "ReservedConcurrentExecutions": 5,
+        "Role": {
+          "Fn::GetAtt": [
+            "LambdaRole3A44B857",
+            "Arn",
+          ],
+        },
+        "Tags": [
+          {
+            "Key": "Environment",
+            "Value": "Test",
+          },
+          {
+            "Key": "Project",
+            "Value": "test",
+          },
+          {
+            "Key": "StackId",
+            "Value": "m47-test-lambda-test-stack",
+          },
+        ],
+        "Timeout": 300,
+        "VpcConfig": {
+          "SecurityGroupIds": [
+            {
+              "Fn::GetAtt": [
+                "SecurityGroupm47testlambdateststack0D75B4A8",
+                "GroupId",
+              ],
+            },
+          ],
+          "SubnetIds": [
+            {
+              "Fn::ImportValue": "LambdaStackWithConcurrencyTest:ExportsOutputRefvpcPrivateSubnet1Subnet934893E8236E2271",
+            },
+            {
+              "Fn::ImportValue": "LambdaStackWithConcurrencyTest:ExportsOutputRefvpcPrivateSubnet2Subnet7031C2BA60DCB1EE",
+            },
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "LambdaRole3A44B857": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "RoleName": "test-function-lambda-LambdaRole-Test",
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "LambdaRoleDefaultPolicy75625A82": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "dynamodb:PutItem",
+                "dynamodb:UpdateItem",
+                "dynamodb:DeleteItem",
+                "dynamodb:GetItem",
+                "dynamodb:BatchGetItem",
+                "dynamodb:BatchWriteItem",
+                "dynamodb:Query",
+                "dynamodb:Scan",
+                "lambda:InvokeFunction",
+                "lambda:InvokeAsync",
+                "rds-data:*",
+                "ec2:CreateNetworkInterface",
+                "ec2:DescribeNetworkInterfaces",
+                "ec2:DeleteNetworkInterface",
+                "logs:CreateLogGroup",
+                "logs:DescribeLogGroups",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents",
+                "ds:CreateComputer",
+                "ds:DescribeDirectories",
+                "ssm:GetParameter",
+                "ssm:GetParameters",
+                "ssm:GetParameterHistory",
+                "ssm:GetParametersByPath",
+                "sqs:ReceiveMessage",
+                "sqs:DeleteMessage",
+                "sqs:SendMessage",
+                "sqs:GetQueueAttributes",
+                "sqs:GetQueueUrl",
+                "sns:Publish",
+                "cloudformation:DescribeStacks",
+                "cloudformation:ListStackResources",
+                "cloudwatch:ListMetrics",
+                "cloudwatch:GetMetricData",
+                "ec2:DescribeSecurityGroups",
+                "ec2:DescribeSubnets",
+                "ec2:DescribeVpcs",
+                "kms:ListAliases",
+                "iam:GetPolicy",
+                "iam:GetPolicyVersion",
+                "iam:GetRole",
+                "iam:GetRolePolicy",
+                "iam:ListAttachedRolePolicies",
+                "iam:ListRolePolicies",
+                "iam:ListRoles",
+                "lambda:*",
+                "states:DescribeStateMachine",
+                "states:ListStateMachines",
+                "tag:GetResources",
+                "xray:GetTraceSummaries",
+                "xray:BatchGetTraces",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": "iam:PassRole",
+              "Condition": {
+                "StringEquals": {
+                  "iam:PassedToService": "lambda.amazonaws.com",
+                },
+              },
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": [
+                "logs:DescribeLogStreams",
+                "logs:GetLogEvents",
+                "logs:FilterLogEvents",
+              ],
+              "Effect": "Allow",
+              "Resource": "arn:aws:logs:*:*:log-group:/aws/lambda/*",
+            },
+            {
+              "Action": [
+                "secretsmanager:GetSecretValue",
+                "secretsmanager:DescribeSecret",
+                "secretsmanager:TagResource",
+              ],
+              "Effect": "Allow",
+              "Resource": "arn:aws:secretsmanager:*:*:secret:rds-db-credentials/*",
+            },
+            {
+              "Action": [
+                "s3:*",
+                "s3-object-lambda:*",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "LambdaRoleDefaultPolicy75625A82",
+        "Roles": [
+          {
+            "Ref": "LambdaRole3A44B857",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "SecurityGroupm47testlambdateststack0D75B4A8": {
+      "Properties": {
+        "GroupDescription": "m47-test-lambda-test-stack-SecurityGroup2",
+        "GroupName": "m47-test-lambda-test-stack-SecurityGroup2",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow HTTPS outbound",
+            "FromPort": 443,
+            "IpProtocol": "tcp",
+            "ToPort": 443,
+          },
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow HTTP outbound",
+            "FromPort": 80,
+            "IpProtocol": "tcp",
+            "ToPort": 80,
+          },
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow PostgreSQL outbound to RDS",
+            "FromPort": 5432,
+            "IpProtocol": "tcp",
+            "ToPort": 5432,
+          },
+        ],
+        "VpcId": {
+          "Fn::ImportValue": "LambdaStackWithConcurrencyTest:ExportsOutputRefvpcA2121C384D1B3CDE",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+  },
+  "Rules": {
+    "CheckBootstrapVersion": {
+      "Assertions": [
+        {
+          "Assert": {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  {
+                    "Ref": "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
+    },
+  },
+}
+`;
+
+exports[`LambdaStack Should_MatchSnapshot_When_LambdaStackWithSqsIsCreated: LambdaStackWithSqsTest 1`] = `
+{
+  "Parameters": {
+    "BootstrapVersion": {
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+  },
+  "Resources": {
+    "DockerLambdaFunction2179A773": {
+      "DependsOn": [
+        "LambdaRoleDefaultPolicy75625A82",
+        "LambdaRole3A44B857",
+      ],
+      "Properties": {
+        "Code": {
+          "ImageUri": {
+            "Fn::Sub": "\${AWS::AccountId}.dkr.ecr.\${AWS::Region}.\${AWS::URLSuffix}/cdk-container-assets-NORMALIZED_HASH",
+          },
+        },
+        "FunctionName": "test-function-test",
+        "MemorySize": 128,
+        "PackageType": "Image",
+        "Role": {
+          "Fn::GetAtt": [
+            "LambdaRole3A44B857",
+            "Arn",
+          ],
+        },
+        "Tags": [
+          {
+            "Key": "Environment",
+            "Value": "Test",
+          },
+          {
+            "Key": "Project",
+            "Value": "test",
+          },
+          {
+            "Key": "StackId",
+            "Value": "m47-test-lambda-test-stack",
+          },
+        ],
+        "Timeout": 300,
+        "VpcConfig": {
+          "SecurityGroupIds": [
+            {
+              "Fn::GetAtt": [
+                "SecurityGroupm47testlambdateststack0D75B4A8",
+                "GroupId",
+              ],
+            },
+          ],
+          "SubnetIds": [
+            {
+              "Fn::ImportValue": "LambdaStackWithSqsTest:ExportsOutputRefvpcPrivateSubnet1Subnet934893E8236E2271",
+            },
+            {
+              "Fn::ImportValue": "LambdaStackWithSqsTest:ExportsOutputRefvpcPrivateSubnet2Subnet7031C2BA60DCB1EE",
+            },
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "DockerLambdaFunctionSqsEventSourceLambdaStackWithSqsTestm47testlambdateststackQueuem47testlambdateststack9091F6048B588CCF": {
+      "Properties": {
+        "BatchSize": 1,
+        "EventSourceArn": "arn:aws:sqs:us-east-1:123456789012:test-queue",
+        "FunctionName": {
+          "Ref": "DockerLambdaFunction2179A773",
+        },
+        "Tags": [
+          {
+            "Key": "Environment",
+            "Value": "Test",
+          },
+          {
+            "Key": "Project",
+            "Value": "test",
+          },
+          {
+            "Key": "StackId",
+            "Value": "m47-test-lambda-test-stack",
+          },
+        ],
+      },
+      "Type": "AWS::Lambda::EventSourceMapping",
+    },
+    "LambdaRole3A44B857": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "RoleName": "test-function-lambda-LambdaRole-Test",
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "LambdaRoleDefaultPolicy75625A82": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "dynamodb:PutItem",
+                "dynamodb:UpdateItem",
+                "dynamodb:DeleteItem",
+                "dynamodb:GetItem",
+                "dynamodb:BatchGetItem",
+                "dynamodb:BatchWriteItem",
+                "dynamodb:Query",
+                "dynamodb:Scan",
+                "lambda:InvokeFunction",
+                "lambda:InvokeAsync",
+                "rds-data:*",
+                "ec2:CreateNetworkInterface",
+                "ec2:DescribeNetworkInterfaces",
+                "ec2:DeleteNetworkInterface",
+                "logs:CreateLogGroup",
+                "logs:DescribeLogGroups",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents",
+                "ds:CreateComputer",
+                "ds:DescribeDirectories",
+                "ssm:GetParameter",
+                "ssm:GetParameters",
+                "ssm:GetParameterHistory",
+                "ssm:GetParametersByPath",
+                "sqs:ReceiveMessage",
+                "sqs:DeleteMessage",
+                "sqs:SendMessage",
+                "sqs:GetQueueAttributes",
+                "sqs:GetQueueUrl",
+                "sns:Publish",
+                "cloudformation:DescribeStacks",
+                "cloudformation:ListStackResources",
+                "cloudwatch:ListMetrics",
+                "cloudwatch:GetMetricData",
+                "ec2:DescribeSecurityGroups",
+                "ec2:DescribeSubnets",
+                "ec2:DescribeVpcs",
+                "kms:ListAliases",
+                "iam:GetPolicy",
+                "iam:GetPolicyVersion",
+                "iam:GetRole",
+                "iam:GetRolePolicy",
+                "iam:ListAttachedRolePolicies",
+                "iam:ListRolePolicies",
+                "iam:ListRoles",
+                "lambda:*",
+                "states:DescribeStateMachine",
+                "states:ListStateMachines",
+                "tag:GetResources",
+                "xray:GetTraceSummaries",
+                "xray:BatchGetTraces",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": "iam:PassRole",
+              "Condition": {
+                "StringEquals": {
+                  "iam:PassedToService": "lambda.amazonaws.com",
+                },
+              },
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": [
+                "logs:DescribeLogStreams",
+                "logs:GetLogEvents",
+                "logs:FilterLogEvents",
+              ],
+              "Effect": "Allow",
+              "Resource": "arn:aws:logs:*:*:log-group:/aws/lambda/*",
+            },
+            {
+              "Action": [
+                "secretsmanager:GetSecretValue",
+                "secretsmanager:DescribeSecret",
+                "secretsmanager:TagResource",
+              ],
+              "Effect": "Allow",
+              "Resource": "arn:aws:secretsmanager:*:*:secret:rds-db-credentials/*",
+            },
+            {
+              "Action": [
+                "s3:*",
+                "s3-object-lambda:*",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": [
+                "sqs:ReceiveMessage",
+                "sqs:ChangeMessageVisibility",
+                "sqs:GetQueueUrl",
+                "sqs:DeleteMessage",
+                "sqs:GetQueueAttributes",
+              ],
+              "Effect": "Allow",
+              "Resource": "arn:aws:sqs:us-east-1:123456789012:test-queue",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "LambdaRoleDefaultPolicy75625A82",
+        "Roles": [
+          {
+            "Ref": "LambdaRole3A44B857",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "SecurityGroupm47testlambdateststack0D75B4A8": {
+      "Properties": {
+        "GroupDescription": "m47-test-lambda-test-stack-SecurityGroup2",
+        "GroupName": "m47-test-lambda-test-stack-SecurityGroup2",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow HTTPS outbound",
+            "FromPort": 443,
+            "IpProtocol": "tcp",
+            "ToPort": 443,
+          },
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow HTTP outbound",
+            "FromPort": 80,
+            "IpProtocol": "tcp",
+            "ToPort": 80,
+          },
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow PostgreSQL outbound to RDS",
+            "FromPort": 5432,
+            "IpProtocol": "tcp",
+            "ToPort": 5432,
+          },
+        ],
+        "VpcId": {
+          "Fn::ImportValue": "LambdaStackWithSqsTest:ExportsOutputRefvpcA2121C384D1B3CDE",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+  },
+  "Rules": {
+    "CheckBootstrapVersion": {
+      "Assertions": [
+        {
+          "Assert": {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  {
+                    "Ref": "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
+    },
+  },
+}
+`;
