@@ -1,102 +1,102 @@
 # Session 3: CDK Constructs 🏗️
 
-## **Levels** 📚
+## 🏗️ CDK Constructs Levels — Explained with Metaphors & Examples
 
-### **Level 1:** Direct AWS CloudFormation resources. 🛠️
+| Level  | Who's in control?         | What do you get?                                      | Typical examples                                 |
+| ------ | ------------------------- | ----------------------------------------------------- | ------------------------------------------------ |
+| **L1** | You control everything    | 💡 *Raw CloudFormation resource*                      | `CfnBucket`, `CfnFunction`, `CfnTable`           |
+| **L2** | AWS gives you tools       | 🧰 *Reusable modules with sensible defaults*          | `s3.Bucket`, `lambda.Function`, `dynamodb.Table` |
+| **L3** | AWS does most of the work | 🚀 *High-level abstractions for real-world use cases* | `aws-s3-deployment`, `aws-apigateway-lambda`     |
 
-- **Definition:** Direct representations of AWS CloudFormation resources. 📜
-- **Benefits:**
-  - Full control over resource properties. 🎛️
-  - Ideal for advanced use cases requiring fine-grained customization. 🔍
-- **Drawbacks:**
-  - Requires detailed knowledge of CloudFormation syntax. 🧠
-  - More verbose and error-prone. ⚠️
+---
 
-- **Example:**
+## 🧱 L1 – "Raw Bricks"
 
-  ```typescript
-  const bucket = new s3.CfnBucket(this, 'MyBucket', {
-    bucketName: 'my-bucket',
-    versioningConfiguration: {
-      status: 'Enabled'
-    }
-  });
-  ```
+* ✍️ You write the CloudFormation equivalent directly.
+* 📋 Requires deep understanding of the AWS resource specification.
+* 🎯 Best when you need **full control** or are working with newly released features.
 
-### **Level 2:** Predefined patterns for common use cases. ✂️
+```ts
+// Raw CloudFormation
+new s3.CfnBucket(this, 'MyRawBucket', {
+  bucketName: 'raw-bucket',
+  versioningConfiguration: { status: 'Enabled' }
+});
+```
 
-- **Definition:** Predefined patterns for common use cases. 📦
-- **Benefits:**
-  - Simplifies resource creation with sensible defaults. 🛠️
-  - Reduces boilerplate code. ✂️
-  - Easier to use for developers new to AWS. 👩‍💻
-- **Drawbacks:**
-  - Limited flexibility compared to Level 1 constructs. 🔒
+---
 
-- **Example:**
+## 🪚 L2 – "Efficient Tools"
 
-  ```typescript
-  const bucket = new s3.Bucket(this, 'MyBucket', {
-    versioned: true,
-    removalPolicy: cdk.RemovalPolicy.DESTROY
-  });
-  ```
+* 💡 Provides friendly abstractions with helpful defaults (e.g. `versioned: true`).
+* 🔒 Protects against common misconfigurations.
+* ✅ Ideal for **most real-world use cases**.
 
-### **Level 3:** Opinionated constructs for complex scenarios. 🤔
+```ts
+// Level 2 Bucket – simple and safe
+new s3.Bucket(this, 'SafeBucket', {
+  versioned: true,
+  removalPolicy: cdk.RemovalPolicy.DESTROY
+});
+```
 
-- **Definition:** Opinionated constructs for complex scenarios. 🏗️
-- **Benefits:**
-  - Encapsulates best practices for specific use cases. 🌟
-  - Provides higher-level abstractions for complex workflows. 🔄
-  - Great for rapid development and prototyping. 🚀
-- **Drawbacks:**
-  - Highly opinionated, may not fit all use cases. ⚠️
+---
 
-- **Example:**
+## 🧠 L3 – "Prebuilt Solutions"
 
-  ```typescript
-  const websiteBucket = new s3.Bucket(this, 'WebsiteBucket', {
-    websiteIndexDocument: 'index.html',
-    publicReadAccess: true
-  });
-  ```
+* 🧬 **Composed constructs** that encapsulate multiple resources and best practices.
+* 🛠️ Perfect for prototyping fast or enforcing standard architectures.
+* 😅 Can be too rigid if you need to tweak specific pieces.
 
-### **Custom Constructs:** Tailored constructs for specific needs. 🛠️
+```ts
+// Deploy a static website with S3
+new s3deploy.BucketDeployment(this, 'DeployWebsite', {
+  sources: [s3deploy.Source.asset('./website')],
+  destinationBucket: myBucket
+});
+```
 
-- **Definition:** User-defined constructs tailored to specific needs. 🧩
-- **Benefits:**
-  - Enables reusability and modularity. 🔄
-  - Combines multiple resources into a single logical unit. 📦
-  - Perfect for creating organization-specific patterns. 🌟
-- **Drawbacks:**
-  - Requires additional effort to design and implement. 🧠
+---
 
-- **Example:**
+## 📦 Bonus: Custom Constructs
 
-  ```typescript
-  class CustomBucket extends Construct {
-    constructor(scope: Construct, id: string) {
-      super(scope, id);
+* 🧩 You build your **own “Level 3”** construct tailored to your org.
+* 👌 Great for reusability, consistency, and modular design.
 
-      new s3.Bucket(this, 'MyCustomBucket', {
-        versioned: true,
-        encryption: s3.BucketEncryption.S3_MANAGED
-      });
-    }
+```ts
+export class MySecureBucket extends Construct {
+  constructor(scope: Construct, id: string) {
+    super(scope, id);
+
+    new s3.Bucket(this, 'Bucket', {
+      encryption: s3.BucketEncryption.KMS_MANAGED,
+      versioned: true,
+    });
   }
-  ```
+}
+```
 
 ---
 
-### **Duration:** 10 minutes ⏱️
+## 🎯 When to Use Each Level?
+
+```mermaid
+flowchart TD
+    idea[🎯 You have an idea] --> checkPattern{Exists in L2 or L3?}
+    checkPattern -- Yes --> useL2L3[✅ Use L2/L3 construct]
+    checkPattern -- No --> needControl{Do you need full control?}
+    needControl -- Yes --> useL1[🛠️ Use L1 (Cfn...)]
+    needControl -- No --> makeCustom[🧩 Build a Custom Construct]
+```
 
 ---
 
-### **Next Steps:**
+## ✅ Quick Tips to Remember
 
-- Discuss the differences between construct levels. 🗣️
-- Provide examples for each level with practical use cases. 💡
-
+* 🔧 L1 = *Low-level*, fine-grained, verbose.
+* 🪛 L2 = *Standard*, productive, safe.
+* 🏗️ L3 = *Opinionated*, powerful, but less flexible.
+* 🔁 Custom = *Your company’s building blocks*, reusable and tailored.
 ---
 
 ### **References:**
