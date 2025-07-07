@@ -44,7 +44,7 @@ export class ProductionBackend extends StackBuildPart {
         const apiGatewayStack = this.createApiGateway(
             apiLambdaStack.lambdaFunction,
             "ApiGateway",
-            "api-v2",
+            "api-cdk-workshop",
         );
 
         const s3Bucket = this.createS3Stack(
@@ -101,7 +101,7 @@ export class ProductionBackend extends StackBuildPart {
             subdomain: subdomain,
             githubRepo: this.props.githubRepo,
             certificateArn: `arn:aws:acm:us-east-1:${this.props.env.account}:certificate/ccf470a3-5470-4e2b-8880-19be90782a08`,
-            domain: "workshop.com",
+            domain: "m47.io",
         };
 
         return new ApiGatewayStack(this.props.scope, apiProps);

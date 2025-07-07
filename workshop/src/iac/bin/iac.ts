@@ -11,7 +11,7 @@ const envFromCli: Environment = {
     region: process.env.CDK_DEFAULT_REGION,
 };
 
-const gitHubRepo = "workshop";
+const gitHubRepo = "cdk-intro-workshop";
 const vpcId = 'vpc-ee04cd97';
 const rootPath = path.join(process.cwd(), "../../../");
 
