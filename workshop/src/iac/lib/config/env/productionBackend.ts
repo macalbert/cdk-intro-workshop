@@ -100,7 +100,7 @@ export class ProductionBackend extends StackBuildPart {
             stackName: `${this.props.githubRepo}-${name}`,
             subdomain: subdomain,
             githubRepo: this.props.githubRepo,
-            certificateArn: `arn:aws:acm:us-east-1:${this.props.env.account}:certificate/ccf470a3-5470-4e2b-8880-19be90782a08`,
+            certificateArn: `arn:aws:acm:us-east-1:${this.props.env.account}:certificate/be63062d-5316-47af-9f94-819c1dc02853`,
             domain: "m47.io",
         };
 

@@ -28,9 +28,9 @@ export class ProductionShared extends StackBuildPart {
         const createBastionStack = this.createBastionStack();
 
         return [
-            //rdsStack,
-            //pipelineStack,
-            //createBastionStack,
+            rdsStack,
+            pipelineStack,
+            createBastionStack,
         ];
     }
 

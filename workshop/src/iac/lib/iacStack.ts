@@ -29,7 +29,8 @@ export class IacStack extends StackBuilder {
         console.log("   ---------------");
         console.log(`  - sourceCodePath: ${modulesPath.sourceCodePath}`);
         console.log(`  - dockerfileApiName: ${modulesPath.dockerfileApi}`);
-        console.log(`  - frontendDistPath: ${modulesPath.frontendDistPath}\n`);
+        //console.log(`  - frontendDistPath: ${modulesPath.frontendDistPath}`);
+        console.log("\n");
 
         const stackParts: StackBuildPart[] = [
             new ProductionBackend({
@@ -45,6 +46,7 @@ export class IacStack extends StackBuilder {
                 sourceCodePath: modulesPath.sourceCodePath,
                 dockerfileApi: modulesPath.dockerfileApi,
             } as ProductionBackendProps),
+            /*
             new ProductionShared({
                 githubRepo: githubRepo,
                 stackName: "SharedStack",
@@ -53,7 +55,7 @@ export class IacStack extends StackBuilder {
                 branch: this.branchName,
                 vpc: this.vpc,
                 subdomain: "workshop-coverage-report",
-            } as StackBuildProps),
+            } as StackBuildProps),*/
         ];
 
         this.build(stackParts);
