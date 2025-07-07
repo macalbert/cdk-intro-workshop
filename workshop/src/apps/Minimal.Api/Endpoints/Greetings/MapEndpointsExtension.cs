@@ -1,7 +1,6 @@
 ﻿namespace M47.Workshop.Apps.Minimal.Api.Endpoints.Greetings;
 
 using M47.Workshop.Apps.Minimal.Api;
-using M47.Workshop.Apps.Minimal.Api.Configurations.Authorization;
 using M47.Workshop.Apps.Minimal.Api.Configurations.Cors;
 
 public static partial class MapEndpointsExtension
@@ -10,8 +9,7 @@ public static partial class MapEndpointsExtension
     {
         app.MapGet(ApiEndpoints.Greetings.Get, GreetingsEndpoints.GetGreetingsAsync)
             .Produces(StatusCodes.Status400BadRequest)
-            .RequireCors(CorsConstants.AnyOrigin)
-            .RequireAuthorization(AuthConstants.UserPolicyName);
+            .RequireCors(CorsConstants.AnyOrigin);
 
         return app;
     }
