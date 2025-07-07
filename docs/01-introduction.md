@@ -1,6 +1,28 @@
 # Session 1: Introduction to CDK 🚀
 
-## **Why CDK?** 🤔
+## **Why Infrastructure as Code (IaC)?** 🌐
+
+- **Consistency:**
+  - Ensures that infrastructure is provisioned in a predictable and repeatable manner. 🔄
+  - Reduces human errors caused by manual configurations. ❌
+
+- **Version Control:**
+  - Allows you to track changes to your infrastructure over time using Git or other version control systems. 📜
+  - Facilitates collaboration and rollback capabilities. 🤝
+
+- **Automation:**
+  - Speeds up deployment processes by automating resource provisioning. 🚀
+  - Enables CI/CD pipelines for continuous delivery and integration. 🔧
+
+- **Scalability:**
+  - Simplifies scaling infrastructure to meet demand by defining reusable templates. 📈
+
+- **Documentation:**
+  - Serves as living documentation for your infrastructure, making it easier to onboard new team members. 📖
+
+---
+
+### **Why CDK?** 🤔
 
 ### **Advantages over Terraform** 🌟
 
@@ -50,4 +72,4 @@
 
 ---
 
-[🔙 Introduction to CDK 🚀](./01-introduction.md) | [🏠 Index](../README.md) | [🔜 IAM Roles and Users 🛡️](./02-iam-roles-users.md)
+[🏠 Index](../README.md) | [🔜 IAM Roles and Users 🛡️](./02-iam-roles-users.md)
