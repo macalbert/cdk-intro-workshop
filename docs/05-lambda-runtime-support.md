@@ -143,4 +143,6 @@ After this session you’ll be able to:
 
 ---
 
+[🔙 CDK Commands 🛠️](./04-cdk-commands.md) | [🏠 Index](../README.md) | [🔜 Deploy API Gateway Lambda 🚀](./deploy-api-gateway-lambda.md)
+
 🔁 Ready to try this live? Let’s build your first custom Lambda runtime now!

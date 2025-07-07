@@ -11,7 +11,7 @@ This workshop introduces the AWS Cloud Development Kit (CDK) using TypeScript. I
 1. [Introduction to CDK 🚀](./docs/01-introduction.md)
 2. [IAM Roles and Users 🛡️](./docs/02-iam-roles-users.md)
 3. [CDK Constructs 🏗️](./docs/03-cdk-constructs.md)
-4. [Practical Workflow 🔄](./docs/04-cdk-workflow.md)
+4. [Practical Workflow 🔄](./docs/04-cdk-commands.md)
 5. [Lambda Runtime Support 🧩](./docs/05-lambda-runtime-support.md)
 
 ---

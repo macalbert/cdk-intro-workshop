@@ -97,13 +97,14 @@ flowchart TD
 * 🪛 L2 = *Standard*, productive, safe.
 * 🏗️ L3 = *Opinionated*, powerful, but less flexible.
 * 🔁 Custom = *Your company’s building blocks*, reusable and tailored.
+
 ---
 
 ### **References:**
 
-- [AWS CDK Constructs Documentation](https://docs.aws.amazon.com/cdk/latest/guide/constructs.html)
-- [AWS CDK Documentation](https://docs.aws.amazon.com/cdk/latest/guide/home.html)
+* [AWS CDK Constructs Documentation](https://docs.aws.amazon.com/cdk/latest/guide/constructs.html)
+* [AWS CDK Documentation](https://docs.aws.amazon.com/cdk/latest/guide/home.html)
 
 ---
 
-[🔙 IAM Roles and Users 🛡️](./02-iam-roles-users.md) | [🏠 Index](../README.md) | [🔜 Practical Workflow 🔄](./04-workflow.md)
+[🔙 IAM Roles & Users 🔑](./02-iam-roles-users.md) | [🏠 Index](../README.md) | [🔜 CDK Commands 🛠️](./04-cdk-commands.md)

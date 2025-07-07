@@ -66,6 +66,20 @@ cdk synth
 - [AWS CDK CLI Documentation](https://docs.aws.amazon.com/cdk/latest/guide/cli.html)
 - [AWS CDK Documentation](https://docs.aws.amazon.com/cdk/latest/guide/home.html)
 
+### Additional Arguments
+
+#### `--require-approval never`
+
+- **Purpose**: Skips the approval prompt for deploying resources that require manual confirmation.
+- **Use Case**: Ideal for CI/CD pipelines where human intervention is not feasible.
+- **Effect**: Ensures the deployment proceeds without waiting for approval, even for sensitive changes like IAM roles or security groups.
+
+#### `--no-execute`
+
+- **Purpose**: Prepares the deployment but does not actually provision resources.
+- **Use Case**: Useful for validating the deployment plan without making changes to the AWS environment.
+- **Effect**: Generates and displays the CloudFormation changeset without executing it, allowing you to review the changes before applying them.
+
 ---
 
 [🔙 CDK Constructs 🏗️](./03-cdk-constructs.md) | [🏠 Index](../README.md) | [🔜 Lambda Runtime Support 🧩](./05-lambda-runtime-support.md)
