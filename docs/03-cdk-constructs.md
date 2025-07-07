@@ -82,11 +82,11 @@ export class MySecureBucket extends Construct {
 
 ```mermaid
 flowchart TD
-    idea[🎯 You have an idea] --> checkPattern{Exists in L2 or L3?}
-    checkPattern -- Yes --> useL2L3[✅ Use L2/L3 construct]
+    idea[You have an idea] --> checkPattern{Exists in L2 or L3?}
+    checkPattern -- Yes --> useL2L3[Use L2 or L3 construct]
     checkPattern -- No --> needControl{Do you need full control?}
-    needControl -- Yes --> useL1[🛠️ Use L1 (Cfn...)]
-    needControl -- No --> makeCustom[🧩 Build a Custom Construct]
+    needControl -- Yes --> useL1[Use L1]
+    needControl -- No --> makeCustom[Build a Custom Construct]
 ```
 
 ---
