@@ -28,9 +28,9 @@ export class ProductionShared extends StackBuildPart {
         const createBastionStack = this.createBastionStack();
 
         return [
-            rdsStack,
-            pipelineStack,
-            createBastionStack,
+            //rdsStack,
+            //pipelineStack,
+            //createBastionStack,
         ];
     }
 
@@ -53,7 +53,7 @@ export class ProductionShared extends StackBuildPart {
             vpc: this.props.vpc,
             env: this.props.env,
             bucketRemovalPolicy: RemovalPolicy.DESTROY,
-            domain: "workshop.com",
+            domain: "m47.io",
             stackName: `${this.formatRepoNameForCloudFormation()}-CodePipeline`,
             manualApproval: false,
             shouldCreateNewSlackChannel: false,
