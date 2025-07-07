@@ -11,8 +11,6 @@ FROM mcr.microsoft.com/dotnet/sdk:9.0-alpine AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["workshop/src/apps/Minimal.Api/Minimal.Api.csproj", "workshop/src/apps/Minimal.Api/"]
-COPY ["workshop/src/workshop/workshop.csproj", "workshop/src/workshop/"]
-COPY ["shared/src/Backend/Shared.csproj", "shared/src/Backend/"]
 COPY ["Directory.Packages.props","."]
 RUN dotnet restore "workshop/src/apps/Minimal.Api/Minimal.Api.csproj"
 COPY . .
@@ -28,4 +26,4 @@ RUN dotnet publish "Minimal.Api.csproj" -c $BUILD_CONFIGURATION -o /app/publish 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "M47.workshop.Apps.Minimal.Api.dll"]
+ENTRYPOINT ["dotnet", "M47.Workshop.Apps.Minimal.Api.dll"]
