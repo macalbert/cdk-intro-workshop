@@ -84,12 +84,17 @@ RIC = Runtime Interface Client → acts as a **layer between AWS Lambda's infra 
 
 ```mermaid
 flowchart TD
-    A[AWS Lambda Infra] -->|Invoke| B[Runtime API (localhost:9001)]
-    B -->|GET /invocation/next| C[RIC]
-    C -->|event → handler(event, ctx)| D[Your Code]
-    D -->|result| C
-    C -->|POST /invocation/<id>/response| B
+    A[AWS Lambda Infra] -->|Invoke| B[Runtime API]
+    B -->|Get next invocation| C["Runtime Interface Client (RIC)"]
+    C -->|Call handler| D["Our Code (Handler)"]
+    D -->|Return result| C
+    C -->|Send response| B
     B --> A
+
+    %% Style AWS components (orange with white text)
+    style A fill:#f9b66d,stroke:#e58e26,stroke-width:2px,color:white
+    style B fill:#f9b66d,stroke:#e58e26,stroke-width:2px,color:white
+    style C fill:#f9b66d,stroke:#e58e26,stroke-width:2px,color:white
 ```
 
 ---
@@ -97,15 +102,20 @@ flowchart TD
 ### 🔁 Sequence Diagram: Example Request Handling
 
 ```mermaid
+%%{init: {"themeVariables": {
+  "actorBorder": "#e58e26",
+  "actorBkg": "#f9b66d",
+  "actorTextColor": "white"
+}}}%%
 sequenceDiagram
-    participant Lambda
-    participant RIC
-    participant YourCode
+    participant AWS_Lambda as AWS Lambda
+    participant Runtime_API as Runtime API
+    actor Your_Code as Your Code
 
-    Lambda->>RIC: GET /invocation/next
-    RIC->>YourCode: handler(event)
-    YourCode-->>RIC: result
-    RIC->>Lambda: POST /invocation/<id>/response
+    AWS_Lambda->>Runtime_API: GET /invocation/next
+    Runtime_API->>Your_Code: handler(event)
+    Your_Code-->>Runtime_API: result
+    Runtime_API->>AWS_Lambda: POST /invocation/<id>/response
 ```
 
 ---
