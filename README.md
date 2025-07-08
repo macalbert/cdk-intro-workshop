@@ -27,5 +27,5 @@ This workshop introduces the AWS Cloud Development Kit (CDK) using TypeScript. I
 ## **Next Steps**
 
 - Clone this repository.
-- Install dependencies using `npm install`.
+- Install dependencies using `pnpm install --frozen-lockfile`.
 - Follow the agenda links to explore each topic in detail.
