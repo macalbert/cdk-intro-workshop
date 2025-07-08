@@ -13,46 +13,61 @@
 cdk bootstrap
 ```
 
-### 2. **Install Dependencies**
+### 2. **List**
 
-- Ensures all required libraries and modules are installed.
-
-**Command:**
-
-```bash
-npm install
-```
-
-### 3. **Deploy**
-
-- Provisions resources to AWS based on your CDK stack.
+- Lists all stacks in your application.
+- Helps you identify stack names for targeted operations.
 
 **Command:**
 
 ```bash
-cdk deploy
+cdk list
 ```
 
-### 4. **Diff**
-
-- Compares local changes with deployed resources.
-- Helps you understand what changes will be made before deploying.
-
-**Command:**
-
-```bash
-cdk diff
-```
-
-### 5. **Synth**
+### 3. **Synth**
 
 - Generates the CloudFormation template for your stack.
+- Specify the stack name to synthesize a specific stack.
 - Lets you validate changes without deploying.
 
 **Command:**
 
 ```bash
-cdk synth
+cdk synth <stack-name>
+```
+
+### 4. **Diff**
+
+- Compares local changes with deployed resources.
+- Specify the stack name to compare changes for a specific stack.
+- Helps you understand what changes will be made before deploying.
+
+**Command:**
+
+```bash
+cdk diff <stack-name>
+```
+
+### 5. **Deploy**
+
+- Provisions resources to AWS based on your CDK stack.
+- Specify the stack name to deploy a specific stack.
+
+**Command:**
+
+```bash
+cdk deploy <stack-name>
+```
+
+### 6. **Destroy**
+
+- Removes resources provisioned by your CDK stack.
+- Specify the stack name to destroy a specific stack.
+
+**Command:**
+
+```bash
+cdk destroy <stack-name>
 ```
 
 ## 💡 Tips for Using CDK Commands
