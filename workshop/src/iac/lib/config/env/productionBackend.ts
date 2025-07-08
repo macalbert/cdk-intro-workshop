@@ -47,14 +47,7 @@ export class ProductionBackend extends StackBuildPart {
             "api-cdk-workshop",
         );
 
-        const s3Bucket = this.createS3Stack(
-            "S3BucketDatasets",
-            `${this.props.githubRepo}-datasets`.toLowerCase(),
-        );
-
-
         return [
-            s3Bucket,
             apiLambdaStack,
             apiGatewayStack,
         ];
@@ -105,18 +98,5 @@ export class ProductionBackend extends StackBuildPart {
         };
 
         return new ApiGatewayStack(this.props.scope, apiProps);
-    }
-
-    private createS3Stack(name: string, bucketName: string): S3Stack {
-        const s3Props: S3StackProps = {
-            name: name,
-            bucketName: bucketName,
-            githubRepo: this.props.githubRepo,
-            env: this.props.env,
-            envName: AppEnvironment.Production,
-            stackName: `${this.props.githubRepo}-${name}`,
-        };
-
-        return new S3Stack(this.props.scope, s3Props);
     }
 }
