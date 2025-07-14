@@ -2,42 +2,37 @@
 
 ## **Overview**
 
-This guide explains how to deploy an API using AWS API Gateway integrated with AWS Lambda. This setup is ideal for serverless applications with low latency and scalability.
+This guide explains how to deploy an API using AWS API Gateway integrated with AWS Lambda. This setup is ideal for
+serverless applications with low latency and scalability.
 
 ## **Steps**
 
 ### 1. Define the Lambda Function
 
-Use the `createApiLambdaStack` method to define your Lambda function and API Gateway integration. Specify runtime, handler, and configurations.
+Use the `createApiLambdaStack` method to define your Lambda function and API Gateway integration. Specify runtime,
+handler, and configurations.
 
 **Example:**
 
 ```typescript
-private createApiLambdaStack(
-    name: string,
-    dockerfile: string,
-    subdomain: string,
-): ApiLambdaStack {
     const lambdaExportProps: ApiLambdaStackProps = {
+        env: { account: "425287461358", region: "eu-west-1" },
         name: "ApiLambda",
-        githubRepo: "my-repo",
-        pathDockerFile: "./source-code",
-        env: { account: "123456789012", region: "us-east-1" },
-        vpc: { vpcId: "vpc-0abcd1234efgh5678" },
+        githubRepo: "cdk-intro-workshop",
+        stackName: "cdk-intro-workshop-ApiLambda",
+        pathDockerFile: "./workshop/src/apps/Minimal.Api/",
+        dockerFile: "Dockerfile",
         envName: "Production",
+        functionName: "cdk-intro-workshop-api-production",
         timeoutSeconds: 29,
         memorySizeMbs: 1024,
+        vpc: { vpcId: "vpc-ee04cd97" },
         vpcSubnets: {
             subnetType: "PRIVATE_WITH_EGRESS",
         },
-        stackName: "my-repo-ApiLambda",
-        functionName: "my-repo-api",
-        dockerFile: "Dockerfile",
     };
 
-    const stack = new ApiLambdaStack(this.props.scope, lambdaExportProps);
-
-    return stack;
+    new ApiLambdaStack(this.props.scope, lambdaExportProps);
 }
 ```
 
@@ -48,23 +43,18 @@ Use the `createApiGateway` method to integrate the Lambda function with API Gate
 **Example:**
 
 ```typescript
-private createApiGateway(
-    lambdaFunction: IFunction,
-    name: string,
-    subdomain: string,
-): ApiGatewayStack {
     const apiProps: ApiGatewayStackProps = {
-        env: { account: "123456789012", region: "us-east-1" },
+        env: { account: "425287461358", region: "eu-west-1" },
         name: "ApiGateway",
+        githubRepo: "cdk-intro-workshop",
+        stackName: "cdk-intro-workshop-ApiGateway",
         envName: "Production",
         lambdaFunction: lambdaFunction,
-        stackName: "my-repo-ApiGateway",
-        subdomain: "api-v2",
-        githubRepo: "my-repo",
-        certificateArn: "arn:aws:acm:us-east-1:123456789012:certificate/ccf470a3-5470-4e2b-8880-19be90782a08",
-        domain: "workshop.com",
+        certificateArn: `arn:aws:acm:us-east-1:425287461358:certificate/be63062d-5316-47af-9f94-819c1dc02853`,
+        subdomain: "api",
+        domain: "m47.io",
     };
-
+    
     return new ApiGatewayStack(this.props.scope, apiProps);
 }
 ```
@@ -76,7 +66,7 @@ Use the AWS CDK CLI to deploy the stack.
 **Command:**
 
 ```bash
-cdk deploy
+cdk deploy cdk-intro-workshop-ApiGateway
 ```
 
 ### **Stack Diagram**

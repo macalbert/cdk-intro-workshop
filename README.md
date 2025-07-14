@@ -13,8 +13,16 @@ This workshop introduces the AWS Cloud Development Kit (CDK) using TypeScript. I
 3. [CDK Constructs 🏗️](./docs/03-cdk-constructs.md)
 4. [Mastering CDK Commands 🛠️](./docs/04-cdk-commands.md)
 5. [Lambda Runtime Support 🧩](./docs/05-lambda-runtime-support.md)
+6. [Practical Workshop: API Gateway & Lambda 🔥](./docs/practical-workshop-api-gateway-lambda.md)
 
 ---
+
+## **Practical Sessions**
+
+- [Implementing API Gateway with Lambda](./docs/practical-workshop-api-gateway-lambda.md)
+- [Lambda API Implementation Exercise](./docs/lambda-api-exercise.md)
+- [CDK Implementation Guide](./docs/cdk-implementation-guide.md)
+- [Deployment Walkthrough](./docs/deployment-walkthrough.md)
 
 ## **Resources**
 

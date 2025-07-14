@@ -1,6 +1,8 @@
 # Session 5: Custom AWS Lambda Runtimes with RIC
 
-A **visual and practical guide** for understanding and deploying AWS Lambda custom runtimes using the **Runtime Interface Client (RIC)**. Tailored for engineers who want full control over Lambda behavior in container images.
+A **visual and practical guide** for understanding and deploying AWS Lambda custom runtimes using the[🔙 CDK Commands 🛠️](./04-cdk-commands.md) | [🏠 Index](../README.md) | [🔜 Practical Workshop: API Gateway & Lambda 🔥](./practical-workshop-api-gateway-lambda.md)
+
+🔁 Ready to try this live? Let's build your first custom Lambda runtime now!Runtime Interface Client (RIC)**. Tailored for engineers who want full control over Lambda behavior in container images.
 
 ---
 
@@ -42,14 +44,12 @@ Before the session:
 
 ### 📁 Directory structure
 
-```
-
+```text
 /custom-lambda
 ├── app/
 │   └── handler.py
 ├── requirements.txt
 └── Dockerfile
-
 ````
 
 ### 🐳 Dockerfile
