@@ -62,7 +62,7 @@ jobs:
     strategy:
       matrix:
         stack:
-          - m47-workshop-2-0-net-apigateway-production-stack
+          - m47-cdk-intro-workshop-apigateway-production-stack
 
     steps:
       - name: 🚀 ♂️ Checkout
@@ -93,10 +93,10 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: "eu-west-1"
 
-      - name: 🔧 Prepare CDK environment
-        run: |
+      #- name: 🔧 Prepare CDK environment
+      #  run: |
           # Run the script to remove profile from cdk.json for CI/CD environment
-          bash ./scripts/remove_cdk_profile.sh
+      #    bash ./scripts/remove_cdk_profile.sh
 
       - name: 📁 Create frontend 'dist' directory
         run: |
