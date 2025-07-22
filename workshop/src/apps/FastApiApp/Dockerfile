@@ -1,4 +1,4 @@
-# Use AWS Lambda Python base image with RIC
+# Use AWS Lambda Python base image without RIC
 FROM public.ecr.aws/lambda/python:3.9
 
 EXPOSE 8000

@@ -1,4 +1,4 @@
-# Using public Python slim image
+# Using public Python slim image with RIC
 FROM python:3.9-slim
 
 # Set working directory
@@ -15,11 +15,13 @@ ENV RUNTIME_INTERFACE=ric
 # Expose port
 EXPOSE 8000
 
-COPY workshop/src/apps/FastApiApp .
+COPY workshop/src/apps/FastApiApp/requirements.txt .
 
 # Install the function's dependencies
 RUN pip install awslambdaric
 RUN pip install --no-cache-dir -r requirements.txt
+
+COPY workshop/src/apps/FastApiApp .
 
 # Set runtime interface client as default command for the container runtime
 ENTRYPOINT [ "/usr/local/bin/python", "-m", "awslambdaric" ]
