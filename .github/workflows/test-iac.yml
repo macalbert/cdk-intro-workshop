@@ -62,7 +62,7 @@ jobs:
     strategy:
       matrix:
         stack:
-          - m47-workshop-2-0-net-apigateway-production-stack
+          - m47-cdk-intro-workshop-apigateway-production-stack
 
     steps:
       - name: 🚀 ♂️ Checkout

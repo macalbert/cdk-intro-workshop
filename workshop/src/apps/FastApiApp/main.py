@@ -21,7 +21,7 @@ app = FastAPI(
     title="CDK Workshop FastAPI",
     description="Demo API for CDK Workshop - A comprehensive API showcasing different deployment strategies",
     version="1.0.0",
-    docs_url="/docs",  # Swagger UI endpoint
+    docs_url="/swagger",  # Swagger UI endpoint
     redoc_url="/redoc"  # ReDoc endpoint
 )
 
