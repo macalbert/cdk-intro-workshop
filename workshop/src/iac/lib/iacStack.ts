@@ -40,7 +40,7 @@ export class IacStack extends StackBuilder {
                 branch: this.branchName,
                 vpc: this.vpc,
                 subdomain: `${formatRepoNameForCloudFormation(githubRepo)}-api`,
-                exposedPort: 80,
+                exposedPort: 8000,
                 absoluteRepoPath: modulesPath.absoluteRepoPath,
                 dockerfileApi: modulesPath.dockerfileApi,
             } as ProductionBackendProps)

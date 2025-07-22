@@ -38,6 +38,10 @@ async def get_info():
         }
     }
 
+@app.get("/greetings")
+async def get_greetings():
+    return {"message": "Hi world"}
+
 @app.post("/echo")
 async def echo_data(data: dict):
     return {"echoed": data, "received_at": "fastapi-endpoint"}

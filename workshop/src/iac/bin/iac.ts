@@ -17,7 +17,7 @@ const rootPath = path.join(process.cwd(), "../../../");
 
 const dockerfileApi = path.join(
     rootPath,
-    "workshop/src/apps/Minimal.Api/Dockerfile",
+    "workshop/src/apps/FastApiApp/Dockerfile.lambda",
 );
 
 const modulesPath: ModulesPathProps = {
@@ -26,7 +26,7 @@ const modulesPath: ModulesPathProps = {
         rootPath,
         "workshop/src/apps/frontend/dist",
     ),
-    dockerfileApi: "Dockerfile.api"
+    dockerfileApi: "Dockerfile.fastapi"
 };
 
 try {
