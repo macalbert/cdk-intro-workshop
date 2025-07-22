@@ -21,7 +21,7 @@ const dockerfileApi = path.join(
 );
 
 const modulesPath: ModulesPathProps = {
-    sourceCodePath: rootPath,
+    absoluteRepoPath: rootPath,
     frontendDistPath: path.join(
         rootPath,
         "workshop/src/apps/frontend/dist",

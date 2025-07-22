@@ -696,7 +696,7 @@ exports[`Test Stack Should_CreateCoreBackendStack_When_BuildIsCalled: backend_gi
           },
         },
         "FunctionName": "githubrepo-api-production",
-        "MemorySize": 1024,
+        "MemorySize": 512,
         "PackageType": "Image",
         "Role": {
           "Fn::GetAtt": [

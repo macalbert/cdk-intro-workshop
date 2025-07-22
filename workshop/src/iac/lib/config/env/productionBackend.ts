@@ -4,8 +4,6 @@ import {
     AppEnvironment,
     ApiLambdaStack,
     type ApiLambdaStackProps,
-    S3Stack,
-    type S3StackProps,
     StackBuildPart,
     type StackBuildProps,
 } from "@m47/shared-iac";
@@ -17,7 +15,7 @@ export interface ProductionBackendProps extends StackBuildProps {
     clusterName: string;
     serviceName: string;
     exposedPort: number;
-    sourceCodePath: string;
+    absoluteRepoPath: string;
     dockerfileApi: string;
 }
 
@@ -61,12 +59,12 @@ export class ProductionBackend extends StackBuildPart {
         const lambdaExportProps: ApiLambdaStackProps = {
             name: name,
             githubRepo: this.props.githubRepo,
-            pathDockerFile: this.props.sourceCodePath,
+            pathDockerFile: this.props.absoluteRepoPath,
             env: this.props.env,
             vpc: this.props.vpc,
             envName: AppEnvironment.Production,
             timeoutSeconds: 29,
-            memorySizeMbs: 1024,
+            memorySizeMbs: 512,
             vpcSubnets: {
                 subnetType: SubnetType.PRIVATE_WITH_EGRESS,
             },

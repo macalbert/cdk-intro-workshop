@@ -1,17 +1,16 @@
 import type { Environment } from "aws-cdk-lib";
-import type { StackBuildPart, StackBuildProps } from "@m47/shared-iac";
+import type { StackBuildPart } from "@m47/shared-iac";
 import type { Construct } from "constructs";
 import {
     ProductionBackend,
     type ProductionBackendProps,
 } from "./config/env/productionBackend";
-import { ProductionShared } from "./config/env/productionShared";
 import { StackBuilder } from "@m47/shared-iac";
 import { formatRepoNameForCloudFormation } from "@m47/shared-iac/src/utils/cloudFormationUtils";
 
 export interface ModulesPathProps {
     frontendDistPath: string;
-    sourceCodePath: string;
+    absoluteRepoPath: string;
     dockerfileApi: string;
 }
 
@@ -24,13 +23,13 @@ export class IacStack extends StackBuilder {
         modulesPath: ModulesPathProps,
     ) {
         super(scope, env, githubRepo, vpcId);
+        
+        const pathEntries = [
+            { label: "Repository Root", value: modulesPath.absoluteRepoPath },
+            { label: "API Dockerfile", value: modulesPath.dockerfileApi }           
+        ];
 
-        console.log("\n * Folder paths:");
-        console.log("   ---------------");
-        console.log(`  - sourceCodePath: ${modulesPath.sourceCodePath}`);
-        console.log(`  - dockerfileApiName: ${modulesPath.dockerfileApi}`);
-        //console.log(`  - frontendDistPath: ${modulesPath.frontendDistPath}`);
-        console.log("\n");
+        this.logModulePathsTable(pathEntries);
 
         const stackParts: StackBuildPart[] = [
             new ProductionBackend({
@@ -41,23 +40,40 @@ export class IacStack extends StackBuilder {
                 branch: this.branchName,
                 vpc: this.vpc,
                 subdomain: `${formatRepoNameForCloudFormation(githubRepo)}-api`,
-                clusterName: formatRepoNameForCloudFormation(githubRepo),
                 exposedPort: 80,
-                sourceCodePath: modulesPath.sourceCodePath,
+                absoluteRepoPath: modulesPath.absoluteRepoPath,
                 dockerfileApi: modulesPath.dockerfileApi,
-            } as ProductionBackendProps),
-            /*
-            new ProductionShared({
-                githubRepo: githubRepo,
-                stackName: "SharedStack",
-                scope: scope,
-                env: env,
-                branch: this.branchName,
-                vpc: this.vpc,
-                subdomain: "workshop-coverage-report",
-            } as StackBuildProps),*/
+            } as ProductionBackendProps)
         ];
 
         this.build(stackParts);
+    }
+    
+    private logModulePathsTable(
+        pathEntries: Array<{ label: string; value: string }>,
+    ) {
+        const maxLabelLength = Math.max(
+            ...pathEntries.map((entry) => entry.label.length),
+        );
+
+        const maxValueLength = Math.max(
+            ...pathEntries.map((entry) => entry.value.length),
+        );
+
+        const tableWidth = maxLabelLength + maxValueLength + 6;
+        const headerTitle = " 📁 Module Paths Configuration ";
+        const headerPadding = Math.max(0, tableWidth - headerTitle.length - 2);
+
+        console.log(`\n╭─${headerTitle}${"─".repeat(headerPadding)}╮`);
+
+        pathEntries.forEach(({ label, value }) => {
+            const paddedLabel = label.padEnd(maxLabelLength);
+            const paddedValue = value.padEnd(maxValueLength);
+            console.log(`│ ${paddedLabel} │ ${paddedValue} │`);
+        });
+
+        console.log(
+            `╰${"─".repeat(maxLabelLength + 2)}┴${"─".repeat(maxValueLength + 2)}╯\n`,
+        );
     }
 }

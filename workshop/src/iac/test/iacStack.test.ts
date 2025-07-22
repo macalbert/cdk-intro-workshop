@@ -25,7 +25,7 @@ describe("Test Stack", () => {
             clusterName: "clusterName",
             serviceName: "serviceName",
             exposedPort: 8000,
-            sourceCodePath: "./test/",
+            absoluteRepoPath: "./test/",
             dockerfileApi: "Dockerfile",
         });
 
