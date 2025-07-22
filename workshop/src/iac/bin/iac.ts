@@ -17,7 +17,14 @@ const rootPath = path.join(process.cwd(), "../../../");
 
 const dockerfileApi = path.join(
     rootPath,
-    "workshop/src/apps/Minimal.Api/Dockerfile",
+    // Custom dotnet with package RIC
+    // "workshop/src/apps/Minimal.Api/Dockerfile"
+
+    // Python with public ECR image
+    // "workshop/src/apps/FastApiApp/Dockerfile"
+
+    // Python with custom image
+    "workshop/src/apps/FastApiApp/Dockerfile.ric"
 );
 
 const modulesPath: ModulesPathProps = {

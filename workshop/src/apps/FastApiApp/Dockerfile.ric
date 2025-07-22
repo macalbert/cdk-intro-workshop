@@ -1,0 +1,28 @@
+# Using public Python slim image
+FROM python:3.9-slim
+
+# Set working directory
+ARG LAMBDA_TASK_ROOT="/var/task"
+RUN mkdir -p ${LAMBDA_TASK_ROOT}
+WORKDIR ${LAMBDA_TASK_ROOT}
+
+# Set environment variables
+ENV PYTHONPATH=${LAMBDA_TASK_ROOT}
+ENV DEPLOYMENT_TYPE=lambda
+ENV IMAGE_TYPE=python:3.9-slim
+ENV RUNTIME_INTERFACE=ric
+
+# Expose port
+EXPOSE 8000
+
+COPY workshop/src/apps/FastApiApp .
+
+# Install the function's dependencies
+RUN pip install awslambdaric
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Set runtime interface client as default command for the container runtime
+ENTRYPOINT [ "/usr/local/bin/python", "-m", "awslambdaric" ]
+
+# Pass the name of the function handler as an argument to the runtime
+CMD ["lambda_handler.lambda_handler"]
